@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" class="text-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found — WebGraha</title>
+    <meta name="description" content="This page drifted out of orbit. Head back to the WebGraha homepage to find what you're looking for.">
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#0a1128">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script src="assets/js/tailwind-config.js"></script>
+
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/error.css">
+</head>
+<body class="font-sans antialiased min-h-screen w-full relative selection:bg-brand-green selection:text-white">
+
+    <div id="starfield" data-star-count="130" style="background-image:radial-gradient(rgba(200,215,230,0.16) 1px, transparent 1.4px);background-size:38px 38px;"></div>
+
+    <main class="relative z-10 min-h-screen w-full flex flex-col items-center justify-center text-center px-6">
+        <div class="drift mb-6 wg-anim-rise">
+            <img src="assets/logo-mark.svg" alt="" class="w-20 h-20 md:w-24 md:h-24 opacity-90" loading="lazy" decoding="async">
+        </div>
+
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-brand-accent mb-4 wg-anim-rise" style="animation-delay:0.05s;">Error 404</p>
+        <h1 class="font-serif text-4xl sm:text-6xl md:text-8xl text-white font-medium tracking-tight leading-tight mb-5 wg-anim-rise" style="animation-delay:0.1s;">
+            Lost in orbit
+        </h1>
+        <p class="text-base md:text-lg text-gray-400 font-light max-w-md mx-auto leading-relaxed mb-9 wg-anim-rise" style="animation-delay:0.16s;">
+            The page you're looking for has drifted out of view — it may have moved, been renamed, or never existed.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 wg-anim-rise mb-8" style="animation-delay:0.22s;">
+            <a href="/" class="bg-brand-green/80 hover:bg-brand-green text-white text-sm font-medium px-6 py-3 rounded-full transition-colors shadow-lg flex items-center gap-2">
+                <i class="fa-solid fa-house text-xs"></i> Back to home
+            </a>
+            <a href="/about" class="glass-panel text-gray-200 hover:text-white text-sm font-medium px-6 py-3 rounded-full transition-colors flex items-center gap-2">
+                About WebGraha
+            </a>
+        </div>
+
+        <div id="social-links" class="flex items-center justify-center gap-4 text-gray-400 wg-anim-rise" data-hover-class="hover:text-brand-accent" style="animation-delay:0.28s;"></div>
+    </main>
+
+    <script src="assets/js/protect.js"></script>
+    <script src="assets/js/starfield.js"></script>
+    <script src="assets/js/shooting-stars.js"></script>
+    <script src="assets/js/data-render.js"></script>
+</body>
+</html>

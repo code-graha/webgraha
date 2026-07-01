@@ -1,0 +1,8 @@
+/* WebGraha — brand.html specific styles */
+
+html, body {
+    background: radial-gradient(circle at 50% 0%, #1c2c5c 0%, #131f45 38%, #0d1733 70%, #0a1128 100%);
+}
+
+.swatch { transition: transform 0.2s ease; }
+.swatch:hover { transform: translateY(-3px); }

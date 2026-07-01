@@ -1,0 +1,11 @@
+# WebGraha — Apache 404 handling
+# Only relevant on Apache-based hosting (e.g. cPanel/shared hosting).
+# Netlify, Vercel, GitHub Pages, and Cloudflare Pages auto-detect a root
+# 404.html with zero config and this file can be ignored/removed there.
+
+ErrorDocument 404 /404.html
+
+# Force HTTPS (uncomment once a TLS certificate is active on the domain)
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

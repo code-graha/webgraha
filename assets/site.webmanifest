@@ -1,0 +1,13 @@
+{
+    "name": "WebGraha",
+    "short_name": "WebGraha",
+    "description": "WebGraha — web design, app development & branding studio.",
+    "start_url": "/",
+    "display": "browser",
+    "background_color": "#0a1128",
+    "theme_color": "#0a1128",
+    "icons": [
+        { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+        { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+    ]
+}

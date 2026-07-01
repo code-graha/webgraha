@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" class="text-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGraha — Brand Guidelines</title>
+    <meta name="description" content="The official WebGraha brand guidelines: logo usage, color palette, typography, voice and tone, and UI components for the WebGraha identity system.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://webgraha.com/brand">
+    <meta name="theme-color" content="#0a1128">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "WebGraha Brand Guidelines",
+        "url": "https://webgraha.com/brand",
+        "isPartOf": { "@type": "Organization", "name": "WebGraha", "url": "https://webgraha.com/" }
+    }
+    </script>
+
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+    <script src="assets/vendor/fontawesome/js/all.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script src="assets/js/tailwind-config.js"></script>
+
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/brand.css">
+</head>
+<body class="font-sans antialiased min-h-screen w-full relative selection:bg-brand-green selection:text-white">
+
+    <div id="starfield" data-star-count="110"></div>
+
+    <!-- Nav -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-50 glass-panel rounded-full px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+            <img src="assets/logo-mark.svg" alt="WebGraha" class="w-7 h-7" loading="lazy" decoding="async">
+            <span class="font-serif text-lg tracking-wide font-semibold text-white">WebGraha</span>
+            <span class="hidden sm:inline-block ml-2 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest text-brand-accent border border-brand-accent/30">Brand Guidelines</span>
+        </div>
+        <a href="/" class="text-sm text-gray-300 hover:text-white transition-colors flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left text-xs"></i> Back to site
+        </a>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative z-10 max-w-5xl mx-auto px-6 pt-44 pb-20 text-center">
+        <p class="section-label mb-5">Identity System v1.0</p>
+        <h1 class="font-serif text-5xl md:text-7xl font-medium text-white tracking-tight leading-tight mb-6">
+            The WebGraha Brand
+        </h1>
+        <p class="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed">
+            Everything that defines who we are — our story, our voice, our colors, our type, and the glass-and-orbit visual language that ties it all together.
+        </p>
+    </header>
+
+    <main class="relative z-10 max-w-5xl mx-auto px-6 pb-32 flex flex-col gap-28">
+
+        <!-- Overview -->
+        <section class="grid md:grid-cols-5 gap-8 items-start">
+            <div class="md:col-span-3">
+                <p class="section-label mb-4">Overview</p>
+                <h2 class="font-serif text-3xl text-white mb-5">Who we are</h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    WebGraha is a web design and digital solutions agency. We build single-page experiences, brand systems, and applications for clients who want their digital presence to feel as considered as the rest of their business — quiet confidence over noise, craft over trend-chasing.
+                </p>
+                <p class="text-gray-400 leading-relaxed">
+                    Our visual identity is built on an Earth-and-space metaphor: a dark, orbital backdrop that frames every product we ship as a small, well-lit world of its own — <em class="text-gray-300 not-italic">"a gateway to the digital universe."</em>
+                </p>
+            </div>
+            <div class="md:col-span-2 glass-panel rounded-2xl p-6 flex flex-col gap-4">
+                <div class="flex justify-between text-sm border-b border-white/10 pb-3">
+                    <span class="text-gray-500">Category</span>
+                    <span class="text-gray-200 text-right">Web &amp; Digital Solutions Agency</span>
+                </div>
+                <div class="flex justify-between text-sm border-b border-white/10 pb-3">
+                    <span class="text-gray-500">Tagline</span>
+                    <span class="text-gray-200 text-right">Your gateway to the digital universe</span>
+                </div>
+                <div class="flex justify-between text-sm border-b border-white/10 pb-3">
+                    <span class="text-gray-500">Personality</span>
+                    <span class="text-gray-200 text-right">Confident, calm, premium</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">Visual motif</span>
+                    <span class="text-gray-200 text-right">Earth, orbit, glass</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission / Vision / Values -->
+        <section>
+            <p class="section-label mb-4">Foundation</p>
+            <h2 class="font-serif text-3xl text-white mb-8">Mission, vision &amp; values</h2>
+            <div class="grid md:grid-cols-2 gap-5 mb-8">
+                <div class="glass-panel rounded-2xl p-6">
+                    <h3 class="font-serif text-lg text-white mb-2">Mission</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">To give every brand a digital presence that feels deliberate — designed with the same precision and restraint as a well-engineered product, not assembled from templates.</p>
+                </div>
+                <div class="glass-panel rounded-2xl p-6">
+                    <h3 class="font-serif text-lg text-white mb-2">Vision</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">A web where dark, considered design is the default for serious brands — where motion and depth serve clarity instead of competing with it.</p>
+                </div>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-5">
+                <div class="glass-panel rounded-2xl p-6">
+                    <i class="fa-solid fa-crosshairs text-brand-accent mb-3"></i>
+                    <h4 class="font-serif text-base text-white mb-1.5">Precision</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">Every pixel, transition, and word earns its place. Nothing ships half-finished.</p>
+                </div>
+                <div class="glass-panel rounded-2xl p-6">
+                    <i class="fa-solid fa-gem text-brand-accent mb-3"></i>
+                    <h4 class="font-serif text-base text-white mb-1.5">Elegance</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">Restraint over decoration. Dark, muted, confident — never loud or trend-driven.</p>
+                </div>
+                <div class="glass-panel rounded-2xl p-6">
+                    <i class="fa-solid fa-compass text-brand-accent mb-3"></i>
+                    <h4 class="font-serif text-base text-white mb-1.5">Purpose</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">Every design decision serves the client's goal first — craft is the means, not the end.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voice & Tone -->
+        <section>
+            <p class="section-label mb-4">Voice &amp; Tone</p>
+            <h2 class="font-serif text-3xl text-white mb-8">How WebGraha speaks</h2>
+            <div class="flex flex-wrap gap-2 mb-8">
+                <span class="px-3 py-1.5 rounded-full text-xs glass-panel text-gray-200">Confident</span>
+                <span class="px-3 py-1.5 rounded-full text-xs glass-panel text-gray-200">Calm</span>
+                <span class="px-3 py-1.5 rounded-full text-xs glass-panel text-gray-200">Minimal</span>
+                <span class="px-3 py-1.5 rounded-full text-xs glass-panel text-gray-200">Premium</span>
+                <span class="px-3 py-1.5 rounded-full text-xs glass-panel text-gray-200">Human, not corporate</span>
+            </div>
+            <div class="grid md:grid-cols-2 gap-5">
+                <div class="glass-panel rounded-2xl p-6">
+                    <h3 class="text-sm font-semibold text-brand-accent mb-3 flex items-center gap-2"><i class="fa-solid fa-check"></i> Do</h3>
+                    <ul class="text-gray-300 text-sm leading-relaxed space-y-2 list-disc list-inside">
+                        <li>Write short, declarative sentences.</li>
+                        <li>Let whitespace and silence do some of the talking.</li>
+                        <li>Use space/earth metaphors sparingly, only where they add meaning.</li>
+                    </ul>
+                </div>
+                <div class="glass-panel rounded-2xl p-6">
+                    <h3 class="text-sm font-semibold text-red-300 mb-3 flex items-center gap-2"><i class="fa-solid fa-xmark"></i> Don't</h3>
+                    <ul class="text-gray-300 text-sm leading-relaxed space-y-2 list-disc list-inside">
+                        <li>Don't use exclamation marks or hype language ("amazing", "revolutionary").</li>
+                        <li>Don't over-explain — trust the reader.</li>
+                        <li>Don't mix in bright, playful copy that breaks the premium tone.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logo -->
+        <section>
+            <p class="section-label mb-4">Logo</p>
+            <h2 class="font-serif text-3xl text-white mb-8">Mark &amp; lockup</h2>
+
+            <p class="text-gray-400 leading-relaxed mb-6 max-w-2xl">
+                The mark is an orbiting Earth — blue ocean, two-tone Pine Green and Earth Brown landmasses, soft polar caps, and a tilted orbit ring with a single pale moon in place of any bright accent color. It reads as "Earth + gateway" at a glance, kept light and airy rather than heavy or dark.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-5 mb-5">
+                <div class="glass-panel rounded-2xl p-10 flex items-center justify-center">
+                    <img src="assets/logo-full.svg" alt="WebGraha" class="h-12" loading="lazy" decoding="async">
+                </div>
+                <div class="rounded-2xl p-10 flex items-center justify-center bg-white">
+                    <img src="assets/logo-full-light.svg" alt="WebGraha" class="h-12" loading="lazy" decoding="async">
+                </div>
+            </div>
+            <p class="text-gray-500 text-xs text-center mb-10">Primary lockup on dark (left, <span class="font-mono">logo-full.svg</span>) and light (right, <span class="font-mono">logo-full-light.svg</span>) — the mark's colors never change between versions, only the wordmark color flips.</p>
+
+            <div class="grid sm:grid-cols-3 gap-5">
+                <div class="glass-panel rounded-2xl p-8 flex flex-col items-center justify-center gap-3">
+                    <img src="assets/logo-mark.svg" alt="WebGraha icon mark" class="w-10 h-10" loading="lazy" decoding="async">
+                    <span class="text-xs text-gray-500">Icon mark only</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 flex flex-col items-center justify-center gap-3">
+                    <div class="border border-dashed border-white/25 rounded-lg p-4 flex items-center gap-2">
+                        <img src="assets/logo-mark.svg" alt="" class="w-6 h-6" loading="lazy" decoding="async">
+                        <span class="font-serif text-base text-white">WebGraha</span>
+                    </div>
+                    <span class="text-xs text-gray-500">Min. clear space = mark height</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 flex flex-col items-center justify-center gap-3">
+                    <img src="assets/favicon.svg" alt="WebGraha favicon" class="w-6 h-6 rounded-full" loading="lazy" decoding="async">
+                    <span class="text-xs text-gray-500">Favicon / app icon, min. 16px</span>
+                </div>
+            </div>
+            <p class="text-gray-500 text-xs leading-relaxed mt-5">
+                Never stretch, recolor outside the palette, rotate, or place the mark on low-contrast backgrounds. Below 32px, use the simplified favicon variant (no orbit ring) — the fine ring and moon disappear at small sizes.
+            </p>
+        </section>
+
+        <!-- Color Palette -->
+        <section>
+            <p class="section-label mb-4">Color</p>
+            <h2 class="font-serif text-3xl text-white mb-8">Palette</h2>
+            <div class="grid sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <div class="swatch glass-panel rounded-2xl overflow-hidden">
+                    <div class="h-20" style="background:#0a1128;"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-white font-medium">Deep Space</p>
+                        <p class="text-[11px] text-gray-500 font-mono">#0A1128</p>
+                        <p class="text-[11px] text-gray-500 mt-1">Base / background</p>
+                    </div>
+                </div>
+                <div class="swatch glass-panel rounded-2xl overflow-hidden">
+                    <div class="h-20" style="background:#1c2c5c;"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-white font-medium">Twilight Blue</p>
+                        <p class="text-[11px] text-gray-500 font-mono">#1C2C5C</p>
+                        <p class="text-[11px] text-gray-500 mt-1">Gradient / depth</p>
+                    </div>
+                </div>
+                <div class="swatch glass-panel rounded-2xl overflow-hidden">
+                    <div class="h-20" style="background:#2c4c3b;"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-white font-medium">Pine Green</p>
+                        <p class="text-[11px] text-gray-500 font-mono">#2C4C3B</p>
+                        <p class="text-[11px] text-gray-500 mt-1">Secondary / icons</p>
+                    </div>
+                </div>
+                <div class="swatch glass-panel rounded-2xl overflow-hidden">
+                    <div class="h-20" style="background:#4a3b2c;"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-white font-medium">Earth Brown</p>
+                        <p class="text-[11px] text-gray-500 font-mono">#4A3B2C</p>
+                        <p class="text-[11px] text-gray-500 mt-1">Tertiary accent</p>
+                    </div>
+                </div>
+                <div class="swatch glass-panel rounded-2xl overflow-hidden">
+                    <div class="h-20" style="background:#6ee7b7;"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-white font-medium">Signal Emerald</p>
+                        <p class="text-[11px] text-gray-500 font-mono">#6EE7B7</p>
+                        <p class="text-[11px] text-gray-500 mt-1">CTA / highlights only</p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-gray-500 text-xs leading-relaxed mt-5">
+                Deep Space and Twilight Blue carry every background. Pine Green and Earth Brown are muted, low-saturation accents — never used at full brightness. Signal Emerald is reserved for the one or two highest-priority calls to action per screen.
+            </p>
+        </section>
+
+        <!-- Typography -->
+        <section>
+            <p class="section-label mb-4">Typography</p>
+            <h2 class="font-serif text-3xl text-white mb-8">Type system</h2>
+            <div class="glass-panel rounded-2xl p-8 mb-5">
+                <p class="text-xs text-gray-500 font-mono mb-2">Playfair Display — Headings</p>
+                <p class="font-serif text-5xl text-white mb-3">Your gateway</p>
+                <p class="font-serif text-2xl text-white/80">to the digital universe.</p>
+            </div>
+            <div class="glass-panel rounded-2xl p-8 mb-5">
+                <p class="text-xs text-gray-500 font-mono mb-2">Inter — Body &amp; UI</p>
+                <p class="text-gray-300 leading-relaxed max-w-2xl">Crafting digital experiences with precision, elegance, and purpose. Inter carries every paragraph, label, button, and form field — light weights for long-form copy, medium/semibold for UI labels and emphasis.</p>
+            </div>
+            <div class="glass-panel rounded-2xl p-6 overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="text-gray-500 text-xs uppercase tracking-wider border-b border-white/10">
+                            <th class="py-2 pr-4">Role</th>
+                            <th class="py-2 pr-4">Typeface</th>
+                            <th class="py-2">Size / Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300">
+                        <tr class="border-b border-white/5"><td class="py-2 pr-4">Hero (H1)</td><td class="py-2 pr-4 font-serif">Playfair Display</td><td class="py-2 font-mono text-xs">72–96px / Medium</td></tr>
+                        <tr class="border-b border-white/5"><td class="py-2 pr-4">Section title (H2)</td><td class="py-2 pr-4 font-serif">Playfair Display</td><td class="py-2 font-mono text-xs">30–36px / Regular</td></tr>
+                        <tr class="border-b border-white/5"><td class="py-2 pr-4">Card title (H3/H4)</td><td class="py-2 pr-4 font-serif">Playfair Display</td><td class="py-2 font-mono text-xs">16–18px / Semibold</td></tr>
+                        <tr class="border-b border-white/5"><td class="py-2 pr-4">Body</td><td class="py-2 pr-4">Inter</td><td class="py-2 font-mono text-xs">14–18px / Light–Regular</td></tr>
+                        <tr><td class="py-2 pr-4">Label / Caption</td><td class="py-2 pr-4">Inter</td><td class="py-2 font-mono text-xs">11–13px / Medium</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- UI & Glass System -->
+        <section>
+            <p class="section-label mb-4">UI System</p>
+            <h2 class="font-serif text-3xl text-white mb-8">Glass &amp; components</h2>
+            <p class="text-gray-400 leading-relaxed mb-6 max-w-2xl">
+                Every floating surface — navigation, cards, widgets — uses the same transparent, lightly-blurred glass: just enough frost to separate content from the starfield behind it, never enough to hide it.
+            </p>
+            <div class="grid md:grid-cols-2 gap-5">
+                <div class="glass-panel rounded-2xl p-6">
+                    <p class="text-xs text-gray-500 font-mono mb-4">Buttons</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button class="bg-brand-green/80 hover:bg-brand-green text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors">Primary</button>
+                        <button class="border border-white/15 text-gray-200 text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-white/5 transition-colors">Secondary</button>
+                        <button class="text-brand-accent text-sm font-medium px-2 py-2.5">Let's talk &rarr;</button>
+                    </div>
+                </div>
+                <div class="glass-panel rounded-2xl p-6">
+                    <p class="text-xs text-gray-500 font-mono mb-4">Form field</p>
+                    <input type="text" placeholder="Name" class="w-full bg-black/20 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Iconography -->
+        <section>
+            <p class="section-label mb-4">Iconography</p>
+            <h2 class="font-serif text-3xl text-white mb-8">Icon &amp; imagery style</h2>
+            <p class="text-gray-400 leading-relaxed mb-6 max-w-2xl">
+                Line-weight icons from Font Awesome, always single-color, never filled flat shapes. Imagery favors dark, cinematic renders of Earth and orbit — soft atmospheric rim light, no bright daylight scenes.
+            </p>
+            <div class="glass-panel rounded-2xl p-6 flex flex-wrap gap-6 justify-center items-center text-gray-300 text-lg">
+                <img src="assets/logo-mark.svg" alt="WebGraha mark" class="w-6 h-6" loading="lazy" decoding="async">
+                <i class="fa-solid fa-comment-dots"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-whatsapp"></i>
+                <i class="fa-solid fa-envelope"></i>
+                <i class="fa-solid fa-chevron-down"></i>
+                <i class="fa-solid fa-check"></i>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="relative z-10 max-w-5xl mx-auto px-6 pb-12 flex items-center justify-between text-xs text-gray-500">
+        <span>&copy; 2026 WebGraha. Brand Guidelines v1.0.</span>
+        <a href="/" class="hover:text-white transition-colors">Back to site &rarr;</a>
+    </footer>
+
+    <script src="assets/js/protect.js"></script>
+    <script src="assets/js/starfield.js"></script>
+</body>
+</html>

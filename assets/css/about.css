@@ -1,0 +1,91 @@
+/* WebGraha — about.html specific styles */
+
+html, body {
+    min-height: 100%;
+    background-color: #0a1128;
+    background-image: radial-gradient(circle at 50% 0%, #1c2c5c 0%, #131f45 38%, #0d1733 70%, #0a1128 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overscroll-behavior-y: none;
+}
+
+#starfield {
+    transition: transform 0.25s ease-out;
+}
+
+.card-hover { transition: transform 0.2s ease, border-color 0.2s ease; }
+.card-hover:hover { transform: translateY(-3px); border-color: rgba(110, 231, 183, 0.3); }
+
+/* 3D tilt cards */
+.tilt-wrap { perspective: 1200px; }
+.tilt-card {
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(.2,.8,.2,1), box-shadow 0.4s ease;
+    will-change: transform;
+}
+.tilt-card:hover {
+    box-shadow: 0 28px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+/* Scroll-reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(32px) rotateX(8deg);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.8,.2,1);
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Hero floating 3D mark */
+@keyframes spin-3d {
+    from { transform: rotateY(0deg) rotateX(8deg); }
+    to { transform: rotateY(360deg) rotateX(8deg); }
+}
+.spin-3d {
+    animation: spin-3d 22s linear infinite;
+    transform-style: preserve-3d;
+}
+@keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+.float-y { animation: float-y 5s ease-in-out infinite; }
+
+/* Browser-frame preview on project cards */
+.browser-frame {
+    border-radius: 0.85rem;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0,0,0,0.25);
+    transform: translateZ(18px);
+}
+
+/* On mobile remove translateZ — no 3D tilt interaction needed. */
+@media (max-width: 639px) {
+    .browser-frame {
+        transform: none;
+    }
+    body {
+        overflow-x: hidden;
+    }
+}
+
+.browser-frame .bf-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.browser-frame .bf-dot { width: 7px; height: 7px; border-radius: 50%; }
+.browser-frame .bf-url {
+    margin-left: 6px;
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(156,163,175,0.8);
+}
+.browser-frame iframe { display: block; border: 0; background: #0a1128; pointer-events: none; overflow: hidden; }

@@ -1,0 +1,28 @@
+/* WebGraha — shared 404 / 405 error page styles */
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    min-height: 100%;
+    background-color: #0a1128;
+    background-image: radial-gradient(circle at 50% 32%, #1c2c5c 0%, #131f45 38%, #0d1733 70%, #0a1128 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overscroll-behavior-y: none;
+}
+
+/* Allow scroll on small screens so content isn't clipped */
+@media (max-width: 639px) {
+    html, body {
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+@keyframes drift {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50% { transform: translateY(-16px) rotate(6deg); }
+}
+.drift { animation: drift 6s ease-in-out infinite; }

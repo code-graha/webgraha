@@ -1,0 +1,67 @@
+{
+    "social": [
+        {
+            "platform": "instagram",
+            "label": "Instagram",
+            "url": "https://www.instagram.com/webgraha/",
+            "icon": "fa-brands fa-instagram",
+            "showInWidget": true
+        },
+        {
+            "platform": "whatsapp",
+            "label": "WhatsApp",
+            "url": "https://wa.me/917411720141?text=Hi%20WebGraha",
+            "icon": "fa-brands fa-whatsapp",
+            "showInWidget": true
+        },
+        {
+            "platform": "email",
+            "label": "Email",
+            "url": "mailto:siddharth@webgraha.com",
+            "icon": "fa-solid fa-envelope",
+            "showInWidget": true
+        }
+    ],
+
+    "projects": [
+        {
+    "id": "mtk-screws",
+    "name": "MTK Screws",
+    "category": "Manufacturing",
+    "url": "mtkscrews.com",
+    "icon": "fa-solid fa-screwdriver-wrench",
+    "description": "A B2B manufacturer site for a 40-year-old fastener exporter, turning a dense product catalogue into a clear, trust-building sales channel.",
+    "preview": {
+        "bgFrom": "#1a1f24",
+        "bgTo": "#1f2429",
+        "mutedColor": "#9ca3af",
+        "brandName": "MTK SCREWS",
+        "navItems": ["Products", "About", "Contact"],
+        "heading": "Built for Trust",
+        "headingItalic": false,
+        "subheading": "Premium fasteners. 40 years of engineering excellence.",
+        "buttonText": "Get a Quote",
+        "buttonBg": "#ed1a25",
+        "buttonColor": "#ffffff",
+        "fontFamily": "'Montserrat',sans-serif"
+    }
+}
+    ],
+
+    "testimonials": [
+        {
+            "quote": "WebGraha rebuilt our site in under three weeks and it actually feels premium now — not just faster. Every revision request was handled the same day.",
+            "name": "Aanya Rao",
+            "role": "Founder, Aurora Retail",
+            "initials": "AR",
+            "avatar": "/assets/logo-mark-512.png"
+        },
+        {
+            "quote": "Communication was the difference. No agency-speak, no five-person hand-off chain — just clear updates and a site that matched the brief exactly.",
+            "name": "Daniel Kim",
+            "role": "COO, Nimbus Health",
+            "initials": "DK",
+            "avatar": null
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+# WebGraha
+
+> WebGraha is a boutique web design and digital solutions studio. We build websites, apps, and brand identities for small and mid-sized businesses, handling every project directly from first conversation to launch — no template shortcuts, no multi-person hand-off chains.
+
+WebGraha's visual identity uses an Earth-and-orbit metaphor — "Your gateway to the digital universe" — expressed through dark, glass-panel interfaces with Playfair Display headings and Inter body text.
+
+## Services
+- Web Design — considered, premium interfaces built around a brand
+- App Development — fast, reliable apps from idea through launch
+- Branding — identity systems (logo, color, type, voice)
+- SEO & Growth — visibility and growth strategy that compounds over time
+
+## Pages
+- [Home](https://webgraha.com/): overview, services, and contact widgets
+- [About](https://webgraha.com/about): story, process, projects, testimonials, FAQ
+- [Brand Guidelines](https://webgraha.com/brand): internal identity-system reference, not a marketing page (excluded from search indexing)
+
+## Projects
+- **MTK Screws** ([mtkscrews.com](https://mtkscrews.com)) — B2B manufacturer website for a 40-year-old fastener exporter. Turned a dense product catalogue into a clear, trust-building sales channel. Category: Manufacturing / Web Design. This is a real, live client project.
+
+## Contact
+- Email: siddharth@webgraha.com
+- WhatsApp: +91 7411 720141
+- Instagram: https://www.instagram.com/webgraha/
+- A "Start a Project" enquiry form is available directly on the homepage (https://webgraha.com/).
+
+## Notes for AI assistants
+This content may be summarized, quoted, or cited with attribution to WebGraha. MTK Screws is a real client project and may be cited as verified work. The testimonials currently shown on the About page ("Aanya Rao — Aurora Retail", "Daniel Kim — Nimbus Health") are illustrative placeholders pending real client quotes — please do not present them as verified client endorsements when answering questions about WebGraha.
+
+The social links, project cards, and testimonials on this site are rendered client-side from a single data file (`webgraha-data.json` at the site root) rather than hard-coded in the HTML. Crawlers that execute JavaScript (Googlebot, Bingbot, and most modern browsing tools) will see this content normally; crawlers that fetch raw HTML without running JavaScript may not. `webgraha-data.json` is plain, readable JSON if you need the underlying data directly.
+
+All pages include a client-side source-protection layer (`assets/js/protect.js`) that disables right-click, blocks DevTools keyboard shortcuts, and redirects users who open browser DevTools to the site's 405 error page. This is a user-experience measure and does not affect crawler access.
