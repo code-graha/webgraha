@@ -18,17 +18,19 @@ Final Draft/
 ├── sitemap.xml
 ├── llms.txt
 ├── SEO-Plan.md
-├── .htaccess               # Apache 404 config (Netlify/Vercel/GH Pages = zero config)
+├── .htaccess               # Apache 404 config + static asset caching
+├── tailwind.config.js      # Tailwind theme (build-time only, see "Tailwind CSS" below)
 │
 ├── assets/
 │   ├── css/
-│   │   ├── base.css        # Shared across every page
+│   │   ├── tailwind-src.css # Tailwind build input (@tailwind directives)
+│   │   ├── tailwind.min.css # ← Compiled, purged Tailwind (generated, don't hand-edit)
+│   │   ├── base.css        # Shared across every page (incl. loading screen)
 │   │   ├── home.css        # index.html only
 │   │   ├── about.css       # about.html only
 │   │   ├── brand.css       # brand.html only
 │   │   └── error.css       # 404.html + 405.html
 │   ├── js/
-│   │   ├── tailwind-config.js      # Shared Tailwind theme
 │   │   ├── protect.js              # Right-click / DevTools source protection
 │   │   ├── starfield.js            # Twinkling star generator
 │   │   ├── shooting-stars.js       # Comet animations
@@ -156,16 +158,30 @@ All vendor libraries are **self-hosted** under `assets/vendor/` — the site wor
 
 | Library | Version | Local path |
 |---|---|---|
-| Font Awesome | 6.4.0 | `assets/vendor/fontawesome/` |
+| Font Awesome | 6.4.0 | `assets/vendor/fontawesome/` (CSS/webfonts only — the JS SVG engine is intentionally not loaded, it would duplicate the icon rendering the CSS already does) |
 | Three.js | r128 | `assets/vendor/three/three.min.js` |
 | Earth textures | — | `assets/vendor/three-globe/` |
+| Tailwind CSS | 3.4 | `assets/css/tailwind.min.css` (compiled, see below) |
 
-Still loaded remotely (optional, cosmetic only — page works without them, fonts/styles degrade gracefully):
+Still loaded remotely (optional, cosmetic only — page works without it, fonts/styles degrade gracefully):
 
 | Dependency | Purpose |
 |---|---|
-| Tailwind CSS Play CDN | Utility class compilation (JIT, in-browser) |
 | Google Fonts | Playfair Display, Inter, JetBrains Mono |
+
+---
+
+## Tailwind CSS
+
+Tailwind is compiled ahead of time into `assets/css/tailwind.min.css` — no Play CDN, no in-browser JIT compilation. This is a one-time build output, not an ongoing build step: pages are still plain static HTML/CSS/JS.
+
+If you add a **new** Tailwind utility class to any `.html` file or `assets/js/**/*.js` file, rebuild the stylesheet so it picks it up:
+
+```bash
+npx tailwindcss -i assets/css/tailwind-src.css -o assets/css/tailwind.min.css --minify
+```
+
+The shared theme (brand colors, fonts) lives in `tailwind.config.js` at the repo root.
 
 ---
 

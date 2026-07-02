@@ -1,5 +1,8 @@
-// WebGraha — shared Tailwind Play CDN config (used by every page)
-tailwind.config = {
+// WebGraha — Tailwind build config (build-time only, not shipped to the browser).
+// Rebuild command after adding new utility classes anywhere in *.html or assets/js/**/*.js:
+//   npx tailwindcss -i assets/css/tailwind-src.css -o assets/css/tailwind.min.css --minify
+module.exports = {
+    content: ['./*.html', './assets/js/**/*.js'],
     theme: {
         extend: {
             colors: {

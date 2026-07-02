@@ -3,6 +3,13 @@
     const canvas = document.getElementById('globe-canvas');
     if (!window.THREE || !canvas) return;
 
+    // Defer WebGL init + texture fetch until the browser is idle so the
+    // 2.2MB of earth textures never compete with first paint / LCP.
+    const schedule = window.requestIdleCallback || function (cb) { setTimeout(cb, 200); };
+    schedule(init, { timeout: 1500 });
+
+    function init() {
+
     const THREE = window.THREE;
     let w = window.innerWidth, h = window.innerHeight;
 
@@ -58,9 +65,9 @@
         undefined,
         () => { material.map = makeFallbackTexture(); material.needsUpdate = true; renderOnce(); }
     );
-    material.bumpMap = loader.load(base + 'earth-topology.png');
+    material.bumpMap = loader.load(base + 'earth-topology.jpg');
     material.bumpScale = 0.018;
-    material.metalnessMap = loader.load(base + 'earth-water.png');
+    material.metalnessMap = loader.load(base + 'earth-water.jpg');
 
     const earth = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 96), material);
     earth.rotation.y = -1.6;
@@ -102,4 +109,5 @@
         renderer.render(scene, camera);
     }
     animate();
+    }
 })();
