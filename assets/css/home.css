@@ -13,6 +13,18 @@ html, body {
     transform: translate(-50%, 4px);
     transition: opacity 0.18s ease, visibility 0.18s ease, transform 0.18s ease;
 }
+/* Bridges the mt-3 gap between the button and the menu below it — without
+   this, the cursor leaves .nav-dropdown while crossing the gap and the
+   menu starts closing before a click on a link can land. */
+.nav-dropdown::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 13rem;
+    height: 0.75rem;
+    transform: translateX(-50%);
+}
 .nav-dropdown:hover .nav-dropdown-menu,
 .nav-dropdown:focus-within .nav-dropdown-menu {
     opacity: 1;

@@ -95,3 +95,53 @@ a, button, input, textarea, select, label {
 }
 .wg-anim-fade { animation: wg-fade 1s ease; }
 .wg-anim-rise { animation: wg-rise 0.9s ease; }
+
+/* Loading screen: shown until fonts/CSS/scripts finish loading */
+#wg-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: radial-gradient(circle at 50% 32%, #1c2c5c 0%, #131f45 38%, #0d1733 70%, #0a1128 100%);
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+#wg-loader.wg-loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.wg-loader-mark {
+    width: 48px;
+    height: 48px;
+    animation: wg-loader-pulse 1.6s ease-in-out infinite;
+}
+@keyframes wg-loader-pulse {
+    0%, 100% { opacity: 0.5; transform: scale(0.92); }
+    50% { opacity: 1; transform: scale(1); }
+}
+.wg-loader-bar {
+    width: 120px;
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+.wg-loader-bar span {
+    display: block;
+    height: 100%;
+    width: 40%;
+    background: #6ee7b7;
+    border-radius: 2px;
+    animation: wg-loader-slide 1.2s ease-in-out infinite;
+}
+@keyframes wg-loader-slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .wg-loader-mark, .wg-loader-bar span { animation: none; }
+}

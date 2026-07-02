@@ -12,18 +12,41 @@
 
     <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <script src="assets/js/tailwind-config.js"></script>
-
+    <link rel="stylesheet" href="assets/css/tailwind.min.css">
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/error.css">
 </head>
 <body class="font-sans antialiased min-h-screen w-full relative selection:bg-brand-green selection:text-white">
+
+    <!-- Loading screen: covers the page until fonts/CSS/scripts are ready -->
+    <div id="wg-loader" aria-hidden="true">
+        <img src="assets/logo-mark.svg" alt="" class="wg-loader-mark" width="48" height="48">
+        <div class="wg-loader-bar"><span></span></div>
+    </div>
+    <script>
+        (function () {
+            var loader = document.getElementById('wg-loader');
+            if (!loader) return;
+            var shownAt = Date.now();
+            var hidden = false;
+            function hide() {
+                if (hidden) return;
+                hidden = true;
+                var elapsed = Date.now() - shownAt;
+                var wait = Math.max(0, 300 - elapsed);
+                setTimeout(function () {
+                    loader.classList.add('wg-loader-hidden');
+                    setTimeout(function () { loader.remove(); }, 550);
+                }, wait);
+            }
+            window.addEventListener('load', hide);
+            setTimeout(hide, 5000);
+        })();
+    </script>
 
     <div id="starfield" data-star-count="130" style="background-image:radial-gradient(rgba(200,215,230,0.16) 1px, transparent 1.4px);background-size:38px 38px;"></div>
 
@@ -52,9 +75,9 @@
         <div id="social-links" class="flex items-center justify-center gap-4 text-gray-400 wg-anim-rise" data-hover-class="hover:text-brand-accent" style="animation-delay:0.28s;"></div>
     </main>
 
-    <script src="assets/js/protect.js"></script>
-    <script src="assets/js/starfield.js"></script>
-    <script src="assets/js/shooting-stars.js"></script>
-    <script src="assets/js/data-render.js"></script>
+    <script src="assets/js/protect.js" defer></script>
+    <script src="assets/js/starfield.js" defer></script>
+    <script src="assets/js/shooting-stars.js" defer></script>
+    <script src="assets/js/data-render.js" defer></script>
 </body>
 </html>
