@@ -10,6 +10,7 @@ Boutique web design and digital solutions studio. This repository contains the f
 Final Draft/
 ├── index.html              # Homepage (3D globe, services, enquiry form)
 ├── about.html              # About, process, projects, testimonials, FAQ
+├── testimonials.html       # Standalone form for clients to submit a testimonial
 ├── brand.html              # Internal brand guidelines (noindex)
 ├── 404.html                # "Lost in orbit" error page
 ├── 405.html                # "Wrong approach vector" error page
@@ -28,6 +29,7 @@ Final Draft/
 │   │   ├── base.css        # Shared across every page (incl. loading screen)
 │   │   ├── home.css        # index.html only
 │   │   ├── about.css       # about.html only
+│   │   ├── testimonials.css # testimonials.html only
 │   │   ├── brand.css       # brand.html only
 │   │   └── error.css       # 404.html + 405.html
 │   ├── js/
@@ -41,6 +43,7 @@ Final Draft/
 │   │   ├── services-carousel.js    # Scroll-snap dots (index.html)
 │   │   ├── social-widget.js        # Collapsible social widget (index.html)
 │   │   ├── enquiry-form.js         # Contact form fetch + UI states
+│   │   ├── testimonial-form.js     # Testimonial form fetch + UI states (testimonials.html)
 │   │   ├── globe.js                # Three.js rotating Earth
 │   │   └── data-render.js          # Dynamic social/projects/testimonials
 │   ├── vendor/
@@ -50,7 +53,7 @@ Final Draft/
 │   └── [images, logos, icons]
 │
 └── google-apps-script/
-    ├── Code.gs             # Backend: Google Sheets + branded email
+    ├── Code.gs             # Backend: Google Sheets + branded email (enquiries + testimonials)
     └── SETUP.md            # Step-by-step deployment guide
 ```
 
@@ -144,11 +147,11 @@ npx serve "Final Draft"
 
 ---
 
-## Contact form (Google Apps Script)
+## Contact + testimonial forms (Google Apps Script)
 
-The "Start a Project" enquiry form is wired to a Google Apps Script backend that logs submissions to a Google Sheet and sends a branded email notification to the admin.
+The "Start a Project" enquiry form (`index.html`) and the testimonial form (`testimonials.html`) both post to the same Google Apps Script backend, which logs each to its own Google Sheet tab and sends a branded email notification to the admin.
 
-**Setup:** see `google-apps-script/SETUP.md` for step-by-step deployment instructions. Once deployed, paste the `/exec` URL into the `data-endpoint=""` attribute on the `<form>` element in `index.html`.
+**Setup:** see `google-apps-script/SETUP.md` for step-by-step deployment instructions. Once deployed, paste the same `/exec` URL into the `data-endpoint=""` attribute on the `<form>` element in **both** `index.html` and `testimonials.html`.
 
 ---
 
@@ -196,7 +199,7 @@ The site is a plain static folder — no build step required. Drop the `Final Dr
 | **Apache (cPanel/shared hosting)** | `.htaccess` already included with `ErrorDocument 404` |
 | **Nginx** | Add `error_page 404 /404.html;` to your server block |
 
-Before going live, replace `webgraha.com` everywhere if your real domain differs — one global find-and-replace across `index.html`, `about.html`, `brand.html`, `robots.txt`, `sitemap.xml`, `llms.txt`, and `google-apps-script/Code.gs`.
+Before going live, replace `webgraha.com` everywhere if your real domain differs — one global find-and-replace across `index.html`, `about.html`, `testimonials.html`, `brand.html`, `robots.txt`, `sitemap.xml`, `llms.txt`, and `google-apps-script/Code.gs`.
 
 ---
 

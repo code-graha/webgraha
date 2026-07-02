@@ -1,14 +1,19 @@
 /**
- * WebGraha — contact form backend.
+ * WebGraha — contact + testimonial form backend.
  * Deploy as a Web App (Execute as: Me, Who has access: Anyone).
  * Receives form submissions, logs them to a Sheet, and emails the admin
  * a branded HTML notification.
+ *
+ * Handles two form types, routed by a "formType" field in the JSON
+ * payload ("enquiry" — the default, for backwards compatibility with the
+ * homepage "Start a Project" form — or "testimonial", for testimonials.html).
  *
  * See SETUP.md in this folder for step-by-step deployment instructions.
  */
 
 // ---- Configuration ----------------------------------------------------
-var SHEET_NAME   = 'Enquiries';
+var SHEET_NAME             = 'Enquiries';
+var TESTIMONIAL_SHEET_NAME = 'Testimonials';
 var ADMIN_EMAIL  = 'siddharth@webgraha.com';
 var SITE_NAME    = 'WebGraha';
 var SITE_URL     = 'https://webgraha.com/';
@@ -18,32 +23,68 @@ var MAX_FIELD_LENGTH = 2000;
 
 function doPost(e) {
   try {
-    var data    = parsePayload(e);
-    var name    = sanitize(data.name);
-    var email   = sanitize(data.email);
-    var message = sanitize(data.message);
+    var data = parsePayload(e);
+    var formType = (data.formType || 'enquiry').toString();
 
-    if (!name || !email) {
-      return jsonResponse({ ok: false, error: 'Name and email are required.' });
+    if (formType === 'testimonial') {
+      return handleTestimonial(data);
     }
-    if (!isValidEmail(email)) {
-      return jsonResponse({ ok: false, error: 'That email address looks invalid.' });
-    }
-
-    var timestamp = new Date();
-    appendToSheet(timestamp, name, email, message);
-    sendAdminEmail(timestamp, name, email, message);
-
-    return jsonResponse({ ok: true });
+    return handleEnquiry(data);
   } catch (err) {
     return jsonResponse({ ok: false, error: err && err.message ? err.message : 'Unexpected server error.' });
   }
 }
 
+function handleEnquiry(data) {
+  var name    = sanitize(data.name);
+  var email   = sanitize(data.email);
+  var message = sanitize(data.message);
+
+  if (!name || !email) {
+    return jsonResponse({ ok: false, error: 'Name and email are required.' });
+  }
+  if (!isValidEmail(email)) {
+    return jsonResponse({ ok: false, error: 'That email address looks invalid.' });
+  }
+
+  var timestamp = new Date();
+  appendToSheet(timestamp, name, email, message);
+  sendAdminEmail(timestamp, name, email, message);
+
+  return jsonResponse({ ok: true });
+}
+
+function handleTestimonial(data) {
+  var name  = sanitize(data.name);
+  var role  = sanitize(data.role);
+  var email = sanitize(data.email);
+  var quote = sanitize(data.quote);
+  var publish = !!data.publish;
+  var rating  = parseRating(data.rating);
+
+  if (!name || !quote) {
+    return jsonResponse({ ok: false, error: 'Name and testimonial are required.' });
+  }
+  if (email && !isValidEmail(email)) {
+    return jsonResponse({ ok: false, error: 'That email address looks invalid.' });
+  }
+
+  var timestamp = new Date();
+  appendToTestimonialSheet(timestamp, name, role, email, rating, quote, publish);
+  sendTestimonialAdminEmail(timestamp, name, role, email, rating, quote, publish);
+
+  return jsonResponse({ ok: true });
+}
+
+function parseRating(value) {
+  var n = parseInt(value, 10);
+  return (n >= 1 && n <= 5) ? n : '';
+}
+
 // Lets you sanity-check the deployment URL by opening it directly in a browser.
 function doGet() {
   return ContentService
-    .createTextOutput('WebGraha contact form endpoint is live. POST JSON to this URL.')
+    .createTextOutput('WebGraha form endpoint is live. POST JSON to this URL.')
     .setMimeType(ContentService.MimeType.TEXT);
 }
 
@@ -76,6 +117,21 @@ function getSheet() {
 
 function appendToSheet(timestamp, name, email, message) {
   getSheet().appendRow([timestamp, name, email, message]);
+}
+
+function getTestimonialSheet() {
+  var ss    = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(TESTIMONIAL_SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(TESTIMONIAL_SHEET_NAME);
+    sheet.appendRow(['Timestamp', 'Name', 'Company / Role', 'Email', 'Rating', 'Testimonial', 'Publish Consent']);
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
+function appendToTestimonialSheet(timestamp, name, role, email, rating, quote, publish) {
+  getTestimonialSheet().appendRow([timestamp, name, role, email, rating, quote, publish ? 'Yes' : 'No']);
 }
 
 function sendAdminEmail(timestamp, name, email, message) {
@@ -181,6 +237,121 @@ function buildEmailHtml(timestamp, name, email, message) {
       '</p>' +
       '<p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#1e293b;">' +
         'This notification was sent because someone submitted the &ldquo;Start a Project&rdquo; form on your site.' +
+      '</p>' +
+    '</td></tr>' +
+
+  '</table>' +
+
+'</td></tr>' +
+'</table>' +
+'</div>'
+  );
+}
+
+function sendTestimonialAdminEmail(timestamp, name, role, email, rating, quote, publish) {
+  var subject   = 'New testimonial — ' + name;
+  var htmlBody  = buildTestimonialEmailHtml(timestamp, name, role, email, rating, quote, publish);
+  var plainBody =
+    'New testimonial via ' + SITE_NAME + '\n\n' +
+    'Name: '    + name    + '\n' +
+    'Role: '    + (role || '(none)') + '\n' +
+    'Email: '   + (email || '(none)') + '\n' +
+    'Rating: '  + (rating || '(none)') + '\n' +
+    'Publish consent: ' + (publish ? 'Yes' : 'No') + '\n\n' +
+    'Testimonial:\n' + quote + '\n\n' +
+    'Received: ' + timestamp.toString();
+
+  var mailOptions = { htmlBody: htmlBody, name: SITE_NAME + ' Testimonials' };
+  if (email) { mailOptions.replyTo = email; }
+
+  GmailApp.sendEmail(ADMIN_EMAIL, subject, plainBody, mailOptions);
+}
+
+function buildTestimonialEmailHtml(timestamp, name, role, email, rating, quote, publish) {
+  var when = timestamp.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+  var domain = SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, '');
+  var stars = rating ? '&#9733;'.repeat(rating) + '&#9734;'.repeat(5 - rating) : '&mdash;';
+  var publishBadge = publish
+    ? '<span style="color:#6ee7b7;">Yes, may publish</span>'
+    : '<span style="color:#f87171;">No, keep private</span>';
+
+  return (
+'<div style="margin:0;padding:0;background-color:#080e24;">' +
+'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#080e24;min-width:100%;">' +
+'<tr><td align="center" style="padding:40px 16px;">' +
+
+  '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:540px;">' +
+
+    /* ── Logo header ── */
+    '<tr><td align="center" style="padding-bottom:28px;">' +
+      '<table role="presentation" cellpadding="0" cellspacing="0"><tr>' +
+        '<td style="vertical-align:middle;padding-right:10px;">' +
+          '<img src="' + LOGO_URL + '" width="40" height="40" alt="' + SITE_NAME + '" style="display:block;border-radius:50%;border:1px solid rgba(110,231,183,0.25);">' +
+        '</td>' +
+        '<td style="vertical-align:middle;">' +
+          '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:22px;font-weight:600;color:#ffffff;letter-spacing:0.5px;">' + SITE_NAME + '</span>' +
+        '</td>' +
+      '</tr></table>' +
+    '</td></tr>' +
+
+    /* ── Green accent bar ── */
+    '<tr><td style="background:linear-gradient(90deg,#6ee7b7 0%,#34d399 50%,transparent 100%);height:2px;border-radius:2px 2px 0 0;font-size:0;line-height:0;">&nbsp;</td></tr>' +
+
+    /* ── Card ── */
+    '<tr><td style="background-color:#0f172a;border:1px solid rgba(110,231,183,0.15);border-top:0;border-radius:0 0 20px 20px;padding:32px 28px;">' +
+
+      /* section label */
+      '<p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#6ee7b7;">New Testimonial</p>' +
+
+      /* heading */
+      '<h1 style="margin:0 0 24px;font-family:Georgia,\'Times New Roman\',serif;font-size:26px;font-weight:600;color:#f8fafc;line-height:1.25;">' +
+        escapeHtml(name) + ' left a testimonial' +
+      '</h1>' +
+
+      /* data rows */
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;border-collapse:collapse;">' +
+        '<tr>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#64748b;width:120px;">Name</td>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#e2e8f0;text-align:right;">' + escapeHtml(name) + '</td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#64748b;">Role</td>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#e2e8f0;text-align:right;">' + (role ? escapeHtml(role) : '&mdash;') + '</td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#64748b;">Email</td>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#e2e8f0;text-align:right;">' +
+            (email ? '<a href="mailto:' + escapeHtml(email) + '" style="color:#6ee7b7;text-decoration:none;">' + escapeHtml(email) + '</a>' : '&mdash;') +
+          '</td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#64748b;">Rating</td>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#fbbf24;text-align:right;">' + stars + '</td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td style="padding:11px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#64748b;">Publish?</td>' +
+          '<td style="padding:11px 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;text-align:right;">' + publishBadge + '</td>' +
+        '</tr>' +
+      '</table>' +
+
+      /* testimonial */
+      '<p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#64748b;">Testimonial</p>' +
+      '<div style="margin:0 0 8px;font-family:Georgia,\'Times New Roman\',serif;font-style:italic;font-size:15px;line-height:1.7;color:#cbd5e1;background-color:#0a1128;border:1px solid rgba(255,255,255,0.07);border-left:3px solid #6ee7b7;border-radius:0 12px 12px 0;padding:16px 18px;">' +
+        '&ldquo;' + escapeHtml(quote).replace(/\n/g, '<br>') + '&rdquo;' +
+      '</div>' +
+
+      /* received timestamp */
+      '<p style="margin:20px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#475569;">Received ' + escapeHtml(when) + '</p>' +
+
+    '</td></tr>' +
+
+    /* ── Footer ── */
+    '<tr><td align="center" style="padding-top:24px;">' +
+      '<p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#334155;">' +
+        SITE_NAME + ' &middot; <a href="' + SITE_URL + '" style="color:#475569;text-decoration:none;">' + domain + '</a>' +
+      '</p>' +
+      '<p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#1e293b;">' +
+        'This notification was sent because someone submitted the testimonial form on your site.' +
       '</p>' +
     '</td></tr>' +
 

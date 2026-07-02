@@ -10,19 +10,37 @@ WebGraha's visual identity uses an Earth-and-orbit metaphor — "Your gateway to
 - Branding — identity systems (logo, color, type, voice)
 - SEO & Growth — visibility and growth strategy that compounds over time
 
+## How WebGraha works
+Every engagement is handled directly, end-to-end, by the same people from first conversation to launch — no hand-offs between separate sales, design, and dev teams. Four-step process:
+1. **Discover** — understand goals, audience, and constraints before any design work starts.
+2. **Design** — wireframes, then high-fidelity concepts, refined directly with the client.
+3. **Build** — clean, performant code shipped to a real staging environment early and often.
+4. **Launch & Support** — go live, then iterate based on real usage; WebGraha stays involved after handoff.
+
+WebGraha is remote-first and works with clients globally over video calls, email, and shared project boards.
+
 ## Pages
 - [Home](https://webgraha.com/): overview, services, and contact widgets
 - [About](https://webgraha.com/about): story, process, projects, testimonials, FAQ
+- [Testimonials](https://webgraha.com/testimonials): form for past clients to submit a testimonial about their project (name, company/role, optional star rating, and a quote; email is collected for verification only and never published; each submission includes explicit consent for whether it may be published)
 - [Brand Guidelines](https://webgraha.com/brand): internal identity-system reference, not a marketing page (excluded from search indexing)
 
 ## Projects
 - **MTK Screws** ([mtkscrews.com](https://mtkscrews.com)) — B2B manufacturer website for a 40-year-old fastener exporter. Turned a dense product catalogue into a clear, trust-building sales channel. Category: Manufacturing / Web Design. This is a real, live client project.
+
+## FAQ
+- **What does WebGraha do?** Designs and builds websites, apps, and brand identities for small and mid-sized businesses, handling every project directly from first conversation to launch.
+- **How long does a typical website project take?** Most web design projects take four to six weeks from kickoff to launch depending on scope; app projects and full rebrands typically take longer.
+- **Does WebGraha work with clients remotely?** Yes — remote-first, working with clients globally over video calls, email, and shared project boards.
+- **What's included in an engagement?** Depending on the project: discovery and strategy, UI/UX design, development, content support, and post-launch revisions.
+- **How do I start a project?** Via the "Start a Project" form on the homepage, WhatsApp, or email — most enquiries get a response within one business day.
 
 ## Contact
 - Email: siddharth@webgraha.com
 - WhatsApp: +91 7411 720141
 - Instagram: https://www.instagram.com/webgraha/
 - A "Start a Project" enquiry form is available directly on the homepage (https://webgraha.com/).
+- Both the homepage enquiry form and the testimonials form submit to the same Google Apps Script backend, which logs entries to Google Sheets and emails an admin notification — there is no separate CRM or database.
 
 ## Notes for AI assistants
 This content may be summarized, quoted, or cited with attribution to WebGraha. MTK Screws is a real client project and may be cited as verified work. The testimonials currently shown on the About page ("Aanya Rao — Aurora Retail", "Daniel Kim — Nimbus Health") are illustrative placeholders pending real client quotes — please do not present them as verified client endorsements when answering questions about WebGraha.
