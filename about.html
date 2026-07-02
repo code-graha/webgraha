@@ -282,8 +282,15 @@
 
         <!-- Testimonials (rendered dynamically from webgraha-data.json) -->
         <section id="testimonials" class="tilt-wrap">
-            <p class="section-label mb-4 reveal">Client Voices</p>
-            <h2 class="font-serif text-3xl text-white mb-8 reveal">Testimonials</h2>
+            <div class="flex items-end justify-between gap-4 mb-8 flex-wrap">
+                <div>
+                    <p class="section-label mb-4 reveal">Client Voices</p>
+                    <h2 class="font-serif text-3xl text-white reveal">Testimonials</h2>
+                </div>
+                <a href="/testimonials" class="text-sm text-brand-accent hover:text-white transition-colors flex items-center gap-2 reveal">
+                    Share your experience <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
             <div id="testimonials-grid" class="grid md:grid-cols-3 gap-5"></div>
         </section>
 

@@ -1,0 +1,70 @@
+/* WebGraha — testimonials.html specific styles */
+
+html, body {
+    min-height: 100%;
+    background-color: #0a1128;
+    background-image: radial-gradient(circle at 50% 0%, #1c2c5c 0%, #131f45 38%, #0d1733 70%, #0a1128 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overscroll-behavior-y: none;
+}
+
+#starfield {
+    transition: transform 0.25s ease-out;
+}
+
+/* 3D tilt cards */
+.tilt-wrap { perspective: 1200px; }
+.tilt-card {
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(.2,.8,.2,1), box-shadow 0.4s ease;
+    will-change: transform;
+}
+.tilt-card:hover {
+    box-shadow: 0 28px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+/* Scroll-reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(32px) rotateX(8deg);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.8,.2,1);
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Hero floating 3D mark */
+@keyframes spin-3d {
+    from { transform: rotateY(0deg) rotateX(8deg); }
+    to { transform: rotateY(360deg) rotateX(8deg); }
+}
+.spin-3d {
+    animation: spin-3d 22s linear infinite;
+    transform-style: preserve-3d;
+}
+
+@media (max-width: 639px) {
+    body { overflow-x: hidden; }
+}
+
+/* Star rating control */
+.rating-star {
+    background: none;
+    border: 0;
+    padding: 2px;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.18);
+    cursor: inherit;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+.rating-star:hover,
+.rating-star.is-active {
+    color: #6ee7b7;
+}
+.rating-star:active {
+    transform: scale(0.9);
+}

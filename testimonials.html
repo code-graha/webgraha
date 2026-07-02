@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" class="text-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share a Testimonial — WebGraha</title>
+    <meta name="description" content="Worked with WebGraha? Share a quick testimonial about your project — it takes two minutes and helps other businesses know what to expect.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://webgraha.com/testimonials">
+    <meta name="theme-color" content="#0a1128">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="WebGraha">
+    <meta property="og:title" content="Share a Testimonial — WebGraha">
+    <meta property="og:description" content="Worked with WebGraha? Share a quick testimonial about your project — it takes two minutes and helps other businesses know what to expect.">
+    <meta property="og:url" content="https://webgraha.com/testimonials">
+    <meta property="og:image" content="https://webgraha.com/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Share a Testimonial — WebGraha">
+    <meta name="twitter:description" content="Worked with WebGraha? Share a quick testimonial about your project — it takes two minutes and helps other businesses know what to expect.">
+    <meta name="twitter:image" content="https://webgraha.com/assets/og-image.png">
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="assets/site.webmanifest">
+    <meta name="apple-mobile-web-app-title" content="WebGraha">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "WebGraha",
+        "url": "https://webgraha.com/",
+        "logo": "https://webgraha.com/assets/logo-full.svg",
+        "email": "siddharth@webgraha.com",
+        "telephone": "+91-7411720141",
+        "sameAs": [
+            "https://www.instagram.com/webgraha/"
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://webgraha.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Testimonials", "item": "https://webgraha.com/testimonials" }
+        ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/tailwind.min.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/testimonials.css">
+</head>
+<body class="font-sans antialiased min-h-screen w-full relative selection:bg-brand-green selection:text-white">
+
+    <!-- Loading screen: covers the page until fonts/CSS/scripts are ready -->
+    <div id="wg-loader" aria-hidden="true">
+        <img src="assets/logo-mark.svg" alt="" class="wg-loader-mark" width="48" height="48">
+        <div class="wg-loader-bar"><span></span></div>
+    </div>
+    <script>
+        (function () {
+            var loader = document.getElementById('wg-loader');
+            if (!loader) return;
+            var shownAt = Date.now();
+            var hidden = false;
+            function hide() {
+                if (hidden) return;
+                hidden = true;
+                var elapsed = Date.now() - shownAt;
+                var wait = Math.max(0, 300 - elapsed);
+                setTimeout(function () {
+                    loader.classList.add('wg-loader-hidden');
+                    setTimeout(function () { loader.remove(); }, 550);
+                }, wait);
+            }
+            window.addEventListener('load', hide);
+            setTimeout(hide, 5000);
+        })();
+    </script>
+
+    <div id="starfield" data-star-count="110"></div>
+
+    <!-- Nav -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-50 glass-panel rounded-full px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+            <img src="assets/logo-mark.svg" alt="WebGraha" class="w-7 h-7" loading="lazy" decoding="async">
+            <span class="font-serif text-lg tracking-wide font-semibold text-white">WebGraha</span>
+            <span class="hidden sm:inline-block ml-2 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest text-brand-accent border border-brand-accent/30">Testimonials</span>
+        </div>
+        <a href="/" class="text-sm text-gray-300 hover:text-white transition-colors flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left text-xs"></i> Back to site
+        </a>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative z-10 max-w-3xl mx-auto px-6 pt-44 pb-12 text-center overflow-hidden">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.12] -z-0">
+            <img src="assets/logo-mark.svg" alt="" class="w-64 h-64 md:w-80 md:h-80 spin-3d" loading="lazy" decoding="async">
+        </div>
+        <p class="section-label mb-5 relative">Client Voices</p>
+        <h1 class="font-serif text-4xl md:text-6xl font-medium text-white tracking-tight leading-tight mb-6 relative">
+            Share your experience
+        </h1>
+        <p class="text-lg text-gray-400 font-light max-w-xl mx-auto leading-relaxed relative">
+            If we worked together on a project, we'd love to hear how it went. It takes about two minutes and genuinely helps other businesses decide whether to work with us.
+        </p>
+    </header>
+
+    <main class="relative z-10 max-w-xl mx-auto px-6 pb-32 tilt-wrap">
+
+        <!-- Form card -->
+        <div id="testimonial-form-card" class="glass-panel tilt-card rounded-2xl p-6 sm:p-8 reveal">
+            <form id="testimonial-form" class="flex flex-col gap-5" data-endpoint="https://script.google.com/macros/s/AKfycbzycL7PzUnD5aIElLJYmleybj6QPja5NWZaLVUukxJrFg_mmiSSQbeyhiSaLjHAW_Sc/exec">
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="t-name" class="text-xs text-gray-400">Name <span class="text-brand-accent">*</span></label>
+                    <input type="text" id="t-name" name="name" placeholder="Your full name" required maxlength="120"
+                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="t-role" class="text-xs text-gray-400">Company / Role</label>
+                    <input type="text" id="t-role" name="role" placeholder="e.g. Founder, Aurora Retail" maxlength="150"
+                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="t-email" class="text-xs text-gray-400">Email</label>
+                    <input type="email" id="t-email" name="email" placeholder="you@company.com" maxlength="200"
+                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
+                    <span class="text-[11px] text-gray-500">Only used to verify you're a real client — never published.</span>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <span class="text-xs text-gray-400">Your rating</span>
+                    <div id="rating-stars" class="flex items-center gap-1.5" role="radiogroup" aria-label="Rating out of 5 stars">
+                        <button type="button" class="rating-star" data-value="1" aria-label="1 star"><i class="fa-solid fa-star"></i></button>
+                        <button type="button" class="rating-star" data-value="2" aria-label="2 stars"><i class="fa-solid fa-star"></i></button>
+                        <button type="button" class="rating-star" data-value="3" aria-label="3 stars"><i class="fa-solid fa-star"></i></button>
+                        <button type="button" class="rating-star" data-value="4" aria-label="4 stars"><i class="fa-solid fa-star"></i></button>
+                        <button type="button" class="rating-star" data-value="5" aria-label="5 stars"><i class="fa-solid fa-star"></i></button>
+                    </div>
+                    <input type="hidden" name="rating" id="rating-value" value="">
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="t-quote" class="text-xs text-gray-400">Your testimonial <span class="text-brand-accent">*</span></label>
+                    <textarea id="t-quote" name="quote" rows="5" required maxlength="2000" placeholder="What was it like working with WebGraha? What result or moment stood out?"
+                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors resize-none"></textarea>
+                </div>
+
+                <label class="flex items-start gap-2.5 text-xs text-gray-400 leading-relaxed cursor-pointer">
+                    <input type="checkbox" name="publish" checked class="mt-0.5 w-3.5 h-3.5 accent-emerald-400 flex-none">
+                    You can publish my name and testimonial on the WebGraha website.
+                </label>
+
+                <p id="testimonial-error" class="hidden text-xs text-red-300 leading-relaxed"></p>
+
+                <button type="submit" id="testimonial-submit-btn"
+                    class="mt-1 bg-brand-green/80 hover:bg-brand-green disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium py-3 rounded-lg transition-colors shadow-lg">
+                    Submit Testimonial
+                </button>
+            </form>
+        </div>
+
+        <!-- Sent state -->
+        <div id="testimonial-sent-card" class="hidden glass-panel tilt-card rounded-2xl p-8 sm:p-10 text-center reveal">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-brand-green/20 border border-brand-accent/40 flex items-center justify-center">
+                <i class="fa-solid fa-check text-brand-accent text-lg"></i>
+            </div>
+            <h2 class="font-serif text-xl font-semibold text-white mb-2">Thank you!</h2>
+            <p class="text-sm text-gray-400 leading-relaxed max-w-sm mx-auto">
+                We really appreciate you taking the time to share this — it means a lot, and helps other businesses know what working with us is like.
+            </p>
+            <a href="/about#testimonials" class="inline-flex items-center gap-2 text-sm text-brand-accent mt-6 hover:text-white transition-colors">
+                See other client voices <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 max-w-3xl mx-auto px-6 pb-12 tilt-wrap">
+        <div class="glass-panel tilt-card reveal rounded-2xl px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <img src="assets/logo-mark.svg" alt="WebGraha" class="w-8 h-8" loading="lazy" decoding="async">
+                <div class="flex flex-col">
+                    <span class="font-serif text-base text-white font-semibold">WebGraha</span>
+                    <span class="text-xs text-gray-500">Your gateway to the digital universe</span>
+                </div>
+            </div>
+            <div id="social-links" class="flex items-center gap-4 text-gray-400" data-hover-class="hover:text-brand-accent"></div>
+            <a href="/" class="text-sm text-gray-300 hover:text-white transition-colors flex items-center gap-2">
+                Back to site <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+        <p class="text-center text-xs text-gray-600 mt-6">&copy; 2026 WebGraha. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/protect.js" defer></script>
+    <script src="assets/js/starfield.js" defer></script>
+    <script src="assets/js/shooting-stars.js" defer></script>
+    <script src="assets/js/reveal.js" defer></script>
+    <script src="assets/js/tilt.js" defer></script>
+    <script src="assets/js/starfield-parallax.js" defer></script>
+    <script src="assets/js/data-render.js" defer></script>
+    <script src="assets/js/testimonial-form.js" defer></script>
+</body>
+</html>
