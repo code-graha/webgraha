@@ -29,14 +29,15 @@
     const onErrorPage = /^\/(404|405)(\.html)?$/i.test(window.location.pathname) ||
                         /[/\\](404|405)(\.html)?$/i.test(window.location.pathname);
 
-    // Mobile/touch browsers (iOS Safari in particular) resize outerHeight
-    // vs innerHeight constantly — dynamic address bar, on-screen keyboard,
-    // Reader mode — with no DevTools panel involved at all. Running the
-    // window-size heuristic there produces false positives that lock real
-    // visitors out, so it's restricted to non-touch (desktop) devices.
-    const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    // Skip on mobile/touch devices — there's no desktop DevTools to open here,
+    // and iOS/Android browsers' collapsing address/toolbar UI changes
+    // innerHeight independently of outerHeight as the user scrolls, which
+    // false-triggers the outerWidth/innerWidth heuristic below (seen as a
+    // real customer getting redirected to /405 on iPhone Safari).
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                      (navigator.maxTouchPoints > 1 && /MacIntel/.test(navigator.platform));
 
-    if (!onErrorPage && !isTouchDevice) {
+    if (!onErrorPage && !isMobile) {
         let devtoolsOpen = false;
         const THRESHOLD = 160;
         const isInIframe = window.self !== window.top;
