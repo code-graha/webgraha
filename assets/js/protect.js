@@ -29,7 +29,14 @@
     const onErrorPage = /^\/(404|405)(\.html)?$/i.test(window.location.pathname) ||
                         /[/\\](404|405)(\.html)?$/i.test(window.location.pathname);
 
-    if (!onErrorPage) {
+    // Mobile/touch browsers (iOS Safari in particular) resize outerHeight
+    // vs innerHeight constantly — dynamic address bar, on-screen keyboard,
+    // Reader mode — with no DevTools panel involved at all. Running the
+    // window-size heuristic there produces false positives that lock real
+    // visitors out, so it's restricted to non-touch (desktop) devices.
+    const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+
+    if (!onErrorPage && !isTouchDevice) {
         let devtoolsOpen = false;
         const THRESHOLD = 160;
         const isInIframe = window.self !== window.top;
