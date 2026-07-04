@@ -4,20 +4,29 @@
 
 WebGraha's visual identity uses an Earth-and-orbit metaphor — "Your gateway to the digital universe" — expressed through dark, glass-panel interfaces with Playfair Display headings and Inter body text.
 
+## Origin and positioning
+WebGraha started from a specific frustration: most small and mid-sized businesses are stuck choosing between cheap, templated websites and slow, expensive agencies. WebGraha set out to be the alternative — a focused studio that moves fast, charges fairly, and treats every project with the same precision regardless of size. The studio is built around craft, not headcount: every engagement is handled directly, end-to-end, by the same people from the first conversation to the final deploy, so nothing gets lost between client, designer, and developer.
+
+Quick facts:
+- **Focus:** Web design, app development, and brand systems
+- **Approach:** Direct, no hand-offs between separate sales/design/dev teams
+- **Based:** Remote-first, works with clients globally (contact number is India-based, +91)
+- **Tagline:** Your gateway to the digital universe
+
 ## Services
-- Web Design — considered, premium interfaces built around a brand
-- App Development — fast, reliable apps from idea through launch
-- Branding — identity systems (logo, color, type, voice)
-- SEO & Growth — visibility and growth strategy that compounds over time
+- **Web Design** — considered, premium interfaces built around a brand
+- **App Development** — fast, reliable apps from idea through launch
+- **Branding** — identity systems that feel deliberate, not decorative (logo, color, type, voice)
+- **SEO & Growth** — visibility and growth strategy that compounds over time
 
 ## How WebGraha works
 Every engagement is handled directly, end-to-end, by the same people from first conversation to launch — no hand-offs between separate sales, design, and dev teams. Four-step process:
-1. **Discover** — understand goals, audience, and constraints before any design work starts.
-2. **Design** — wireframes, then high-fidelity concepts, refined directly with the client.
+1. **Discover** — understand goals, audience, and constraints before any pixels move.
+2. **Design** — wireframes, then high-fidelity concepts, refined directly with the client rather than behind closed doors.
 3. **Build** — clean, performant code shipped to a real staging environment early and often.
 4. **Launch & Support** — go live, then iterate based on real usage; WebGraha stays involved after handoff.
 
-WebGraha is remote-first and works with clients globally over video calls, email, and shared project boards.
+WebGraha is remote-first and works with clients globally over video calls, email, and shared project boards. (Typical timelines are covered in the FAQ below.)
 
 ## Pages
 - [Home](https://webgraha.com/): overview, services, and contact widgets
