@@ -19,6 +19,7 @@ Final Draft/
 ├── sitemap.xml
 ├── llms.txt
 ├── SEO-Plan.md
+├── SEO-Launch-Guide.md     # Step-by-step: indexing, off-page authority, AI visibility
 ├── .htaccess               # Apache 404 config + static asset caching
 ├── tailwind.config.js      # Tailwind theme (build-time only, see "Tailwind CSS" below)
 │

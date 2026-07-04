@@ -17,37 +17,8 @@ html, body {
 .card-hover { transition: transform 0.2s ease, border-color 0.2s ease; }
 .card-hover:hover { transform: translateY(-3px); border-color: rgba(110, 231, 183, 0.3); }
 
-/* 3D tilt cards */
-.tilt-wrap { perspective: 1200px; }
-.tilt-card {
-    transform-style: preserve-3d;
-    transition: transform 0.4s cubic-bezier(.2,.8,.2,1), box-shadow 0.4s ease;
-    will-change: transform;
-}
-.tilt-card:hover {
-    box-shadow: 0 28px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.16);
-}
+/* .tilt-wrap, .tilt-card, .reveal, .spin-3d are shared in base.css */
 
-/* Scroll-reveal */
-.reveal {
-    opacity: 0;
-    transform: translateY(32px) rotateX(8deg);
-    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.8,.2,1);
-}
-.reveal.is-visible {
-    opacity: 1;
-    transform: none;
-}
-
-/* Hero floating 3D mark */
-@keyframes spin-3d {
-    from { transform: rotateY(0deg) rotateX(8deg); }
-    to { transform: rotateY(360deg) rotateX(8deg); }
-}
-.spin-3d {
-    animation: spin-3d 22s linear infinite;
-    transform-style: preserve-3d;
-}
 @keyframes float-y {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
