@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" class="text-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Start a Project | WebGraha</title>
+    <meta name="description" content="Get in touch with WebGraha to start a web design, app development, or branding project. Most enquiries get a response within one business day.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://webgraha.com/contact">
+    <meta name="theme-color" content="#0a1128">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="WebGraha">
+    <meta property="og:title" content="Contact — Start a Project | WebGraha">
+    <meta property="og:description" content="Get in touch with WebGraha to start a web design, app development, or branding project. Most enquiries get a response within one business day.">
+    <meta property="og:url" content="https://webgraha.com/contact">
+    <meta property="og:image" content="https://webgraha.com/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact — Start a Project | WebGraha">
+    <meta name="twitter:description" content="Get in touch with WebGraha to start a web design, app development, or branding project. Most enquiries get a response within one business day.">
+    <meta name="twitter:image" content="https://webgraha.com/assets/og-image.png">
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="assets/site.webmanifest">
+    <meta name="apple-mobile-web-app-title" content="WebGraha">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "url": "https://webgraha.com/contact",
+        "about": {
+            "@type": "Organization",
+            "name": "WebGraha",
+            "url": "https://webgraha.com/",
+            "email": "siddharth@webgraha.com",
+            "telephone": "+91-7411720141",
+            "sameAs": [
+                "https://www.instagram.com/webgraha/",
+                "https://x.com/webgraha",
+                "https://www.facebook.com/webgraha",
+                "https://www.youtube.com/@webgraha"
+            ],
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "email": "siddharth@webgraha.com",
+                "telephone": "+91-7411720141",
+                "availableLanguage": ["English"]
+            }
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://webgraha.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://webgraha.com/contact" }
+        ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/tailwind.min.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/contact.css">
+</head>
+<body class="font-sans antialiased min-h-screen w-full relative selection:bg-brand-green selection:text-white">
+
+    <!-- Loading screen: covers the page until fonts/CSS/scripts are ready -->
+    <div id="wg-loader" aria-hidden="true">
+        <img src="assets/logo-mark.svg" alt="" class="wg-loader-mark" width="48" height="48">
+        <div class="wg-loader-bar"><span></span></div>
+    </div>
+    <script>
+        (function () {
+            var loader = document.getElementById('wg-loader');
+            if (!loader) return;
+            var shownAt = Date.now();
+            var hidden = false;
+            function hide() {
+                if (hidden) return;
+                hidden = true;
+                var elapsed = Date.now() - shownAt;
+                var wait = Math.max(0, 300 - elapsed);
+                setTimeout(function () {
+                    loader.classList.add('wg-loader-hidden');
+                    setTimeout(function () { loader.remove(); }, 550);
+                }, wait);
+            }
+            window.addEventListener('load', hide);
+            setTimeout(hide, 5000);
+        })();
+    </script>
+
+    <div id="starfield" data-star-count="110"></div>
+
+    <!-- Sticky Navigation -->
+    <nav id="header" class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50 glass-panel rounded-full px-6 py-4 flex items-center justify-between transition-all duration-300 wg-anim-fade">
+        <a href="/" class="flex items-center gap-2.5">
+            <img src="assets/logo-full.svg" alt="WebGraha" class="h-9" loading="lazy" decoding="async">
+        </a>
+        <div class="hidden md:flex items-center gap-5 text-sm font-medium text-gray-300 tracking-wide">
+            <a href="/services" class="hover:text-white transition-colors">Services</a>
+            <a href="/portfolio" class="hover:text-white transition-colors">Portfolio</a>
+            <a href="/about" class="hover:text-white transition-colors">About</a>
+            <a href="/faq" class="hover:text-white transition-colors">FAQ</a>
+            <a href="/contact" class="hover:text-white transition-colors">Contact</a>
+            <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+        </div>
+        <button id="mobile-menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden w-9 h-9 flex items-center justify-center text-gray-300 hover:text-white">
+            <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile nav menu -->
+    <div id="mobile-menu" class="hidden fixed top-[88px] left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50 md:hidden dropdown-menu rounded-2xl p-4 flex flex-col gap-1">
+        <a href="/services" class="block px-3 py-2 rounded-xl text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors">Services</a>
+        <a href="/portfolio" class="block px-3 py-2 rounded-xl text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors">Portfolio</a>
+        <a href="/about" class="block px-3 py-2 rounded-xl text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors">About</a>
+        <a href="/faq" class="block px-3 py-2 rounded-xl text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors">FAQ</a>
+        <a href="/contact" class="block px-3 py-2 rounded-xl text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors">Contact</a>
+        <a href="/blog" class="block px-3 py-2 rounded-xl text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors">Blog</a>
+    </div>
+
+    <!-- Hero -->
+    <header class="relative z-10 max-w-3xl mx-auto px-6 pt-44 pb-12 text-center overflow-hidden">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.12] -z-0">
+            <img src="assets/logo-mark.svg" alt="" class="w-64 h-64 md:w-80 md:h-80 spin-3d" loading="lazy" decoding="async">
+        </div>
+        <p class="section-label mb-5 relative">Let's talk</p>
+        <h1 class="font-serif text-4xl md:text-6xl font-medium text-white tracking-tight leading-tight mb-6 relative">
+            Start a project
+        </h1>
+        <p class="text-lg text-gray-400 font-light max-w-xl mx-auto leading-relaxed relative">
+            Tell us what you're building. Most enquiries get a response within one business day.
+        </p>
+    </header>
+
+    <main class="relative z-10 max-w-3xl mx-auto px-6 pb-32 tilt-wrap">
+        <div class="grid md:grid-cols-5 gap-6">
+
+            <!-- Form -->
+            <div class="md:col-span-3">
+                <div id="contact-form-card" class="glass-panel tilt-card rounded-2xl p-6 sm:p-8 reveal">
+                    <form id="contact-form" class="flex flex-col gap-5" data-endpoint="https://script.google.com/macros/s/AKfycbzycL7PzUnD5aIElLJYmleybj6QPja5NWZaLVUukxJrFg_mmiSSQbeyhiSaLjHAW_Sc/exec">
+                        <div class="flex flex-col gap-1.5">
+                            <label for="c-name" class="text-xs text-gray-400">Name <span class="text-brand-accent">*</span></label>
+                            <input type="text" id="c-name" name="name" placeholder="Your full name" required maxlength="120"
+                                class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <label for="c-email" class="text-xs text-gray-400">Email <span class="text-brand-accent">*</span></label>
+                            <input type="email" id="c-email" name="email" placeholder="you@company.com" required maxlength="200"
+                                class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <label for="c-message" class="text-xs text-gray-400">A few words about your project</label>
+                            <textarea id="c-message" name="message" rows="5" maxlength="2000" placeholder="What are you looking to build?"
+                                class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors resize-none"></textarea>
+                        </div>
+                        <p id="contact-error" class="hidden text-xs text-red-300 leading-relaxed"></p>
+                        <button type="submit" id="contact-submit-btn"
+                            class="mt-1 bg-brand-green/80 hover:bg-brand-green disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium py-3 rounded-lg transition-colors shadow-lg">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Sent state -->
+                <div id="contact-sent-card" class="hidden glass-panel tilt-card rounded-2xl p-8 sm:p-10 text-center reveal">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-brand-green/20 border border-brand-accent/40 flex items-center justify-center">
+                        <i class="fa-solid fa-check text-brand-accent text-lg"></i>
+                    </div>
+                    <h2 class="font-serif text-xl font-semibold text-white mb-2">Message received</h2>
+                    <p class="text-sm text-gray-400 leading-relaxed max-w-sm mx-auto">
+                        Thanks for reaching out — we'll be in touch shortly, usually within one business day.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Direct contact details -->
+            <div class="md:col-span-2 glass-panel tilt-card rounded-2xl p-6 flex flex-col gap-4 reveal h-fit" style="transition-delay:0.1s;">
+                <p class="section-label">Direct</p>
+                <a href="mailto:siddharth@webgraha.com" class="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                    <span class="w-9 h-9 flex-none rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent"><i class="fa-solid fa-envelope"></i></span>
+                    siddharth@webgraha.com
+                </a>
+                <a href="https://wa.me/917411720141?text=Hi%20WebGraha" target="_blank" rel="noopener" class="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                    <span class="w-9 h-9 flex-none rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent"><i class="fa-brands fa-whatsapp"></i></span>
+                    +91 7411 720141
+                </a>
+                <div class="border-t border-white/10 pt-4">
+                    <p class="text-xs text-gray-500 mb-3">Follow along</p>
+                    <div id="social-links" class="flex items-center gap-4 text-gray-400" data-hover-class="hover:text-brand-accent"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 max-w-5xl mx-auto px-6 pb-12 tilt-wrap">
+        <div class="glass-panel tilt-card reveal rounded-2xl px-6 py-8 flex flex-col items-center text-center gap-3">
+            <img src="assets/logo-full.svg" alt="WebGraha" class="h-9" loading="lazy" decoding="async">
+            <span class="text-xs text-gray-500">Your gateway to the digital universe</span>
+        </div>
+        <p class="text-center text-xs text-gray-600 mt-6">&copy; 2026 WebGraha. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/protect.js" defer></script>
+    <script src="assets/js/starfield.js" defer></script>
+    <script src="assets/js/shooting-stars.js" defer></script>
+    <script src="assets/js/reveal.js" defer></script>
+    <script src="assets/js/tilt.js" defer></script>
+    <script src="assets/js/starfield-parallax.js" defer></script>
+    <script src="assets/js/nav-mobile.js" defer></script>
+    <script src="assets/js/data-render.js" defer></script>
+    <script src="assets/js/contact-form.js" defer></script>
+</body>
+</html>

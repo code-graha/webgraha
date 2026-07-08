@@ -8,12 +8,21 @@ Boutique web design and digital solutions studio. This repository contains the f
 
 ```
 Final Draft/
-├── index.html              # Homepage (3D globe, services, enquiry form)
-├── about.html              # About, process, projects, testimonials, FAQ
+├── index.html              # Homepage (3D globe, service pills, enquiry widget)
+├── about.html              # Story, process, testimonials
+├── services.html           # Web Design / App Development / Branding / SEO & Growth detail
+├── portfolio.html          # Selected client work
+├── faq.html                # Frequently asked questions
+├── contact.html            # Contact form + direct email/WhatsApp/social
+├── blog/
+│   ├── index.html          # Blog listing page (served at /blog)
+│   ├── how-much-does-a-website-cost.html
+│   ├── how-long-does-branding-take.html
+│   └── choosing-a-web-design-agency.html
 ├── testimonials.html       # Standalone form for clients to submit a testimonial
 ├── brand.html              # Internal brand guidelines (noindex)
-├── 404.html                # "Lost in orbit" error page
-├── 405.html                # "Wrong approach vector" error page
+├── 404.html                # "Lost in orbit" error page (no nav bar, by design)
+├── 405.html                # "Wrong approach vector" error page (no nav bar, by design)
 ├── webgraha-data.json      # ← Edit this to update content (see below)
 ├── robots.txt
 ├── sitemap.xml
@@ -30,6 +39,11 @@ Final Draft/
 │   │   ├── base.css        # Shared across every page (incl. loading screen)
 │   │   ├── home.css        # index.html only
 │   │   ├── about.css       # about.html only
+│   │   ├── services.css    # services.html only
+│   │   ├── portfolio.css   # portfolio.html only
+│   │   ├── faq.css         # faq.html only
+│   │   ├── contact.css     # contact.html only
+│   │   ├── blog.css        # blog/index.html and all blog/ posts
 │   │   ├── testimonials.css # testimonials.html only
 │   │   ├── brand.css       # brand.html only
 │   │   └── error.css       # 404.html + 405.html
@@ -37,13 +51,14 @@ Final Draft/
 │   │   ├── protect.js              # Right-click / DevTools source protection
 │   │   ├── starfield.js            # Twinkling star generator
 │   │   ├── shooting-stars.js       # Comet animations
-│   │   ├── starfield-parallax.js   # Mouse-parallax depth (about.html)
+│   │   ├── starfield-parallax.js   # Mouse-parallax depth (about.html and other subpages)
 │   │   ├── reveal.js               # Scroll-reveal (IntersectionObserver)
 │   │   ├── tilt.js                 # 3D mouse-tilt on cards
-│   │   ├── nav-mobile.js           # Mobile hamburger toggle
+│   │   ├── nav-mobile.js           # Mobile hamburger toggle (index.html)
 │   │   ├── services-carousel.js    # Scroll-snap dots (index.html)
 │   │   ├── social-widget.js        # Collapsible social widget (index.html)
-│   │   ├── enquiry-form.js         # Contact form fetch + UI states
+│   │   ├── enquiry-form.js         # Homepage enquiry widget fetch + UI states
+│   │   ├── contact-form.js         # Contact page form fetch + UI states (contact.html)
 │   │   ├── testimonial-form.js     # Testimonial form fetch + UI states (testimonials.html)
 │   │   ├── globe.js                # Three.js rotating Earth
 │   │   └── data-render.js          # Dynamic social/projects/testimonials
@@ -57,6 +72,10 @@ Final Draft/
     ├── Code.gs             # Backend: Google Sheets + branded email (enquiries + testimonials)
     └── SETUP.md            # Step-by-step deployment guide
 ```
+
+**Site structure note:** Projects and FAQ used to be sections inside `about.html`; they're now their own pages (`portfolio.html`, `faq.html`) so each can rank independently. `about.html` covers story, process, and testimonials. The homepage's service pills and About's services blurb both link to `/services` for full detail.
+
+**Adding a new blog post:** copy one of the existing post files under `blog/` as a template (not `blog/index.html` — that's the listing page). Everything under `blog/`, including `index.html`, is one level deeper than the rest of the site, so — unlike every root-level page, which uses relative paths like `assets/css/...` — they reference assets and `webgraha-data.json` with a leading slash (`/assets/css/...`). Get this wrong and the page will silently load unstyled or without dynamic content. After adding a post: link it from `blog/index.html`'s listing, add it to that page's `Blog` JSON-LD `blogPost` array, and add it to `sitemap.xml`.
 
 ---
 
@@ -152,7 +171,7 @@ npx serve "Final Draft"
 
 The "Start a Project" enquiry form (`index.html`) and the testimonial form (`testimonials.html`) both post to the same Google Apps Script backend, which logs each to its own Google Sheet tab and sends a branded email notification to the admin.
 
-**Setup:** see `google-apps-script/SETUP.md` for step-by-step deployment instructions. Once deployed, paste the same `/exec` URL into the `data-endpoint=""` attribute on the `<form>` element in **both** `index.html` and `testimonials.html`.
+**Setup:** see `google-apps-script/SETUP.md` for step-by-step deployment instructions. Once deployed, paste the same `/exec` URL into the `data-endpoint=""` attribute on the `<form>` element in `index.html`, `contact.html`, **and** `testimonials.html`.
 
 ---
 
@@ -200,7 +219,7 @@ The site is a plain static folder — no build step required. Drop the `Final Dr
 | **Apache (cPanel/shared hosting)** | `.htaccess` already included with `ErrorDocument 404` |
 | **Nginx** | Add `error_page 404 /404.html;` to your server block |
 
-Before going live, replace `webgraha.com` everywhere if your real domain differs — one global find-and-replace across `index.html`, `about.html`, `testimonials.html`, `brand.html`, `robots.txt`, `sitemap.xml`, `llms.txt`, and `google-apps-script/Code.gs`.
+Before going live, replace `webgraha.com` everywhere if your real domain differs — one global find-and-replace across `index.html`, `about.html`, `services.html`, `portfolio.html`, `faq.html`, `contact.html`, `blog/*.html` (including `blog/index.html`), `testimonials.html`, `brand.html`, `robots.txt`, `sitemap.xml`, `llms.txt`, and `google-apps-script/Code.gs`.
 
 ---
 

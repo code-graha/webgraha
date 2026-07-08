@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Share a Testimonial — WebGraha</title>
-    <meta name="description" content="Worked with WebGraha? Share a quick testimonial about your project — it takes two minutes and helps other businesses know what to expect.">
+    <title>Portfolio — Selected Work | WebGraha</title>
+    <meta name="description" content="WebGraha's selected work: real client projects across web design and app development, from first conversation to launch.">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://webgraha.com/testimonials">
+    <link rel="canonical" href="https://webgraha.com/portfolio">
     <meta name="theme-color" content="#0a1128">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="WebGraha">
-    <meta property="og:title" content="Share a Testimonial — WebGraha">
-    <meta property="og:description" content="Worked with WebGraha? Share a quick testimonial about your project — it takes two minutes and helps other businesses know what to expect.">
-    <meta property="og:url" content="https://webgraha.com/testimonials">
+    <meta property="og:title" content="Portfolio — Selected Work | WebGraha">
+    <meta property="og:description" content="Real client projects across web design and app development, from first conversation to launch.">
+    <meta property="og:url" content="https://webgraha.com/portfolio">
     <meta property="og:image" content="https://webgraha.com/assets/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -22,8 +22,8 @@
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Share a Testimonial — WebGraha">
-    <meta name="twitter:description" content="Worked with WebGraha? Share a quick testimonial about your project — it takes two minutes and helps other businesses know what to expect.">
+    <meta name="twitter:title" content="Portfolio — Selected Work | WebGraha">
+    <meta name="twitter:description" content="Real client projects across web design and app development, from first conversation to launch.">
     <meta name="twitter:image" content="https://webgraha.com/assets/og-image.png">
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -51,10 +51,30 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "WebGraha Projects",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                    "@type": "WebSite",
+                    "name": "MTK Screws",
+                    "url": "https://mtkscrews.com",
+                    "description": "B2B manufacturer website for a 40-year-old fastener exporter — turned a dense product catalogue into a clear, trust-building sales channel.",
+                    "creator": { "@type": "Organization", "name": "WebGraha", "url": "https://webgraha.com/" }
+                }
+            }
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://webgraha.com/" },
-            { "@type": "ListItem", "position": 2, "name": "Testimonials", "item": "https://webgraha.com/testimonials" }
+            { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": "https://webgraha.com/portfolio" }
         ]
     }
     </script>
@@ -63,11 +83,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/tailwind.min.css">
     <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/testimonials.css">
+    <link rel="stylesheet" href="assets/css/portfolio.css">
 </head>
 <body class="font-sans antialiased min-h-screen w-full relative selection:bg-brand-green selection:text-white">
 
@@ -128,89 +148,60 @@
     </div>
 
     <!-- Hero -->
-    <header class="relative z-10 max-w-3xl mx-auto px-6 pt-44 pb-12 text-center overflow-hidden">
+    <header class="relative z-10 max-w-5xl mx-auto px-6 pt-44 pb-16 text-center overflow-hidden">
         <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.12] -z-0">
             <img src="assets/logo-mark.svg" alt="" class="w-64 h-64 md:w-80 md:h-80 spin-3d" loading="lazy" decoding="async">
         </div>
-        <p class="section-label mb-5 relative">Client Voices</p>
-        <h1 class="font-serif text-4xl md:text-6xl font-medium text-white tracking-tight leading-tight mb-6 relative">
-            Share your experience
+        <p class="section-label mb-5 relative">Selected Work</p>
+        <h1 class="font-serif text-5xl md:text-7xl font-medium text-white tracking-tight leading-tight mb-6 relative">
+            Portfolio
         </h1>
-        <p class="text-lg text-gray-400 font-light max-w-xl mx-auto leading-relaxed relative">
-            If we worked together on a project, we'd love to hear how it went. It takes about two minutes and genuinely helps other businesses decide whether to work with us.
+        <p class="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed relative">
+            Real projects, built end-to-end, no template shortcuts.
         </p>
     </header>
 
-    <main class="relative z-10 max-w-xl mx-auto px-6 pb-32 tilt-wrap">
+    <main class="relative z-10 max-w-5xl mx-auto px-6 pb-32 flex flex-col gap-20">
 
-        <!-- Form card -->
-        <div id="testimonial-form-card" class="glass-panel tilt-card rounded-2xl p-6 sm:p-8 reveal">
-            <form id="testimonial-form" class="flex flex-col gap-5" data-endpoint="https://script.google.com/macros/s/AKfycbzycL7PzUnD5aIElLJYmleybj6QPja5NWZaLVUukxJrFg_mmiSSQbeyhiSaLjHAW_Sc/exec">
-
-                <div class="flex flex-col gap-1.5">
-                    <label for="t-name" class="text-xs text-gray-400">Name <span class="text-brand-accent">*</span></label>
-                    <input type="text" id="t-name" name="name" placeholder="Your full name" required maxlength="120"
-                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
-                </div>
-
-                <div class="flex flex-col gap-1.5">
-                    <label for="t-role" class="text-xs text-gray-400">Company / Role</label>
-                    <input type="text" id="t-role" name="role" placeholder="e.g. Founder, Aurora Retail" maxlength="150"
-                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
-                </div>
-
-                <div class="flex flex-col gap-1.5">
-                    <label for="t-email" class="text-xs text-gray-400">Email</label>
-                    <input type="email" id="t-email" name="email" placeholder="you@company.com" maxlength="200"
-                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
-                    <span class="text-[11px] text-gray-500">Only used to verify you're a real client — never published.</span>
-                </div>
-
-                <div class="flex flex-col gap-1.5">
-                    <span class="text-xs text-gray-400">Your rating</span>
-                    <div id="rating-stars" class="flex items-center gap-1.5" role="radiogroup" aria-label="Rating out of 5 stars">
-                        <button type="button" class="rating-star" data-value="1" aria-label="1 star"><i class="fa-solid fa-star"></i></button>
-                        <button type="button" class="rating-star" data-value="2" aria-label="2 stars"><i class="fa-solid fa-star"></i></button>
-                        <button type="button" class="rating-star" data-value="3" aria-label="3 stars"><i class="fa-solid fa-star"></i></button>
-                        <button type="button" class="rating-star" data-value="4" aria-label="4 stars"><i class="fa-solid fa-star"></i></button>
-                        <button type="button" class="rating-star" data-value="5" aria-label="5 stars"><i class="fa-solid fa-star"></i></button>
+        <!-- Projects: static markup mirroring webgraha-data.json so crawlers
+             that don't run JS still see real content; data-render.js
+             replaces this with the same data (or newer, once updated) on
+             load. Keep this in sync with webgraha-data.json's "projects". -->
+        <section class="tilt-wrap">
+            <div id="projects-grid" class="grid md:grid-cols-2 gap-5">
+                <a href="https://mtkscrews.com" target="_blank" rel="noopener" class="card-hover tilt-card glass-panel rounded-2xl p-5 flex flex-col gap-3 border border-white/10 reveal">
+                    <div class="browser-frame">
+                        <div class="bf-bar">
+                            <span class="bf-dot bg-red-400/70"></span>
+                            <span class="bf-dot bg-yellow-400/70"></span>
+                            <span class="bf-dot bg-green-400/70"></span>
+                            <span class="bf-url">mtkscrews.com</span>
+                        </div>
+                        <iframe loading="lazy" title="MTK Screws preview" src="https://mtkscrews.com"></iframe>
                     </div>
-                    <input type="hidden" name="rating" id="rating-value" value="">
-                </div>
-
-                <div class="flex flex-col gap-1.5">
-                    <label for="t-quote" class="text-xs text-gray-400">Your testimonial <span class="text-brand-accent">*</span></label>
-                    <textarea id="t-quote" name="quote" rows="5" required maxlength="2000" placeholder="What was it like working with WebGraha? What result or moment stood out?"
-                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors resize-none"></textarea>
-                </div>
-
-                <label class="flex items-start gap-2.5 text-xs text-gray-400 leading-relaxed cursor-pointer">
-                    <input type="checkbox" name="publish" checked class="mt-0.5 w-3.5 h-3.5 accent-emerald-400 flex-none">
-                    You can publish my name and testimonial on the WebGraha website.
-                </label>
-
-                <p id="testimonial-error" class="hidden text-xs text-red-300 leading-relaxed"></p>
-
-                <button type="submit" id="testimonial-submit-btn"
-                    class="mt-1 bg-brand-green/80 hover:bg-brand-green disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium py-3 rounded-lg transition-colors shadow-lg">
-                    Submit Testimonial
-                </button>
-            </form>
-        </div>
-
-        <!-- Sent state -->
-        <div id="testimonial-sent-card" class="hidden glass-panel tilt-card rounded-2xl p-8 sm:p-10 text-center reveal">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-brand-green/20 border border-brand-accent/40 flex items-center justify-center">
-                <i class="fa-solid fa-check text-brand-accent text-lg"></i>
+                    <div class="flex items-center justify-between">
+                        <span class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+                        <span class="text-[11px] font-mono uppercase tracking-widest text-gray-500">Manufacturing</span>
+                    </div>
+                    <h2 class="font-serif text-lg text-white">MTK Screws</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">A B2B manufacturer site for a 40-year-old fastener exporter, turning a dense product catalogue into a clear, trust-building sales channel.</p>
+                    <span class="text-xs text-brand-accent mt-1">Visit mtkscrews.com &rarr;</span>
+                </a>
             </div>
-            <h2 class="font-serif text-xl font-semibold text-white mb-2">Thank you!</h2>
-            <p class="text-sm text-gray-400 leading-relaxed max-w-sm mx-auto">
-                We really appreciate you taking the time to share this — it means a lot, and helps other businesses know what working with us is like.
-            </p>
-            <a href="/about#testimonials" class="inline-flex items-center gap-2 text-sm text-brand-accent mt-6 hover:text-white transition-colors">
-                See other client voices <i class="fa-solid fa-arrow-right text-xs"></i>
-            </a>
-        </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="tilt-wrap">
+            <div class="glass-panel tilt-card rounded-2xl px-8 py-10 text-center reveal">
+                <h2 class="font-serif text-2xl md:text-3xl text-white mb-3">Want your site to be feature here?</h2>
+                <p class="text-gray-400 leading-relaxed max-w-lg mx-auto mb-6">
+                    Tell us what you're building — most enquiries get a response within one business day.
+                </p>
+                <a href="/contact" class="inline-flex items-center gap-2 bg-brand-green/80 hover:bg-brand-green text-white text-sm font-medium px-6 py-3 rounded-full transition-colors shadow-lg">
+                    Start a project <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </section>
 
     </main>
 
@@ -234,6 +225,5 @@
     <script src="assets/js/starfield-parallax.js" defer></script>
     <script src="assets/js/nav-mobile.js" defer></script>
     <script src="assets/js/data-render.js" defer></script>
-    <script src="assets/js/testimonial-form.js" defer></script>
 </body>
 </html>

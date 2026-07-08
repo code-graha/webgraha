@@ -8,6 +8,27 @@
             "showInWidget": true
         },
         {
+            "platform": "x",
+            "label": "X",
+            "url": "https://x.com/webgraha",
+            "icon": "fa-brands fa-x-twitter",
+            "showInWidget": true
+        },
+        {
+            "platform": "facebook",
+            "label": "Facebook",
+            "url": "https://www.facebook.com/webgraha",
+            "icon": "fa-brands fa-facebook",
+            "showInWidget": true
+        },
+        {
+            "platform": "youtube",
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@webgraha",
+            "icon": "fa-brands fa-youtube",
+            "showInWidget": true
+        },
+        {
             "platform": "whatsapp",
             "label": "WhatsApp",
             "url": "https://wa.me/917411720141?text=Hi%20WebGraha",
@@ -50,18 +71,11 @@
 
     "testimonials": [
         {
-            "quote": "WebGraha rebuilt our site in under three weeks and it actually feels premium now — not just faster. Every revision request was handled the same day.",
-            "name": "Aanya Rao",
-            "role": "Founder, Aurora Retail",
-            "initials": "AR",
-            "avatar": "/assets/logo-mark-512.png"
-        },
-        {
-            "quote": "Communication was the difference. No agency-speak, no five-person hand-off chain — just clear updates and a site that matched the brief exactly.",
-            "name": "Daniel Kim",
-            "role": "COO, Nimbus Health",
-            "initials": "DK",
-            "avatar": null
+            "quote": "WebGraha did a great job designing and developing our website. The team understood our requirements, communicated well, and delivered a clean, professional website on time. I would definitely recommend WebGraha to anyone looking for a reliable website development partner.",
+            "name": "Shray Aggarwal",
+            "role": "Managing Director",
+            "initials": "MTK",
+            "avatar": "https://mtkscrews.com/assets/mtk-logo.png"
         }
     ]
 }

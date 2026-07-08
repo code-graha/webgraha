@@ -1,5 +1,13 @@
 /* WebGraha — shared base styles (used by every page) */
 
+@font-face {
+    font-family: 'Metropolis';
+    src: url('../font/metropolis-extra-bold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
 html, body {
     margin: 0;
     padding: 0;

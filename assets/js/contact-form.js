@@ -1,36 +1,21 @@
-// WebGraha — "Start a Project" enquiry widget + form submission (index.html)
+// WebGraha — contact page form submission (contact.html)
 //
-// The Apps Script endpoint URL is read from the form's data-endpoint
-// attribute (see index.html). Until that attribute is filled in (see
-// google-apps-script/SETUP.md), the form shows an inline error instead
-// of silently failing.
+// Posts to the same Apps Script endpoint as the homepage enquiry widget
+// (see enquiry-form.js), just as an always-visible card instead of a
+// collapsible widget. No "formType" field is sent, so Code.gs routes it
+// to the default enquiry handler. The endpoint URL is read from the
+// form's data-endpoint attribute.
 (function () {
-    const collapsed    = document.getElementById('enquiry-collapsed');
-    const formWrap     = document.getElementById('enquiry-form-wrap');
-    const collapseBtn  = document.getElementById('enquiry-collapse-btn');
-    const sentEl       = document.getElementById('enquiry-sent');
-    const sentCloseBtn = document.getElementById('enquiry-sent-close');
-    const form         = document.getElementById('enquiry-form');
-    const errorEl      = document.getElementById('enquiry-error');
-    const submitBtn    = document.getElementById('enquiry-submit-btn');
+    const form      = document.getElementById('contact-form');
     if (!form) return;
 
-    const ENQUIRY_ENDPOINT = (form.getAttribute('data-endpoint') || '').trim();
+    const formCard  = document.getElementById('contact-form-card');
+    const sentCard  = document.getElementById('contact-sent-card');
+    const errorEl   = document.getElementById('contact-error');
+    const submitBtn = document.getElementById('contact-submit-btn');
+
+    const ENDPOINT = (form.getAttribute('data-endpoint') || '').trim();
     const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    collapsed.addEventListener('click', () => {
-        collapsed.classList.add('hidden');
-        formWrap.classList.remove('hidden');
-    });
-    collapseBtn.addEventListener('click', () => {
-        formWrap.classList.add('hidden');
-        collapsed.classList.remove('hidden');
-    });
-
-    sentCloseBtn.addEventListener('click', () => {
-        sentEl.classList.add('hidden');
-        collapsed.classList.remove('hidden');
-    });
 
     function showError(msg) {
         errorEl.textContent = msg;
@@ -41,7 +26,7 @@
         e.preventDefault();
         errorEl.classList.add('hidden');
 
-        if (!ENQUIRY_ENDPOINT) {
+        if (!ENDPOINT) {
             showError('Form isn’t connected yet — see google-apps-script/SETUP.md.');
             return;
         }
@@ -69,7 +54,7 @@
         submitBtn.textContent = 'Sending…';
 
         try {
-            const res = await fetch(ENQUIRY_ENDPOINT, {
+            const res = await fetch(ENDPOINT, {
                 method: 'POST',
                 // text/plain avoids a CORS preflight against the Apps Script endpoint.
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -80,25 +65,19 @@
             try {
                 data = await res.json();
             } catch (_) {
-                // Response wasn't JSON — usually means the Apps Script deployment
-                // needs to be (re-)authorized. Open the /exec URL directly in a
-                // browser tab; if Google prompts for authorization, complete it,
-                // then try the form again.
                 throw new Error('Unexpected response from server. Open the Apps Script URL in a browser tab to re-authorize, then try again.');
             }
 
-            // Server returned {ok: false, error: "..."} — show the real reason.
             if (!data.ok) {
                 showError(data.error || 'Something went wrong on our end.');
                 return;
             }
 
             form.reset();
-            formWrap.classList.add('hidden');
-            sentEl.classList.remove('hidden');
+            formCard.classList.add('hidden');
+            sentCard.classList.remove('hidden');
 
         } catch (err) {
-            // TypeError from fetch() = network/CORS failure.
             const isNetworkError = err instanceof TypeError;
             showError(
                 isNetworkError
@@ -107,7 +86,7 @@
             );
         } finally {
             submitBtn.disabled    = false;
-            submitBtn.textContent = 'Send Enquiry';
+            submitBtn.textContent = 'Send Message';
         }
     });
 })();
