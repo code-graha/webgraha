@@ -17,6 +17,7 @@
     const ratingInput = document.getElementById('rating-value');
 
     const ENDPOINT = (form.getAttribute('data-endpoint') || '').trim();
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     function paintStars(value) {
         stars.forEach((star) => {
@@ -61,6 +62,10 @@
 
         if (!payload.name || !payload.quote) {
             showError('Please add your name and a short testimonial.');
+            return;
+        }
+        if (payload.email && !EMAIL_RE.test(payload.email)) {
+            showError('That email address doesn’t look right — please double-check it or leave it blank.');
             return;
         }
 

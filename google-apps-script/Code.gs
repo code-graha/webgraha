@@ -179,7 +179,7 @@ function buildEmailHtml(timestamp, name, email, message) {
           '<img src="' + LOGO_URL + '" width="40" height="40" alt="' + SITE_NAME + '" style="display:block;border-radius:50%;border:1px solid rgba(110,231,183,0.25);">' +
         '</td>' +
         '<td style="vertical-align:middle;">' +
-          '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:22px;font-weight:600;color:#ffffff;letter-spacing:0.5px;">' + SITE_NAME + '</span>' +
+          '<span style="font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:800;color:#ffffff;letter-spacing:0.3px;">' + SITE_NAME + '</span>' +
         '</td>' +
       '</tr></table>' +
     '</td></tr>' +
@@ -194,7 +194,7 @@ function buildEmailHtml(timestamp, name, email, message) {
       '<p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#6ee7b7;">New Project Enquiry</p>' +
 
       /* heading */
-      '<h1 style="margin:0 0 24px;font-family:Georgia,\'Times New Roman\',serif;font-size:26px;font-weight:600;color:#f8fafc;line-height:1.25;">' +
+      '<h1 style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:800;color:#f8fafc;line-height:1.25;">' +
         escapeHtml(name) + ' wants to talk' +
       '</h1>' +
 
@@ -289,7 +289,7 @@ function buildTestimonialEmailHtml(timestamp, name, role, email, rating, quote, 
           '<img src="' + LOGO_URL + '" width="40" height="40" alt="' + SITE_NAME + '" style="display:block;border-radius:50%;border:1px solid rgba(110,231,183,0.25);">' +
         '</td>' +
         '<td style="vertical-align:middle;">' +
-          '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:22px;font-weight:600;color:#ffffff;letter-spacing:0.5px;">' + SITE_NAME + '</span>' +
+          '<span style="font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:800;color:#ffffff;letter-spacing:0.3px;">' + SITE_NAME + '</span>' +
         '</td>' +
       '</tr></table>' +
     '</td></tr>' +
@@ -304,7 +304,7 @@ function buildTestimonialEmailHtml(timestamp, name, role, email, rating, quote, 
       '<p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#6ee7b7;">New Testimonial</p>' +
 
       /* heading */
-      '<h1 style="margin:0 0 24px;font-family:Georgia,\'Times New Roman\',serif;font-size:26px;font-weight:600;color:#f8fafc;line-height:1.25;">' +
+      '<h1 style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:800;color:#f8fafc;line-height:1.25;">' +
         escapeHtml(name) + ' left a testimonial' +
       '</h1>' +
 
@@ -336,7 +336,7 @@ function buildTestimonialEmailHtml(timestamp, name, role, email, rating, quote, 
 
       /* testimonial */
       '<p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#64748b;">Testimonial</p>' +
-      '<div style="margin:0 0 8px;font-family:Georgia,\'Times New Roman\',serif;font-style:italic;font-size:15px;line-height:1.7;color:#cbd5e1;background-color:#0a1128;border:1px solid rgba(255,255,255,0.07);border-left:3px solid #6ee7b7;border-radius:0 12px 12px 0;padding:16px 18px;">' +
+      '<div style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-style:italic;font-size:15px;line-height:1.7;color:#cbd5e1;background-color:#0a1128;border:1px solid rgba(255,255,255,0.07);border-left:3px solid #6ee7b7;border-radius:0 12px 12px 0;padding:16px 18px;">' +
         '&ldquo;' + escapeHtml(quote).replace(/\n/g, '<br>') + '&rdquo;' +
       '</div>' +
 

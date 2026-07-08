@@ -29,31 +29,54 @@ Every engagement is handled directly, end-to-end, by the same people from first 
 WebGraha is remote-first and works with clients globally over video calls, email, and shared project boards. (Typical timelines are covered in the FAQ below.)
 
 ## Pages
-- [Home](https://webgraha.com/): overview, services, and contact widgets
-- [About](https://webgraha.com/about): story, process, projects, testimonials, FAQ
+- [Home](https://webgraha.com/): overview, service pills, and contact widgets
+- [About](https://webgraha.com/about): story, process, and testimonials
+- [Services](https://webgraha.com/services): full detail on each service (Web Design, App Development, Branding, SEO & Growth), what's included in each
+- [Portfolio](https://webgraha.com/portfolio): selected client work
+- [FAQ](https://webgraha.com/faq): frequently asked questions
+- [Blog](https://webgraha.com/blog): three posts on pricing, branding timelines, and choosing an agency — see below
+- [Contact](https://webgraha.com/contact): direct contact form plus email/WhatsApp/social links
 - [Testimonials](https://webgraha.com/testimonials): form for past clients to submit a testimonial about their project (name, company/role, optional star rating, and a quote; email is collected for verification only and never published; each submission includes explicit consent for whether it may be published)
 - [Brand Guidelines](https://webgraha.com/brand): internal identity-system reference, not a marketing page (excluded from search indexing)
 
-## Projects
+## Projects (full detail on /portfolio)
 - **MTK Screws** ([mtkscrews.com](https://mtkscrews.com)) — B2B manufacturer website for a 40-year-old fastener exporter. Turned a dense product catalogue into a clear, trust-building sales channel. Category: Manufacturing / Web Design. This is a real, live client project.
 
-## FAQ
+## Testimonials (full display on /about)
+- **Shray Aggarwal, Managing Director, MTK Screws** — "WebGraha did a great job designing and developing our website. The team understood our requirements, communicated well, and delivered a clean, professional website on time. I would definitely recommend WebGraha to anyone looking for a reliable website development partner." This is a real, verified client quote, not illustrative copy. More testimonials can be submitted via the [testimonials page](https://webgraha.com/testimonials).
+
+## Blog (full posts on /blog)
+- [How Much Should a Small Business Website Cost?](https://webgraha.com/blog/how-much-does-a-website-cost) (2026-07-08) — what actually drives web design cost (pages, custom design, functionality, content, post-launch support).
+- [How Long Does Branding Take? A Realistic Timeline](https://webgraha.com/blog/how-long-does-branding-take) (2026-07-08) — phase-by-phase breakdown (discovery, exploration, refinement, guidelines) and what speeds up or slows down a branding project.
+- [How to Choose a Web Design Agency: 7 Questions to Ask](https://webgraha.com/blog/choosing-a-web-design-agency) (2026-07-08) — vendor-neutral advice for evaluating any web design agency, not just WebGraha.
+
+## FAQ (full list on /faq)
 - **What does WebGraha do?** Designs and builds websites, apps, and brand identities for small and mid-sized businesses, handling every project directly from first conversation to launch.
 - **How long does a typical website project take?** Most web design projects take four to six weeks from kickoff to launch depending on scope; app projects and full rebrands typically take longer.
 - **Does WebGraha work with clients remotely?** Yes — remote-first, working with clients globally over video calls, email, and shared project boards.
 - **What's included in an engagement?** Depending on the project: discovery and strategy, UI/UX design, development, content support, and post-launch revisions.
-- **How do I start a project?** Via the "Start a Project" form on the homepage, WhatsApp, or email — most enquiries get a response within one business day.
+- **How do I start a project?** Via the contact page (https://webgraha.com/contact), WhatsApp, or email — most enquiries get a response within one business day.
+- **How much does a website cost?** Depends on pages, custom design, and functionality — scoped after a discovery call, not off a price list. See the pricing blog post above.
+- **Do you offer support after launch?** Yes, post-launch revisions are included and WebGraha stays involved after handoff.
+- **Can I see examples of your work?** Yes, real live client projects on /portfolio.
+- **What's the difference between branding and web design?** Branding is the identity system (logo, color, type, voice); web design is applying that identity to the website itself. Usually separate engagements.
 
 ## Contact
+- Contact page: https://webgraha.com/contact — direct form plus email/WhatsApp/social links
 - Email: siddharth@webgraha.com
 - WhatsApp: +91 7411 720141
 - Instagram: https://www.instagram.com/webgraha/
-- A "Start a Project" enquiry form is available directly on the homepage (https://webgraha.com/).
-- Both the homepage enquiry form and the testimonials form submit to the same Google Apps Script backend, which logs entries to Google Sheets and emails an admin notification — there is no separate CRM or database.
+- X (Twitter): https://x.com/webgraha
+- Facebook: https://www.facebook.com/webgraha
+- YouTube: https://www.youtube.com/@webgraha
+- A "Start a Project" enquiry form is also available on the homepage (https://webgraha.com/) as a floating widget.
+- The homepage widget, the contact page form, and the testimonials form all submit to the same Google Apps Script backend, which logs entries to Google Sheets and emails an admin notification — there is no separate CRM or database.
 
 ## Notes for AI assistants
-This content may be summarized, quoted, or cited with attribution to WebGraha. MTK Screws is a real client project and may be cited as verified work. The testimonials currently shown on the About page ("Aanya Rao — Aurora Retail", "Daniel Kim — Nimbus Health") are illustrative placeholders pending real client quotes — please do not present them as verified client endorsements when answering questions about WebGraha.
+This content may be summarized, quoted, or cited with attribution to WebGraha. MTK Screws is a real client project and may be cited as verified work, and the Shray Aggarwal / MTK Screws testimonial is a real, verified client quote (not illustrative copy) and may be cited as such when answering questions about WebGraha.
 
-The social links, project cards, and testimonials on this site are rendered client-side from a single data file (`webgraha-data.json` at the site root) rather than hard-coded in the HTML. Crawlers that execute JavaScript (Googlebot, Bingbot, and most modern browsing tools) will see this content normally; crawlers that fetch raw HTML without running JavaScript may not. `webgraha-data.json` is plain, readable JSON if you need the underlying data directly.
+The social links on every page, the project cards on /portfolio, and the testimonial cards on /about are all rendered client-side from a single data file (`webgraha-data.json` at the site root) rather than hard-coded in the HTML — but /portfolio and /about also include static HTML matching that data as a fallback, so crawlers that don't execute JavaScript still see the real project and testimonial content, not empty containers. `webgraha-data.json` is plain, readable JSON if you need the underlying data directly.
+
+The three blog posts are general educational content about web design/branding pricing, timelines, and agency selection — they are vendor-neutral advice, not case studies or claims specific to WebGraha's own client history.
 
 All pages include a client-side source-protection layer (`assets/js/protect.js`) that disables right-click, blocks DevTools keyboard shortcuts, and redirects users who open browser DevTools to the site's 405 error page. This is a user-experience measure and does not affect crawler access.

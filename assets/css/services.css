@@ -1,0 +1,21 @@
+/* WebGraha — services.html specific styles */
+
+html, body {
+    min-height: 100%;
+    background-color: #0a1128;
+    background-image: radial-gradient(circle at 50% 0%, #1c2c5c 0%, #131f45 38%, #0d1733 70%, #0a1128 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overscroll-behavior-y: none;
+}
+
+#starfield {
+    transition: transform 0.25s ease-out;
+}
+
+/* .tilt-wrap, .tilt-card, .reveal, .spin-3d are shared in base.css */
+
+@media (max-width: 639px) {
+    body { overflow-x: hidden; }
+}

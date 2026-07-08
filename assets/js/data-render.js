@@ -7,7 +7,9 @@
 // folder over any local HTTP server (e.g. `python -m http.server`) for
 // this to work — see SEO-Plan.md.
 (function () {
-    const DATA_URL = 'webgraha-data.json';
+    // Absolute path so this still resolves correctly from pages nested
+    // under /blog/, not just root-level pages.
+    const DATA_URL = '/webgraha-data.json';
 
     function escapeHtml(value) {
         return (value || '').toString()
@@ -16,6 +18,15 @@
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;');
     }
+
+    // The vendored Font Awesome build predates the X rebrand and has no
+    // fa-x-twitter glyph (only the old bird), so the X logo is inlined here
+    // instead — official mark, inherits size/color via currentColor/1em
+    // exactly like the fa-* icons next to it.
+    const X_LOGO_SVG = '<svg viewBox="0 0 1200 1227" width="1em" height="1em" fill="currentColor" ' +
+        'aria-hidden="true" style="display:inline-block;vertical-align:-0.125em;">' +
+        '<path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"/>' +
+        '</svg>';
 
     function renderSocialLinks(containers, social) {
         if (!containers.length) return;
@@ -26,7 +37,8 @@
             container.innerHTML = items.map((item) => {
                 const isMail = /^mailto:/i.test(item.url);
                 const targetAttrs = isMail ? '' : ' target="_blank" rel="noopener"';
-                return '<a href="' + escapeHtml(item.url) + '"' + targetAttrs + ' class="' + hoverClass + ' transition-colors" aria-label="' + escapeHtml(item.label) + '"><i class="' + item.icon + '"></i></a>';
+                const iconMarkup = item.platform === 'x' ? X_LOGO_SVG : '<i class="' + item.icon + '"></i>';
+                return '<a href="' + escapeHtml(item.url) + '"' + targetAttrs + ' class="' + hoverClass + ' transition-colors" aria-label="' + escapeHtml(item.label) + '">' + iconMarkup + '</a>';
             }).join('');
         });
     }

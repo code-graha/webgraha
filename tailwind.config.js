@@ -2,7 +2,7 @@
 // Rebuild command after adding new utility classes anywhere in *.html or assets/js/**/*.js:
 //   npx tailwindcss -i assets/css/tailwind-src.css -o assets/css/tailwind.min.css --minify
 module.exports = {
-    content: ['./*.html', './assets/js/**/*.js'],
+    content: ['./*.html', './blog/*.html', './assets/js/**/*.js'],
     theme: {
         extend: {
             colors: {
@@ -17,7 +17,7 @@ module.exports = {
                 }
             },
             fontFamily: {
-                serif: ['"Playfair Display"', 'serif'],
+                serif: ['Metropolis', '"Playfair Display"', 'serif'],
                 sans: ['Inter', 'sans-serif'],
                 mono: ['"JetBrains Mono"', 'monospace'],
             },
