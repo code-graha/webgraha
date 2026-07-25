@@ -35,6 +35,14 @@
   }
   a-scene { width: 100%; height: 100%; }
 
+  /* MindAR's own DOM video is left running for tracking input only — the
+     camera-video-backdrop component (see the script below) renders the feed
+     as a texture inside the WebGL canvas instead, so this native layer never
+     needs to be visually composited by the browser. Hidden unconditionally
+     (not just on devices where that compositing is known to fail) so the
+     visible result is identical everywhere. */
+  body > video { opacity: 0 !important; }
+
   /* Boot panel: NEVER an opaque full-screen background, even while showing —
      only a small floating toast near the bottom, so a slow/stuck hide
      transition can never black out a camera feed that's actually working.
@@ -139,6 +147,7 @@
 <a-scene
   mindar-image="imageTargetSrc: ./targets.mind; autoStart: true; uiScanning: false;"
   pinch-zoom
+  camera-video-backdrop
   color-space="sRGB"
   renderer="colorManagement: true, physicallyCorrectLights"
   xr-mode-ui="enabled: false"
@@ -318,6 +327,71 @@
       if (progress >= 1) {
         this.done = true;
         this.el.emit('arc-complete');
+      }
+    }
+  });
+
+  // Renders the camera feed as a video texture on a plane parented to the
+  // camera, entirely inside the WebGL canvas, instead of relying on MindAR's
+  // own separate DOM <video> + transparent-canvas-overlay technique. That
+  // technique requires the browser's compositor to merge two independently
+  // rendered surfaces (the video's own decode surface and the WebGL canvas),
+  // which is a known-buggy path on some Android GPU/driver combinations
+  // (crbug.com/1455752, crbug.com/1156408) — camera feed never appears even
+  // though tracking and video acquisition both work fine. Compositing the
+  // video INTO the WebGL scene as a plane sidesteps that step entirely: the
+  // whole frame (video + 3D content) renders through one draw call. MindAR's
+  // own video element is left running (hidden via CSS) purely as the input
+  // its tracking Controller reads — this component doesn't touch tracking.
+  AFRAME.registerComponent('camera-video-backdrop', {
+    init: function () {
+      this.plane = null;
+      this.texture = null;
+    },
+    tick: function () {
+      const sceneEl = this.el.sceneEl;
+      const mindarSystem = sceneEl.systems['mindar-image-system'];
+      const video = mindarSystem && mindarSystem.video;
+      if (!video || !video.videoWidth || !sceneEl.camera) return;
+
+      const camera = sceneEl.camera;
+
+      if (!this.plane) {
+        this.texture = new AFRAME.THREE.VideoTexture(video);
+        if ('colorSpace' in this.texture) this.texture.colorSpace = AFRAME.THREE.SRGBColorSpace;
+        const material = new AFRAME.THREE.MeshBasicMaterial({
+          map: this.texture, depthTest: false, depthWrite: false, toneMapped: false
+        });
+        this.plane = new AFRAME.THREE.Mesh(new AFRAME.THREE.PlaneGeometry(1, 1), material);
+        this.plane.renderOrder = -1000;
+        this.plane.frustumCulled = false;
+        camera.add(this.plane);
+      }
+
+      // Size the plane to exactly fill the frustum at a fixed distance in
+      // front of the camera, recomputed every frame since MindAR itself
+      // continuously adjusts camera.fov/aspect to match tracked device
+      // camera intrinsics (see its own _resize()).
+      const distance = (camera.near || 0.01) + 0.5;
+      const vFov = AFRAME.THREE.MathUtils.degToRad(camera.fov);
+      const planeHeight = 2 * Math.tan(vFov / 2) * distance;
+      const planeWidth = planeHeight * camera.aspect;
+      this.plane.scale.set(planeWidth, planeHeight, 1);
+      this.plane.position.set(0, 0, -distance);
+
+      // "cover" crop: compare video aspect to viewport aspect and crop the
+      // texture via repeat/offset, matching CSS object-fit:cover semantics
+      // (mirrors what MindAR's own _resize() does for its own DOM video).
+      const videoAspect = video.videoWidth / video.videoHeight;
+      const viewAspect = camera.aspect;
+      if (videoAspect > viewAspect) {
+        const scaleX = viewAspect / videoAspect;
+        this.texture.repeat.set(scaleX, 1);
+        this.texture.offset.set((1 - scaleX) / 2, 0);
+      } else {
+        const scaleY = videoAspect / viewAspect;
+        this.texture.repeat.set(1, scaleY);
+        this.texture.offset.set(0, (1 - scaleY) / 2);
       }
     }
   });
