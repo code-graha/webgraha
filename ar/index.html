@@ -118,11 +118,17 @@
   <div class="bracket br"></div>
 </div>
 
+<!-- renderer's comma here is deliberate, not a typo: A-Frame's attribute parser
+     splits on `;` only, so `physicallyCorrectLights` never becomes its own
+     property this way and silently stays at its schema default. Verified
+     working camera passthrough on real Android hardware used this exact
+     string; switching to the "correct" `; physicallyCorrectLights: true`
+     form reproducibly broke it. Leave as-is. -->
 <a-scene
   mindar-image="imageTargetSrc: ./targets.mind; autoStart: true; uiScanning: false;"
   pinch-zoom
   color-space="sRGB"
-  renderer="colorManagement: true; physicallyCorrectLights: true"
+  renderer="colorManagement: true, physicallyCorrectLights"
   xr-mode-ui="enabled: false"
   device-orientation-permission-ui="enabled: true"
 >
@@ -151,17 +157,23 @@
         animation="property: scale; dir: alternate; loop: true; dur: 1900; to: 1.07 1.07 1.07; easing: easeInOutSine">
       </a-image>
 
-      <!-- Earth sits at the composition's own center; Moon stays parked beside it -->
+      <!-- Earth sits at the composition's own center; Moon stays parked beside it.
+           Sizes/materials/timing match index-old.html's earth+moon. The sway
+           itself intentionally does NOT reuse index-old.html's rotate-the-pivot
+           approach: rotating a Y-offset-only point around Y barely moves it
+           (second-order cosine) and mostly shifts depth instead, so old's moon
+           swing was nearly invisible face-on. pendulum-sway animates position
+           directly for guaranteed, camera-angle-independent visible motion. -->
       <a-entity id="globe-system" position="0 0 0">
-        <a-sphere id="earth-body" radius="0.22" segments-height="46" segments-width="46"
-          material="shader: standard; src: #tex-earth; roughness: 0.72; metalness: 0.06"
-          animation="property: rotation; to: 0 360 0; dur: 30000; easing: linear; loop: true">
+        <a-sphere id="earth-body" radius="0.2" segments-height="48" segments-width="48"
+          material="shader: standard; src: #tex-earth; roughness: 0.75; metalness: 0.08"
+          animation="property: rotation; to: 0 360 0; dur: 26000; easing: linear; loop: true">
         </a-sphere>
 
-        <a-entity id="moon-pivot" pendulum-sway="amplitude: 0.09; period: 3400">
-          <a-sphere id="moon-body" radius="0.055" position="-0.44 0.015 0"
-            material="shader: standard; color: #c3cad6; roughness: 0.85; metalness: 0.05"
-            animation="property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true">
+        <a-entity id="moon-pivot" pendulum-sway="amplitude: 0.09; period: 3200">
+          <a-sphere id="moon-body" radius="0.05" position="-0.4 0.02 0"
+            material="shader: standard; color: #b9c2cf; roughness: 0.9; metalness: 0.05"
+            animation="property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true">
           </a-sphere>
         </a-entity>
       </a-entity>
@@ -421,6 +433,9 @@
     return canvas.toDataURL('image/png');
   }
 
+  // Populated by renderLinkRow, read by the native-touch fallback below.
+  const hotspotRegistry = [];
+
   function renderLinkRow() {
     const row = document.getElementById('link-row');
     const xs = [-0.6, -0.2, 0.2, 0.6];
@@ -442,6 +457,10 @@
       chip.addEventListener('mouseleave', function () {
         chip.setAttribute('animation__hover', 'property: scale; to: 1 1 1; dur: 140');
       });
+      // Handles real mouse clicks (desktop) and any synthetic click the
+      // browser still produces after a tap. touchOpenOnHit below intercepts
+      // taps earlier and calls preventDefault to stop that synthesis when it
+      // successfully opens a link itself, so this normally won't double-fire.
       chip.addEventListener('click', function () {
         window.open(def.url, '_blank', 'noopener');
       });
@@ -456,7 +475,41 @@
       holder.appendChild(chip);
       holder.appendChild(caption);
       row.appendChild(holder);
+
+      hotspotRegistry.push({ object3D: chip.object3D, url: def.url });
     });
+  }
+
+  // Mobile popup blockers generally only allow window.open() inside the
+  // ORIGINAL trusted event handler chain. A-Frame's cursor component detects
+  // taps via its own tick()-driven raycaster and re-dispatches a synthetic
+  // 'click' event, which some mobile browsers no longer treat as a trusted
+  // user gesture — window.open() silently gets blocked with no visible
+  // feedback. This raycasts manually inside the native touchend handler
+  // itself (still the original trusted gesture) as a more reliable path,
+  // and prevents the browser's own synthetic click from double-opening.
+  function initTouchOpenFallback(scene, camera) {
+    const raycaster = new AFRAME.THREE.Raycaster();
+    const ndc = new AFRAME.THREE.Vector2();
+
+    scene.canvas.addEventListener('touchend', function (evt) {
+      if (evt.changedTouches.length !== 1) return;
+      const touch = evt.changedTouches[0];
+      const rect = scene.canvas.getBoundingClientRect();
+      ndc.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+      ndc.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(ndc, camera);
+      const targets = hotspotRegistry.map(function (h) { return h.object3D; });
+      const hits = raycaster.intersectObjects(targets, false);
+      if (hits.length === 0) return;
+
+      const hitEntry = hotspotRegistry.find(function (h) { return h.object3D === hits[0].object; });
+      if (!hitEntry) return;
+
+      evt.preventDefault();
+      window.open(hitEntry.url, '_blank', 'noopener');
+    }, { passive: false });
   }
 
   /* ---------- Shooting stars ---------- */
@@ -550,6 +603,7 @@
     cometStreakTexture = makeCometStreakTexture();
     renderLinkRow();
     startCometLoop();
+    initTouchOpenFallback(scene, scene.camera);
   });
 })();
 </script>
