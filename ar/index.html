@@ -49,8 +49,8 @@
 <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
 <script>
-  // Registered here (before the <a-scene> below is parsed) so both components
-  // are recognized the moment their entities initialize.
+  // Registered here (before the <a-scene> below is parsed) so it's recognized
+  // the moment #ar-content initializes.
   // Pinch-to-zoom: two-finger pinch multiplies this factor, which distance-scale
   // below folds into its own auto-scale. Read/written from the bottom script too.
   window.arZoomFactor = 1;
@@ -70,22 +70,6 @@
       const auto = Math.min(Math.max(dist * this.data.factor, this.data.min), this.data.max);
       const scale = auto * window.arZoomFactor;
       this.el.object3D.scale.set(scale, scale, scale);
-    }
-  });
-
-  // Lets the full-screen space backdrop render behind everything else
-  // regardless of its actual distance from the camera (skybox-style).
-  AFRAME.registerComponent('no-depth', {
-    init: function () {
-      const apply = () => {
-        const mesh = this.el.getObject3D('mesh');
-        if (!mesh || !mesh.material) return;
-        mesh.renderOrder = -1;
-        mesh.material.depthTest = false;
-        mesh.material.depthWrite = false;
-      };
-      this.el.addEventListener('object3dset', apply);
-      apply();
     }
   });
 </script>
@@ -156,19 +140,10 @@
     <img id="logo-full-tex" src="../assets/logo-full.svg" crossorigin="anonymous">
     <img id="mark-tex" src="../assets/logo-mark.svg" crossorigin="anonymous">
     <img id="linktree-tex" src="../assets/logo-linktree.svg" crossorigin="anonymous">
-    <img id="space-bg-tex" src="../assets/social-banners/webgraha-space-bg-3x4.svg" crossorigin="anonymous">
   </a-assets>
 
   <a-camera id="camera" position="0 0 0" look-controls="enabled: false"
-    cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .ar-link; far: 30">
-
-    <!-- Full-screen space backdrop, fixed to the camera (not the marker) so it always
-         fills the viewport; no-depth keeps it from ever occluding the AR content in front of it.
-         Hidden until the card is tracked — only the raw camera feed shows while searching. -->
-    <a-plane id="space-backdrop" no-depth visible="false" src="#space-bg-tex" position="0 0 -1.6" width="4.4" height="5.87"
-      material="shader: flat; transparent: true; opacity: 0; alphaTest: 0.02">
-    </a-plane>
-  </a-camera>
+    cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .ar-link; far: 30"></a-camera>
 
   <!-- index 0 = the compiled target (your QR card) -->
   <a-entity id="target" mindar-image-target="targetIndex: 0">
@@ -213,22 +188,12 @@
   const scene = document.querySelector('a-scene');
   const loading = document.getElementById('loading');
   const viewfinder = document.getElementById('viewfinder');
-  const backdrop = document.getElementById('space-backdrop');
 
   scene.addEventListener('renderstart', () => loading.classList.add('hidden'));
 
   const targetEl = document.getElementById('target');
-  // While still searching, show the raw camera feed only — no space backdrop.
-  // It fades in once the card is actually tracked.
-  targetEl.addEventListener('targetFound', () => {
-    viewfinder.classList.add('hidden');
-    backdrop.setAttribute('visible', 'true');
-    backdrop.setAttribute('animation__reveal', 'property: material.opacity; from: 0; to: 0.35; dur: 400; easing: easeOutQuad');
-  });
-  targetEl.addEventListener('targetLost', () => {
-    viewfinder.classList.remove('hidden');
-    backdrop.setAttribute('visible', 'false');
-  });
+  targetEl.addEventListener('targetFound', () => viewfinder.classList.add('hidden'));
+  targetEl.addEventListener('targetLost', () => viewfinder.classList.remove('hidden'));
 
   // Pinch-to-zoom: two-finger pinch scales window.arZoomFactor, which the
   // distance-scale component (registered in <head>) multiplies into its own
@@ -341,29 +306,45 @@
 
   const cometTexture = makeCometTexture();
 
+  // Earth's center in ar-content's local space (must match #earth-system's position).
+  const EARTH_CENTER = { x: 0, y: 0.3, z: 0 };
+
   function spawnComet(group) {
+    // A comet is a streak sitting at a fixed radius on a pivot centered on the
+    // Earth; animating the pivot's rotation sweeps the streak in an arc that
+    // passes around the globe, instead of flying straight across the screen.
+    const pivot = document.createElement('a-entity');
+    pivot.setAttribute('position', EARTH_CENTER.x + ' ' + EARTH_CENTER.y + ' ' + EARTH_CENTER.z);
+
+    const tiltX = -35 + Math.random() * 70;
+    const tiltZ = -25 + Math.random() * 50;
+    const startAngle = Math.random() * 360;
+    const sweep = (Math.random() < 0.5 ? 1 : -1) * (140 + Math.random() * 110);
+    const dur = 900 + Math.random() * 600;
+
     const comet = document.createElement('a-entity');
-    const y = 0.15 + Math.random() * 0.55;
-    const startX = -0.8, endX = 0.8;
-    const z = -0.05 - Math.random() * 0.2;
-    const len = 0.18 + Math.random() * 0.16;
-    const dur = 650 + Math.random() * 500;
-    const angle = -(10 + Math.random() * 16);
-    comet.setAttribute('geometry', 'primitive: plane; width: ' + len.toFixed(3) + '; height: 0.024');
+    const radius = 0.34 + Math.random() * 0.16;
+    const len = 0.16 + Math.random() * 0.12;
+    comet.setAttribute('geometry', 'primitive: plane; width: ' + len.toFixed(3) + '; height: 0.022');
     comet.setAttribute('material', 'shader: flat; src: ' + cometTexture + '; transparent: true; opacity: 0; alphaTest: 0.02');
-    comet.setAttribute('rotation', '0 0 ' + angle.toFixed(1));
-    comet.setAttribute('position', startX + ' ' + y.toFixed(3) + ' ' + z.toFixed(3));
+    // Tangential to the orbit at spawn, so the streak trails behind its own motion.
+    comet.setAttribute('rotation', '0 0 90');
+    comet.setAttribute('position', radius.toFixed(3) + ' 0 0');
     comet.setAttribute('scale', '0.5 0.5 0.5');
-    comet.setAttribute('animation__move',
-      'property: position; from: ' + startX + ' ' + y.toFixed(3) + ' ' + z.toFixed(3) +
-      '; to: ' + endX + ' ' + (y - 0.24).toFixed(3) + ' ' + z.toFixed(3) +
-      '; dur: ' + dur.toFixed(0) + '; easing: easeOutQuad');
     comet.setAttribute('animation__grow',
       'property: scale; from: 0.5 0.5 0.5; to: 1 1 1; dur: ' + (dur * 0.3).toFixed(0) + '; easing: easeOutQuad');
     comet.setAttribute('animation__fade',
       'property: material.opacity; from: 0; to: 0.95; dir: alternate; dur: ' + (dur * 0.4).toFixed(0) + '; loop: 1');
-    group.appendChild(comet);
-    setTimeout(() => comet.remove(), dur + 150);
+    pivot.appendChild(comet);
+
+    pivot.setAttribute('rotation', tiltX.toFixed(1) + ' ' + startAngle.toFixed(1) + ' ' + tiltZ.toFixed(1));
+    pivot.setAttribute('animation__orbit',
+      'property: rotation; from: ' + tiltX.toFixed(1) + ' ' + startAngle.toFixed(1) + ' ' + tiltZ.toFixed(1) +
+      '; to: ' + tiltX.toFixed(1) + ' ' + (startAngle + sweep).toFixed(1) + ' ' + tiltZ.toFixed(1) +
+      '; dur: ' + dur.toFixed(0) + '; easing: easeOutQuad');
+
+    group.appendChild(pivot);
+    setTimeout(() => pivot.remove(), dur + 150);
   }
 
   function loopComets() {
@@ -375,10 +356,17 @@
 
   function buildIcons() {
     const group = document.getElementById('icon-group');
-    const xs = [-0.62, -0.205, 0.205, 0.62];
+    // 2x2 grid (matches ar/preview-cards.html): Website/WhatsApp on top,
+    // Email/Linktree below, with generous gutters so cards never touch.
+    const cols = [-0.16, 0.16];
+    const rows = [-0.62, -1.0];
+    const positions = [
+      [cols[0], rows[0]], [cols[1], rows[0]],
+      [cols[0], rows[1]], [cols[1], rows[1]],
+    ];
     LINKS.forEach((item, i) => {
       const wrap = document.createElement('a-entity');
-      wrap.setAttribute('position', xs[i] + ' -0.72 0.04');
+      wrap.setAttribute('position', positions[i][0] + ' ' + positions[i][1] + ' 0.04');
       wrap.setAttribute('look-at', '#camera');
 
       const chip = document.createElement('a-entity');
