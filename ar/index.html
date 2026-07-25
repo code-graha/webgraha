@@ -85,6 +85,16 @@
     text-shadow: 0 1px 6px rgba(0,0,0,0.65);
   }
 
+  /* Temporary: visible build marker so we can confirm a deployed copy is
+     actually the version being tested, not a stale cached one. Remove once
+     the AR page is stable. */
+  #build-tag {
+    position: fixed; top: 6px; left: 8px; z-index: 950;
+    font-family: monospace; font-size: 10px; color: rgba(255,255,255,0.5);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+    pointer-events: none;
+  }
+
   /* Belt-and-suspenders: A-Frame's own enter-VR/AR affordance has no place on
      this page (it would hijack our camera+raycaster setup) and xr-mode-ui's
      `enabled: false` above should already remove it, but force it out of the
@@ -103,6 +113,8 @@
 <body>
 
 <noscript>This page needs JavaScript and camera access to show the AR card.</noscript>
+
+<div id="build-tag">build 2026-07-26-1</div>
 
 <div id="boot-panel">
   <img class="boot-mark" src="../assets/logo-full.svg" alt="WebGraha">
