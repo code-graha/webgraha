@@ -1,185 +1,159 @@
-<!--
-  AR LINK CARD — MARKER-TRACKED, WEBGRAHA BRAND
-  ================================================
-  Point a phone camera at your printed QR poster / business card and a
-  centered, rotating Earth with the Moon parked beside it (WebGraha logo
-  as a header above), shooting stars orbiting the globe, and four clickable
-  brand icons (Website, WhatsApp, Email, Linktree) appear in real space.
-
-  SETUP FOR www.webgraha.com/ar/
-  ================================
-  This file is already named index.html and belongs inside a folder called
-  "ar" at the root of your hosting — so the live URL becomes:
-      https://www.webgraha.com/ar/
-
-  1. Export your poster QR code as a PNG named exactly: qr-target.png
-     Higher contrast / higher resolution tracks better — 512x512px minimum.
-  2. Go to the MindAR image target compiler:
-     https://hiukim.github.io/mind-ar-js-doc/tools/compile
-     Upload qr-target.png → download the file it generates: "targets.mind"
-  3. Put BOTH qr-target.png and targets.mind in this same "ar" folder,
-     right next to this index.html file.
-  4. In cPanel → File Manager, upload the whole "ar" folder into
-     public_html/ (so the final path is public_html/ar/index.html).
-     Or drag-and-drop the same 3 files via FTP into public_html/ar/.
-  5. Visit https://www.webgraha.com/ar/ on your phone to confirm it loads
-     over HTTPS and asks for camera permission.
-  6. Generate your final poster QR code so it encodes this exact URL:
-     https://www.webgraha.com/ar/
-     (the printed QR both IS the tracking image in step 1, AND links here)
-  7. Print the poster, point a phone camera at the printed QR — Earth, the
-     Moon, and the four link icons should appear hovering above it.
-
-  Card links are already filled in with your real WebGraha details below.
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="description" content="Point your camera at the WebGraha card to bring it to life in AR.">
+<meta name="robots" content="noindex">
 <title>WebGraha — AR Card</title>
 
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/vendor/fontawesome/css/all.min.css">
-<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
-<script>
-  // Registered here (before the <a-scene> below is parsed) so it's recognized
-  // the moment #ar-content initializes.
-  // Pinch-to-zoom: two-finger pinch multiplies this factor, which distance-scale
-  // below folds into its own auto-scale. Read/written from the bottom script too.
-  window.arZoomFactor = 1;
-
-  AFRAME.registerComponent('distance-scale', {
-    schema: { min: { default: 0.85 }, max: { default: 2.4 }, factor: { default: 1 } },
-    init: function () {
-      this.camera = document.getElementById('camera');
-      this.worldPos = new AFRAME.THREE.Vector3();
-      this.camPos = new AFRAME.THREE.Vector3();
-    },
-    tick: function () {
-      if (!this.camera || !this.camera.object3D) return;
-      this.el.object3D.getWorldPosition(this.worldPos);
-      this.camera.object3D.getWorldPosition(this.camPos);
-      const dist = this.worldPos.distanceTo(this.camPos);
-      const auto = Math.min(Math.max(dist * this.data.factor, this.data.min), this.data.max);
-      const scale = auto * window.arZoomFactor;
-      this.el.object3D.scale.set(scale, scale, scale);
-    }
-  });
-</script>
-
 <style>
-  html, body { margin:0; height:100%; overflow:hidden; font-family:'Inter',-apple-system,sans-serif; background:#000; }
-  a-scene { width:100%; height:100%; }
-
-  #loading {
-    position:fixed; inset:0; z-index:999;
-    display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
-    gap:14px; padding:0 32px 48px;
-    background:transparent;
-    color:#fff; text-align:center;
-    pointer-events:none;
-    transition:opacity .5s ease, visibility .5s ease;
+  :root {
+    --wg-navy-deep: #0a1128;
+    --wg-navy-mid: #131f45;
+    --wg-navy: #1c2c5c;
+    --wg-ink: #e2e8f0;
+    --wg-muted: #93a1b8;
   }
-  #loading.hidden { opacity:0; visibility:hidden; pointer-events:none; }
-  #loading img { width:150px; height:auto; filter:drop-shadow(0 2px 10px rgba(0,0,0,0.7)); animation:pulse 1.6s ease-in-out infinite; }
-  #loading p { margin:0; font-size:13px; letter-spacing:0.04em; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,0.8); }
-  @keyframes pulse { 0%,100%{opacity:.5; transform:scale(.92);} 50%{opacity:1; transform:scale(1);} }
 
-  /* Viewfinder hint: shown while no marker is locked, hidden once tracking */
-  #viewfinder {
-    position:fixed; inset:22px; z-index:500;
-    pointer-events:none;
-    transition:opacity .4s ease;
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-tap-highlight-color: transparent;
   }
-  #viewfinder.hidden { opacity:0; }
-  #viewfinder .corner { position:absolute; width:26px; height:26px; border-color:rgba(255,255,255,0.55); }
-  #viewfinder .tl { top:0; left:0; border-top:2px solid; border-left:2px solid; border-radius:8px 0 0 0; }
-  #viewfinder .tr { top:0; right:0; border-top:2px solid; border-right:2px solid; border-radius:0 8px 0 0; }
-  #viewfinder .bl { bottom:0; left:0; border-bottom:2px solid; border-left:2px solid; border-radius:0 0 0 8px; }
-  #viewfinder .br { bottom:0; right:0; border-bottom:2px solid; border-right:2px solid; border-radius:0 0 8px 0; }
-  #viewfinder .hint {
-    position:absolute; top:6%; left:50%; transform:translateX(-50%);
-    font-family:'JetBrains Mono','Courier New',monospace;
-    font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase;
-    color:rgba(255,255,255,0.75); white-space:nowrap;
-    text-shadow:0 1px 6px rgba(0,0,0,0.6);
+  a-scene { width: 100%; height: 100%; }
+
+  /* Boot panel: covers the screen only until the camera feed is confirmed live,
+     or to surface a diagnostic if it never starts. Fully hidden the instant
+     rendering begins, so nothing ever sits between the user and the raw feed. */
+  #boot-panel {
+    position: fixed; inset: 0; z-index: 900;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 18px; padding: 32px;
+    background: radial-gradient(circle at 50% 30%, var(--wg-navy) 0%, var(--wg-navy-mid) 42%, var(--wg-navy-deep) 100%);
+    color: var(--wg-ink); text-align: center;
+    transition: opacity .45s ease, visibility .45s ease;
+  }
+  #boot-panel.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  #boot-panel .boot-mark { width: 168px; height: auto; filter: drop-shadow(0 4px 16px rgba(0,0,0,.5)); }
+  #boot-panel .boot-ring {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.18); border-top-color: #6ee7b7;
+    animation: boot-spin 0.9s linear infinite;
+  }
+  #boot-panel.is-error .boot-ring { display: none; }
+  #boot-panel.is-error .boot-mark { opacity: 0.85; }
+  #boot-panel .boot-copy { margin: 0; max-width: 320px; font-size: 14px; line-height: 1.6; color: var(--wg-ink); }
+  #boot-panel.is-error .boot-copy { color: #fca5a5; }
+  @keyframes boot-spin { to { transform: rotate(360deg); } }
+
+  /* Viewfinder hint: raw camera feed stays fully visible underneath this at all times. */
+  #scan-hint {
+    position: fixed; inset: 24px; z-index: 500;
+    pointer-events: none;
+    transition: opacity .35s ease;
+  }
+  #scan-hint.is-hidden { opacity: 0; }
+  #scan-hint .bracket { position: absolute; width: 28px; height: 28px; border-color: rgba(255,255,255,0.6); }
+  #scan-hint .tl { top: 0; left: 0; border-top: 2px solid; border-left: 2px solid; border-radius: 10px 0 0 0; }
+  #scan-hint .tr { top: 0; right: 0; border-top: 2px solid; border-right: 2px solid; border-radius: 0 10px 0 0; }
+  #scan-hint .bl { bottom: 0; left: 0; border-bottom: 2px solid; border-left: 2px solid; border-radius: 0 0 0 10px; }
+  #scan-hint .br { bottom: 0; right: 0; border-bottom: 2px solid; border-right: 2px solid; border-radius: 0 0 10px 0; }
+  #scan-hint .scan-copy {
+    position: absolute; top: 8%; left: 50%; transform: translateX(-50%);
+    font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+    white-space: nowrap; color: rgba(255,255,255,0.82);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.65);
+  }
+
+  noscript {
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 32px; text-align: center; color: var(--wg-ink);
+    background: var(--wg-navy-deep); font-family: 'Inter', sans-serif;
   }
 </style>
 </head>
 <body>
 
-<div id="loading">
-  <img src="../assets/logo-full.svg" alt="WebGraha">
-  <p>Point your camera at the WebGraha card…</p>
+<noscript>This page needs JavaScript and camera access to show the AR card.</noscript>
+
+<div id="boot-panel">
+  <img class="boot-mark" src="../assets/logo-full.svg" alt="WebGraha">
+  <div class="boot-ring"></div>
+  <p class="boot-copy" id="boot-copy">Starting camera…</p>
 </div>
 
-<div id="viewfinder">
-  <span class="hint">Point camera at the card</span>
-  <div class="corner tl"></div>
-  <div class="corner tr"></div>
-  <div class="corner bl"></div>
-  <div class="corner br"></div>
+<div id="scan-hint">
+  <span class="scan-copy">Point camera at the card</span>
+  <div class="bracket tl"></div>
+  <div class="bracket tr"></div>
+  <div class="bracket bl"></div>
+  <div class="bracket br"></div>
 </div>
 
 <a-scene
-  mindar-image="imageTargetSrc: ./targets.mind; autoStart: true; uiScanning: no;"
+  mindar-image="imageTargetSrc: ./targets.mind; autoStart: true; uiScanning: false; uiError: false;"
+  pinch-zoom
   color-space="sRGB"
-  renderer="colorManagement: true, physicallyCorrectLights"
+  renderer="colorManagement: true; physicallyCorrectLights: true"
   vr-mode-ui="enabled: false"
   device-orientation-permission-ui="enabled: true"
 >
-  <a-assets>
-    <img id="earth-tex" src="../assets/vendor/three-globe/earth-blue-marble.jpg" crossorigin="anonymous">
-    <img id="logo-full-tex" src="../assets/logo-full.svg" crossorigin="anonymous">
-    <img id="mark-tex" src="../assets/logo-mark.svg" crossorigin="anonymous">
-    <img id="linktree-tex" src="../assets/logo-linktree.svg" crossorigin="anonymous">
+  <a-assets timeout="15000">
+    <img id="tex-earth" src="../assets/vendor/three-globe/earth-blue-marble.jpg" crossorigin="anonymous">
+    <img id="tex-logo-full" src="../assets/logo-full.svg" crossorigin="anonymous">
+    <img id="tex-mark" src="../assets/logo-mark.svg" crossorigin="anonymous">
+    <img id="tex-linktree" src="../assets/logo-linktree.svg" crossorigin="anonymous">
   </a-assets>
 
-  <a-camera id="camera" position="0 0 0" look-controls="enabled: false"
-    cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .ar-link; far: 30"></a-camera>
+  <a-camera id="viewer" position="0 0 0" look-controls="enabled: false"
+    cursor="rayOrigin: mouse; fuse: false"
+    raycaster="objects: .ar-hotspot; far: 50">
+  </a-camera>
 
-  <!-- index 0 = the compiled target (your QR card) -->
-  <a-entity id="target" mindar-image-target="targetIndex: 0">
+  <a-entity id="card-target" mindar-image-target="targetIndex: 0">
+    <a-entity id="composition-root" composition-scale="near: 0.85; far: 2.5; sensitivity: 1">
 
-    <!-- Whole composition scales with viewing distance so it stays readable whether
-         you're right up on the card or a comfortable arm's length away. -->
-    <a-entity id="ar-content" distance-scale="factor: 1; min: 0.85; max: 2.4">
+      <!-- Populated at runtime -->
+      <a-entity id="comet-field"></a-entity>
 
-      <!-- Shooting stars, generated at runtime -->
-      <a-entity id="comet-group"></a-entity>
-
-      <!-- WebGraha logo panel, sitting well above the Earth+Moon as its own header -->
-      <a-image id="logo-mark" src="#logo-full-tex" position="0 0.54 0.02" width="0.44" height="0.239"
+      <!-- Brand header, floating well above the globe, always facing the camera -->
+      <a-image id="brand-header" src="#tex-logo-full" position="0 0.66 0.02" width="0.46" height="0.25"
         material="shader: flat; transparent: true; alphaTest: 0.05"
-        look-at="#camera"
-        animation="property: scale; dir: alternate; dur: 1800; loop: true; to: 1.06 1.06 1.06; easing: easeInOutSine">
+        look-at="#viewer"
+        animation="property: scale; dir: alternate; loop: true; dur: 1900; to: 1.07 1.07 1.07; easing: easeInOutSine">
       </a-image>
 
-      <!-- Earth + Moon: Earth sits at the marker's own center (y: 0) so it reads as the
-           middle of the composition. Moon stays parked beside it (left side) with a gentle
-           sway rather than a full orbit, so it never swings around to the opposite side. -->
-      <a-entity id="earth-system" position="0 0 0">
-        <a-sphere id="earth" radius="0.2" segments-height="48" segments-width="48"
-          material="shader: standard; src:#earth-tex; roughness:0.75; metalness:0.08"
-          animation="property: rotation; to: 0 360 0; dur: 26000; easing: linear; loop: true">
+      <!-- Earth sits at the composition's own center; Moon stays parked beside it -->
+      <a-entity id="globe-system" position="0 0 0">
+        <a-sphere id="earth-body" radius="0.22" segments-height="46" segments-width="46"
+          material="shader: standard; src: #tex-earth; roughness: 0.72; metalness: 0.06"
+          animation="property: rotation; to: 0 360 0; dur: 30000; easing: linear; loop: true">
         </a-sphere>
 
-        <a-entity id="moon-pivot" animation="property: rotation; from: 0 -16 0; to: 0 16 0; dir: alternate; dur: 3200; easing: easeInOutSine; loop: true">
-          <a-sphere id="moon" radius="0.05" position="-0.4 0.02 0" color="#b9c2cf" roughness="0.9" metalness="0.05"
-            animation="property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true">
+        <a-entity id="moon-pivot" pendulum-sway="amplitude: 15; period: 3400">
+          <a-sphere id="moon-body" radius="0.055" position="-0.44 0.015 0"
+            material="shader: standard; color: #c3cad6; roughness: 0.85; metalness: 0.05"
+            animation="property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true">
           </a-sphere>
         </a-entity>
       </a-entity>
 
-      <!-- Clickable link icons, generated at runtime -->
-      <a-entity id="icon-group"></a-entity>
+      <!-- Populated at runtime -->
+      <a-entity id="link-row"></a-entity>
 
     </a-entity>
   </a-entity>
@@ -187,53 +161,179 @@
 
 <script>
 (function () {
-  const scene = document.querySelector('a-scene');
-  const loading = document.getElementById('loading');
-  const viewfinder = document.getElementById('viewfinder');
+  'use strict';
 
-  scene.addEventListener('renderstart', () => loading.classList.add('hidden'));
+  /* ---------- Custom components (registered before the scene needs them) ---------- */
 
-  const targetEl = document.getElementById('target');
-  targetEl.addEventListener('targetFound', () => viewfinder.classList.add('hidden'));
-  targetEl.addEventListener('targetLost', () => viewfinder.classList.remove('hidden'));
-
-  // Pinch-to-zoom: two-finger pinch scales window.arZoomFactor, which the
-  // distance-scale component (registered in <head>) multiplies into its own
-  // auto-scale every frame.
-  (function initPinchZoom() {
-    let lastDist = null;
-    function touchDist(touches) {
+  // Two-finger pinch scales `scaleFactor`, which composition-scale below folds
+  // into its own distance-based auto-scale every frame.
+  AFRAME.registerComponent('pinch-zoom', {
+    schema: { min: { default: 0.5 }, max: { default: 2.6 } },
+    init: function () {
+      this.scaleFactor = 1;
+      this.lastSpan = null;
+      this.onMove = this.onMove.bind(this);
+      this.onLift = this.onLift.bind(this);
+    },
+    play: function () {
+      window.addEventListener('touchmove', this.onMove, { passive: false });
+      window.addEventListener('touchend', this.onLift);
+      window.addEventListener('touchcancel', this.onLift);
+    },
+    pause: function () {
+      window.removeEventListener('touchmove', this.onMove);
+      window.removeEventListener('touchend', this.onLift);
+      window.removeEventListener('touchcancel', this.onLift);
+    },
+    span: function (touches) {
       const dx = touches[0].clientX - touches[1].clientX;
       const dy = touches[0].clientY - touches[1].clientY;
       return Math.hypot(dx, dy);
-    }
-    document.addEventListener('touchmove', (e) => {
-      if (e.touches.length !== 2) return;
-      e.preventDefault();
-      const d = touchDist(e.touches);
-      if (lastDist != null) {
-        window.arZoomFactor = Math.min(2.5, Math.max(0.5, window.arZoomFactor * (d / lastDist)));
+    },
+    onMove: function (evt) {
+      if (evt.touches.length !== 2) return;
+      evt.preventDefault();
+      const span = this.span(evt.touches);
+      if (this.lastSpan != null) {
+        const ratio = span / this.lastSpan;
+        this.scaleFactor = THREE.MathUtils.clamp(this.scaleFactor * ratio, this.data.min, this.data.max);
       }
-      lastDist = d;
-    }, { passive: false });
-    document.addEventListener('touchend', (e) => { if (e.touches.length < 2) lastDist = null; });
-    document.addEventListener('touchcancel', () => { lastDist = null; });
-  })();
+      this.lastSpan = span;
+    },
+    onLift: function (evt) {
+      if (evt.touches.length < 2) this.lastSpan = null;
+    }
+  });
 
-  const LINKS = [
-    { label: 'Website',  image: 'mark-tex', c1: '#1c2c5c', c2: '#31508f' },
-    { label: 'WhatsApp', icon: '', brand: true,  c1: '#25D366', c2: '#128C7E' },
-    { label: 'Email',    icon: '', brand: false, c1: '#6ee7b7', c2: '#2c4c3b' },
-    { label: 'Linktree', image: 'linktree-tex', c1: '#43E660', c2: '#1f7a44' },
+  // Whole composition auto-scales with viewing distance so it reads whether the
+  // phone is close or held at arm's length, then folds in the pinch factor.
+  AFRAME.registerComponent('composition-scale', {
+    schema: { near: { default: 0.85 }, far: { default: 2.5 }, sensitivity: { default: 1 } },
+    init: function () {
+      this.cameraEl = this.el.sceneEl.camera && this.el.sceneEl.camera.el;
+      this.selfPos = new THREE.Vector3();
+      this.camPos = new THREE.Vector3();
+    },
+    tick: function () {
+      if (!this.cameraEl) this.cameraEl = this.el.sceneEl.camera && this.el.sceneEl.camera.el;
+      if (!this.cameraEl) return;
+      this.el.object3D.getWorldPosition(this.selfPos);
+      this.cameraEl.object3D.getWorldPosition(this.camPos);
+      const distance = this.selfPos.distanceTo(this.camPos);
+      const base = THREE.MathUtils.clamp(distance * this.data.sensitivity, this.data.near, this.data.far);
+      const pinch = this.el.sceneEl.components['pinch-zoom'] ? this.el.sceneEl.components['pinch-zoom'].scaleFactor : 1;
+      const scale = base * pinch;
+      this.el.object3D.scale.set(scale, scale, scale);
+    }
+  });
+
+  // Moon sways back and forth beside the Earth rather than fully orbiting.
+  AFRAME.registerComponent('pendulum-sway', {
+    schema: { amplitude: { default: 15 }, period: { default: 3400 } },
+    init: function () { this.startedAt = performance.now(); },
+    tick: function () {
+      const elapsed = performance.now() - this.startedAt;
+      const phase = (elapsed % this.data.period) / this.data.period;
+      const angleDeg = Math.sin(phase * Math.PI * 2) * this.data.amplitude;
+      this.el.object3D.rotation.y = THREE.MathUtils.degToRad(angleDeg);
+    }
+  });
+
+  // Sweeps a comet streak through a tilted arc centered on the Earth by
+  // rotating its pivot; radius/tilt/sweep/direction vary per spawn.
+  AFRAME.registerComponent('comet-arc', {
+    schema: {
+      tiltX: { default: 0 },
+      tiltZ: { default: 0 },
+      startAngle: { default: 0 },
+      sweep: { default: 180 },
+      duration: { default: 1200 }
+    },
+    init: function () {
+      this.startedAt = performance.now();
+      this.done = false;
+      this.el.object3D.rotation.set(
+        THREE.MathUtils.degToRad(this.data.tiltX),
+        THREE.MathUtils.degToRad(this.data.startAngle),
+        THREE.MathUtils.degToRad(this.data.tiltZ)
+      );
+    },
+    tick: function () {
+      if (this.done) return;
+      const elapsed = performance.now() - this.startedAt;
+      const progress = Math.min(elapsed / this.data.duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 2);
+      const angleDeg = this.data.startAngle + this.data.sweep * eased;
+      this.el.object3D.rotation.y = THREE.MathUtils.degToRad(angleDeg);
+      if (progress >= 1) {
+        this.done = true;
+        this.el.emit('arc-complete');
+      }
+    }
+  });
+
+  /* ---------- Diagnostics: never leave a silent black screen ---------- */
+
+  const scene = document.querySelector('a-scene');
+  const bootPanel = document.getElementById('boot-panel');
+  const bootCopy = document.getElementById('boot-copy');
+  const scanHint = document.getElementById('scan-hint');
+
+  function setBoot(state, message) {
+    bootPanel.classList.toggle('is-error', state === 'error');
+    bootPanel.classList.toggle('is-hidden', state === 'hidden');
+    if (message) bootCopy.textContent = message;
+  }
+
+  let cameraSessionLive = false;
+
+  scene.addEventListener('renderstart', function () { setBoot('hidden'); });
+  scene.addEventListener('arReady', function () { cameraSessionLive = true; });
+  scene.addEventListener('arError', function () {
+    cameraSessionLive = true;
+    setBoot('error', "Camera couldn't start. Check that camera access is allowed for this site in your browser settings, then reload.");
+  });
+
+  setTimeout(function () {
+    if (cameraSessionLive) return;
+    setBoot('error', "Still waiting on the camera. Allow camera access if a prompt appeared, then reload. If this opened inside an app's built-in browser (Instagram, WhatsApp, etc.), open it in Safari or Chrome instead.");
+  }, 9000);
+
+  const cardTarget = document.getElementById('card-target');
+  cardTarget.addEventListener('targetFound', function () { scanHint.classList.add('is-hidden'); });
+  cardTarget.addEventListener('targetLost', function () { scanHint.classList.remove('is-hidden'); });
+
+  /* ---------- Link cards ---------- */
+
+  const CARDS = [
+    {
+      label: 'Website', url: 'https://www.webgraha.com',
+      colorFrom: '#1c2c5c', colorTo: '#31508f',
+      glyph: { type: 'image', assetId: 'tex-mark' }
+    },
+    {
+      label: 'WhatsApp', url: 'https://wa.me/917411720141',
+      colorFrom: '#25D366', colorTo: '#128C7E',
+      glyph: { type: 'icon', char: '', family: '"Font Awesome 6 Brands"', weight: '400' }
+    },
+    {
+      label: 'Email', url: 'mailto:siddharth@webgraha.com',
+      colorFrom: '#6ee7b7', colorTo: '#2c4c3b',
+      glyph: { type: 'icon', char: '', family: '"Font Awesome 6 Free"', weight: '900' }
+    },
+    {
+      label: 'Linktree', url: 'https://linktr.ee/webgraha',
+      colorFrom: '#43E660', colorTo: '#1f7a44',
+      glyph: { type: 'image', assetId: 'tex-linktree' }
+    }
   ];
-  const URLS = {
-    Website:  'https://www.webgraha.com',
-    WhatsApp: 'https://wa.me/917411720141',
-    Email:    'mailto:siddharth@webgraha.com',
-    Linktree: 'https://linktr.ee/webgraha?utm_source=linktree_profile_share&ltsid=5d8d422b-147f-414f-ae92-3813e1b13f64'
-  };
 
-  function roundRectPath(ctx, x, y, w, h, r) {
+  function traceRoundedRect(ctx, x, y, w, h, r) {
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, r);
+      return;
+    }
     ctx.beginPath();
     ctx.moveTo(x + r, y);
     ctx.arcTo(x + w, y, x + w, y + h, r);
@@ -243,175 +343,179 @@
     ctx.closePath();
   }
 
-  function makeIconTexture(item) {
-    const c = document.createElement('canvas');
-    c.width = 256; c.height = 256;
-    const ctx = c.getContext('2d');
+  function paintChip(def) {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size; canvas.height = size;
+    const ctx = canvas.getContext('2d');
 
     ctx.save();
-    roundRectPath(ctx, 10, 10, 236, 236, 56);
-    ctx.shadowColor = 'rgba(0,0,0,0.45)';
-    ctx.shadowBlur = 24;
-    ctx.shadowOffsetY = 10;
-    const grad = ctx.createLinearGradient(0, 0, 256, 256);
-    grad.addColorStop(0, item.c1);
-    grad.addColorStop(1, item.c2);
-    ctx.fillStyle = grad;
+    traceRoundedRect(ctx, 8, 8, size - 16, size - 16, 54);
+    ctx.shadowColor = 'rgba(4,10,24,0.5)';
+    ctx.shadowBlur = 22;
+    ctx.shadowOffsetY = 9;
+    const bg = ctx.createLinearGradient(0, 0, size, size);
+    bg.addColorStop(0, def.colorFrom);
+    bg.addColorStop(1, def.colorTo);
+    ctx.fillStyle = bg;
     ctx.fill();
     ctx.restore();
 
-    roundRectPath(ctx, 10, 10, 236, 118, 56);
-    ctx.fillStyle = 'rgba(255,255,255,0.10)';
+    traceRoundedRect(ctx, 8, 8, size - 16, (size - 16) * 0.5, 54);
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
     ctx.fill();
 
-    if (item.image) {
-      const img = document.getElementById(item.image);
-      const size = 108;
+    if (def.glyph.type === 'image') {
+      const img = document.getElementById(def.glyph.assetId);
+      const s = 104;
       ctx.save();
-      ctx.shadowColor = 'rgba(0,0,0,0.35)';
-      ctx.shadowBlur = 10;
-      ctx.drawImage(img, 128 - size / 2, 136 - size / 2, size, size);
+      ctx.shadowColor = 'rgba(0,0,0,0.3)';
+      ctx.shadowBlur = 8;
+      ctx.drawImage(img, size / 2 - s / 2, size / 2 - s / 2 - 4, s, s);
       ctx.restore();
     } else {
       ctx.fillStyle = '#ffffff';
-      ctx.font = '110px "Font Awesome 6 ' + (item.brand ? 'Brands' : 'Free') + '"';
+      ctx.font = def.glyph.weight + ' 108px ' + def.glyph.family;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.shadowColor = 'rgba(0,0,0,0.35)';
-      ctx.shadowBlur = 10;
-      ctx.fillText(item.icon, 128, 136);
+      ctx.shadowColor = 'rgba(0,0,0,0.3)';
+      ctx.shadowBlur = 8;
+      ctx.fillText(def.glyph.char, size / 2, size / 2 - 4);
     }
 
-    return c.toDataURL('image/png');
+    return canvas.toDataURL('image/png');
   }
 
-  function makeCometTexture() {
-    const w = 160, h = 24;
-    const c = document.createElement('canvas');
-    c.width = w; c.height = h;
-    const ctx = c.getContext('2d');
-    const grad = ctx.createLinearGradient(0, 0, w, 0);
-    grad.addColorStop(0, 'rgba(255,255,255,0)');
-    grad.addColorStop(0.65, 'rgba(255,255,255,0.4)');
-    grad.addColorStop(1, 'rgba(255,255,255,0.95)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, h / 2 - 1.5, w, 3);
-    const glow = ctx.createRadialGradient(w - 8, h / 2, 0, w - 8, h / 2, 12);
-    glow.addColorStop(0, 'rgba(255,255,255,1)');
-    glow.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = glow;
-    ctx.beginPath();
-    ctx.arc(w - 8, h / 2, 12, 0, Math.PI * 2);
-    ctx.fill();
-    return c.toDataURL('image/png');
-  }
+  function renderLinkRow() {
+    const row = document.getElementById('link-row');
+    const xs = [-0.6, -0.2, 0.2, 0.6];
 
-  const cometTexture = makeCometTexture();
-
-  // Earth's center in ar-content's local space (must match #earth-system's position).
-  const EARTH_CENTER = { x: 0, y: 0, z: 0 };
-
-  function spawnComet(group) {
-    // A comet is a streak sitting at a fixed radius on a pivot centered on the
-    // Earth; animating the pivot's rotation sweeps the streak in an arc that
-    // passes around the globe, instead of flying straight across the screen.
-    const pivot = document.createElement('a-entity');
-    pivot.setAttribute('position', EARTH_CENTER.x + ' ' + EARTH_CENTER.y + ' ' + EARTH_CENTER.z);
-
-    const tiltX = -35 + Math.random() * 70;
-    const tiltZ = -25 + Math.random() * 50;
-    const startAngle = Math.random() * 360;
-    const sweep = (Math.random() < 0.5 ? 1 : -1) * (140 + Math.random() * 110);
-    const dur = 900 + Math.random() * 600;
-
-    const comet = document.createElement('a-entity');
-    const radius = 0.34 + Math.random() * 0.16;
-    const len = 0.16 + Math.random() * 0.12;
-    comet.setAttribute('geometry', 'primitive: plane; width: ' + len.toFixed(3) + '; height: 0.022');
-    comet.setAttribute('material', 'shader: flat; src: ' + cometTexture + '; transparent: true; opacity: 0; alphaTest: 0.02');
-    // Tangential to the orbit at spawn, so the streak trails behind its own motion.
-    comet.setAttribute('rotation', '0 0 90');
-    comet.setAttribute('position', radius.toFixed(3) + ' 0 0');
-    comet.setAttribute('scale', '0.5 0.5 0.5');
-    comet.setAttribute('animation__grow',
-      'property: scale; from: 0.5 0.5 0.5; to: 1 1 1; dur: ' + (dur * 0.3).toFixed(0) + '; easing: easeOutQuad');
-    comet.setAttribute('animation__fade',
-      'property: material.opacity; from: 0; to: 0.95; dir: alternate; dur: ' + (dur * 0.4).toFixed(0) + '; loop: 1');
-    pivot.appendChild(comet);
-
-    pivot.setAttribute('rotation', tiltX.toFixed(1) + ' ' + startAngle.toFixed(1) + ' ' + tiltZ.toFixed(1));
-    pivot.setAttribute('animation__orbit',
-      'property: rotation; from: ' + tiltX.toFixed(1) + ' ' + startAngle.toFixed(1) + ' ' + tiltZ.toFixed(1) +
-      '; to: ' + tiltX.toFixed(1) + ' ' + (startAngle + sweep).toFixed(1) + ' ' + tiltZ.toFixed(1) +
-      '; dur: ' + dur.toFixed(0) + '; easing: easeOutQuad');
-
-    group.appendChild(pivot);
-    setTimeout(() => pivot.remove(), dur + 150);
-  }
-
-  function loopComets() {
-    const group = document.getElementById('comet-group');
-    spawnComet(group);
-    if (Math.random() < 0.3) setTimeout(() => spawnComet(group), 250 + Math.random() * 300);
-    setTimeout(loopComets, 2200 + Math.random() * 3000);
-  }
-
-  function buildIcons() {
-    const group = document.getElementById('icon-group');
-    // Single evenly-spaced row beneath the Earth, per the requested layout.
-    const xs = [-0.62, -0.205, 0.205, 0.62];
-    LINKS.forEach((item, i) => {
-      const wrap = document.createElement('a-entity');
-      wrap.setAttribute('position', xs[i] + ' -0.45 0.04');
-      wrap.setAttribute('look-at', '#camera');
+    CARDS.forEach(function (def, i) {
+      const holder = document.createElement('a-entity');
+      holder.setAttribute('position', xs[i] + ' -0.52 0.03');
+      holder.setAttribute('look-at', '#viewer');
 
       const chip = document.createElement('a-entity');
-      chip.classList.add('ar-link');
-      chip.setAttribute('geometry', 'primitive: plane; width: 0.19; height: 0.19');
-      chip.setAttribute('material', 'shader: flat; src: ' + makeIconTexture(item) + '; transparent: true; alphaTest: 0.05');
-      chip.setAttribute('data-url', URLS[item.label]);
-      chip.setAttribute('animation__in', 'property: scale; from: 0.001 0.001 0.001; to: 1 1 1; dur: 500; delay: ' + (i * 90) + '; easing: easeOutBack');
+      chip.classList.add('ar-hotspot');
+      chip.setAttribute('geometry', 'primitive: plane; width: 0.2; height: 0.2');
+      chip.setAttribute('material', 'shader: flat; src: ' + paintChip(def) + '; transparent: true; alphaTest: 0.05');
+      chip.setAttribute('animation__enter', 'property: scale; from: 0.001 0.001 0.001; to: 1 1 1; dur: 460; delay: ' + (i * 80) + '; easing: easeOutBack');
 
-      chip.addEventListener('mouseenter', () => chip.setAttribute('animation__hover', 'property: scale; to: 1.12 1.12 1.12; dur: 150'));
-      chip.addEventListener('mouseleave', () => chip.setAttribute('animation__hover', 'property: scale; to: 1 1 1; dur: 150'));
-      chip.addEventListener('click', () => window.open(chip.getAttribute('data-url'), '_blank'));
+      chip.addEventListener('mouseenter', function () {
+        chip.setAttribute('animation__hover', 'property: scale; to: 1.14 1.14 1.14; dur: 140');
+      });
+      chip.addEventListener('mouseleave', function () {
+        chip.setAttribute('animation__hover', 'property: scale; to: 1 1 1; dur: 140');
+      });
+      chip.addEventListener('click', function () {
+        window.open(def.url, '_blank', 'noopener');
+      });
 
       const caption = document.createElement('a-text');
-      caption.setAttribute('value', item.label);
+      caption.setAttribute('value', def.label);
       caption.setAttribute('align', 'center');
-      caption.setAttribute('position', '0 -0.13 0.001');
-      caption.setAttribute('width', '0.9');
-      caption.setAttribute('color', '#e2e8f0');
+      caption.setAttribute('width', '0.85');
+      caption.setAttribute('color', '#e7ecf5');
+      caption.setAttribute('position', '0 -0.145 0');
 
-      wrap.appendChild(chip);
-      wrap.appendChild(caption);
-      group.appendChild(wrap);
+      holder.appendChild(chip);
+      holder.appendChild(caption);
+      row.appendChild(holder);
     });
   }
 
-  function init() {
-    buildIcons();
-    loopComets();
+  /* ---------- Shooting stars ---------- */
+
+  function makeCometStreakTexture() {
+    const w = 160, h = 20;
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+
+    const trail = ctx.createLinearGradient(0, 0, w, 0);
+    trail.addColorStop(0, 'rgba(255,255,255,0)');
+    trail.addColorStop(0.6, 'rgba(255,255,255,0.35)');
+    trail.addColorStop(1, 'rgba(255,255,255,0.95)');
+    ctx.fillStyle = trail;
+    ctx.fillRect(0, h / 2 - 1.5, w, 3);
+
+    const head = ctx.createRadialGradient(w - 7, h / 2, 0, w - 7, h / 2, 10);
+    head.addColorStop(0, 'rgba(255,255,255,1)');
+    head.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = head;
+    ctx.beginPath();
+    ctx.arc(w - 7, h / 2, 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    return canvas.toDataURL('image/png');
   }
 
-  function fontsReady() {
-    if (!(document.fonts && document.fonts.load)) return Promise.resolve();
+  let cometStreakTexture = null;
+
+  function spawnComet(field) {
+    const tiltX = -40 + Math.random() * 80;
+    const tiltZ = -28 + Math.random() * 56;
+    const startAngle = Math.random() * 360;
+    const sweep = (Math.random() < 0.5 ? -1 : 1) * (130 + Math.random() * 130);
+    const duration = 850 + Math.random() * 700;
+    const radius = 0.3 + Math.random() * 0.22;
+    const length = 0.14 + Math.random() * 0.14;
+
+    const pivot = document.createElement('a-entity');
+    pivot.setAttribute('comet-arc',
+      'tiltX: ' + tiltX.toFixed(1) +
+      '; tiltZ: ' + tiltZ.toFixed(1) +
+      '; startAngle: ' + startAngle.toFixed(1) +
+      '; sweep: ' + sweep.toFixed(1) +
+      '; duration: ' + duration.toFixed(0));
+
+    const streak = document.createElement('a-entity');
+    streak.setAttribute('geometry', 'primitive: plane; width: ' + length.toFixed(3) + '; height: 0.02');
+    streak.setAttribute('material', 'shader: flat; src: ' + cometStreakTexture + '; transparent: true; opacity: 0; alphaTest: 0.02');
+    streak.setAttribute('position', radius.toFixed(3) + ' 0 0');
+    streak.setAttribute('rotation', '0 90 0');
+    streak.setAttribute('scale', '0.4 0.4 0.4');
+    streak.setAttribute('animation__grow', 'property: scale; from: 0.4 0.4 0.4; to: 1 1 1; dur: ' + Math.round(duration * 0.3) + '; easing: easeOutQuad');
+    streak.setAttribute('animation__fade', 'property: material.opacity; from: 0; to: 0.9; dir: alternate; dur: ' + Math.round(duration * 0.4) + '; loop: 1');
+
+    pivot.appendChild(streak);
+    field.appendChild(pivot);
+
+    pivot.addEventListener('arc-complete', function () { pivot.remove(); });
+    setTimeout(function () { if (pivot.parentNode) pivot.remove(); }, duration + 400);
+  }
+
+  function startCometLoop() {
+    const field = document.getElementById('comet-field');
+    (function cycle() {
+      spawnComet(field);
+      if (Math.random() < 0.35) setTimeout(function () { spawnComet(field); }, 200 + Math.random() * 350);
+      setTimeout(cycle, 2000 + Math.random() * 2800);
+    })();
+  }
+
+  /* ---------- Boot sequence ---------- */
+
+  function iconFontsReady() {
+    if (!document.fonts || !document.fonts.load) return Promise.resolve();
     return Promise.all([
       document.fonts.load('900 64px "Font Awesome 6 Free"'),
       document.fonts.load('400 64px "Font Awesome 6 Brands"')
-    ]).catch(() => {});
+    ]).catch(function () {});
   }
 
-  function assetsReady() {
-    // Scene 'loaded' fires once every <a-assets> entry (incl. mark-tex, used
-    // synchronously by canvas.drawImage in makeIconTexture) has finished loading.
-    return new Promise((resolve) => {
+  function sceneAssetsReady() {
+    return new Promise(function (resolve) {
       if (scene.hasLoaded) resolve();
       else scene.addEventListener('loaded', resolve, { once: true });
     });
   }
 
-  Promise.all([fontsReady(), assetsReady()]).then(init);
+  Promise.all([iconFontsReady(), sceneAssetsReady()]).then(function () {
+    cometStreakTexture = makeCometStreakTexture();
+    renderLinkRow();
+    startCometLoop();
+  });
 })();
 </script>
 
