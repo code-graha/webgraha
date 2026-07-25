@@ -1,8 +1,10 @@
 <!--
-  AR LINK CARDS — MARKER-TRACKED VERSION
-  ========================================
-  This version makes 4 link-cards lock onto your QR code in real space,
-  using the QR code image itself as the AR tracking marker.
+  AR LINK CARD — MARKER-TRACKED, WEBGRAHA BRAND
+  ================================================
+  Point a phone camera at your printed QR poster / business card and a
+  rotating Earth with an orbiting Moon (WebGraha mark glowing on top),
+  a small starfield with shooting stars, and four clickable brand icons
+  (Website, WhatsApp, Email, Linktree) appear anchored to it in real space.
 
   SETUP FOR www.webgraha.com/ar/
   ================================
@@ -25,8 +27,8 @@
   6. Generate your final poster QR code so it encodes this exact URL:
      https://www.webgraha.com/ar/
      (the printed QR both IS the tracking image in step 1, AND links here)
-  7. Print the poster, point a phone camera at the printed QR — the 4 cards
-     should appear hovering above it.
+  7. Print the poster, point a phone camera at the printed QR — Earth, the
+     Moon, and the four link icons should appear hovering above it.
 
   Card links are already filled in with your real WebGraha details below.
 -->
@@ -35,27 +37,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>AR Link Cards — Live</title>
+<title>WebGraha — AR Card</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vendor/fontawesome/css/all.min.css">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
 <style>
-  html, body { margin:0; height:100%; overflow:hidden; font-family: -apple-system, sans-serif; }
-  .loading {
-    position:fixed; inset:0; background:#111327; color:#fff;
-    display:flex; align-items:center; justify-content:center;
-    font-size:14px; letter-spacing:0.04em; z-index:999;
-  }
+  html, body { margin:0; height:100%; overflow:hidden; font-family:'Inter',-apple-system,sans-serif; background:#0a1128; }
   a-scene { width:100%; height:100%; }
+
+  #loading {
+    position:fixed; inset:0; z-index:999;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+    background:radial-gradient(circle at 50% 32%, #1c2c5c 0%, #131f45 38%, #0d1733 70%, #0a1128 100%);
+    color:#e2e8f0; text-align:center; padding:0 32px;
+    transition:opacity .5s ease, visibility .5s ease;
+  }
+  #loading.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+  #loading img { width:44px; height:44px; animation:pulse 1.6s ease-in-out infinite; }
+  #loading p { margin:0; font-size:13px; letter-spacing:0.04em; color:#93a1b8; }
+  @keyframes pulse { 0%,100%{opacity:.5; transform:scale(.92);} 50%{opacity:1; transform:scale(1);} }
+
+  /* Viewfinder hint: shown while no marker is locked, hidden once tracking */
+  #viewfinder {
+    position:fixed; inset:22px; z-index:500;
+    pointer-events:none;
+    transition:opacity .4s ease;
+  }
+  #viewfinder.hidden { opacity:0; }
+  #viewfinder .corner { position:absolute; width:26px; height:26px; border-color:rgba(255,255,255,0.55); }
+  #viewfinder .tl { top:0; left:0; border-top:2px solid; border-left:2px solid; border-radius:8px 0 0 0; }
+  #viewfinder .tr { top:0; right:0; border-top:2px solid; border-right:2px solid; border-radius:0 8px 0 0; }
+  #viewfinder .bl { bottom:0; left:0; border-bottom:2px solid; border-left:2px solid; border-radius:0 0 0 8px; }
+  #viewfinder .br { bottom:0; right:0; border-bottom:2px solid; border-right:2px solid; border-radius:0 0 8px 0; }
+  #viewfinder .hint {
+    position:absolute; top:6%; left:50%; transform:translateX(-50%);
+    font-family:'JetBrains Mono','Courier New',monospace;
+    font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase;
+    color:rgba(255,255,255,0.75); white-space:nowrap;
+    text-shadow:0 1px 6px rgba(0,0,0,0.6);
+  }
 </style>
 </head>
 <body>
 
-<div class="loading" id="loading">Point your camera at the QR code…</div>
+<div id="loading">
+  <img src="../assets/logo-mark.svg" alt="">
+  <p>Point your camera at the WebGraha card…</p>
+</div>
 
-<!--
-  TARGET_FILE: path to your compiled .mind file
-  Change "./targets.mind" if you named it differently
--->
+<div id="viewfinder">
+  <span class="hint">Point camera at the card</span>
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+</div>
+
 <a-scene
   mindar-image="imageTargetSrc: ./targets.mind; autoStart: true; uiScanning: no;"
   color-space="sRGB"
@@ -63,67 +107,271 @@
   vr-mode-ui="enabled: false"
   device-orientation-permission-ui="enabled: true"
 >
-  <a-assets></a-assets>
+  <a-assets>
+    <img id="earth-tex" src="../assets/vendor/three-globe/earth-blue-marble.jpg" crossorigin="anonymous">
+    <img id="logo-tex" src="../assets/logo-mark-512.png" crossorigin="anonymous">
+  </a-assets>
 
-  <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"></a-camera>
+  <a-camera id="camera" position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"></a-camera>
 
-  <!-- index 0 = the compiled target (your QR image) -->
-  <a-entity mindar-image-target="targetIndex: 0">
+  <!-- index 0 = the compiled target (your QR card) -->
+  <a-entity id="target" mindar-image-target="targetIndex: 0">
 
-    <!-- CARD DATA — edit label / sub / url / position for each card -->
+    <!-- Ambient star cloud + shooting stars, generated at runtime -->
+    <a-entity id="star-group"></a-entity>
+    <a-entity id="comet-group"></a-entity>
 
-    <a-entity class="ar-card"
-      geometry="primitive: plane; width: 0.5; height: 0.32"
-      material="color: #FFFFFF; opacity: 0.9; transparent: true"
-      position="-0.55 0.5 0"
-      look-at="[gps-camera], #camera, a-camera"
-      onclick="window.open('https://www.webgraha.com','_blank')">
-      <a-text value="Website" align="center" position="0 0.06 0.01" color="#111327" width="1.4"></a-text>
-      <a-text value="www.webgraha.com" align="center" position="0 -0.06 0.01" color="#6C5CE7" width="1.1"></a-text>
+    <!-- Floating "hologram" backdrop panel behind the Earth -->
+    <a-entity id="backdrop-panel" position="0 0.28 -0.14" rotation="-6 8 2"></a-entity>
+
+    <!-- Earth + orbiting Moon -->
+    <a-entity id="earth-system" position="0 0.28 0">
+      <a-sphere id="earth" radius="0.16" segments-height="48" segments-width="48"
+        material="shader: standard; src:#earth-tex; roughness:0.75; metalness:0.08"
+        animation="property: rotation; to: 0 360 0; dur: 26000; easing: linear; loop: true">
+      </a-sphere>
+
+      <a-entity id="moon-pivot" animation="property: rotation; to: 0 360 0; dur: 7000; easing: linear; loop: true">
+        <a-sphere id="moon" radius="0.042" position="0.34 0.05 0" color="#b9c2cf" roughness="0.9" metalness="0.05"
+          animation="property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true">
+        </a-sphere>
+      </a-entity>
+
+      <!-- WebGraha mark glowing on top of the Earth, always facing camera -->
+      <a-image id="logo-mark" src="#logo-tex" position="0 0.2 0.06" width="0.16" height="0.16"
+        material="shader: flat; transparent: true; alphaTest: 0.05"
+        look-at="#camera"
+        animation="property: scale; dir: alternate; dur: 1800; loop: true; to: 1.08 1.08 1.08; easing: easeInOutSine">
+      </a-image>
     </a-entity>
 
-    <a-entity class="ar-card"
-      geometry="primitive: plane; width: 0.5; height: 0.32"
-      material="color: #FFFFFF; opacity: 0.9; transparent: true"
-      position="0.55 0.5 0"
-      look-at="[gps-camera], #camera, a-camera"
-      onclick="window.open('https://wa.me/917411720141','_blank')">
-      <a-text value="WhatsApp" align="center" position="0 0.06 0.01" color="#111327" width="1.4"></a-text>
-      <a-text value="+91 74117 20141" align="center" position="0 -0.06 0.01" color="#6C5CE7" width="1.1"></a-text>
-    </a-entity>
-
-    <a-entity class="ar-card"
-      geometry="primitive: plane; width: 0.5; height: 0.32"
-      material="color: #FFFFFF; opacity: 0.9; transparent: true"
-      position="-0.55 -0.5 0"
-      onclick="window.open('mailto:siddharth@webgraha.com','_blank')">
-      <a-text value="Email" align="center" position="0 0.06 0.01" color="#111327" width="1.4"></a-text>
-      <a-text value="siddharth@webgraha.com" align="center" position="0 -0.06 0.01" color="#6C5CE7" width="1.1"></a-text>
-    </a-entity>
-
-    <a-entity class="ar-card"
-      geometry="primitive: plane; width: 0.5; height: 0.32"
-      material="color: #FFFFFF; opacity: 0.9; transparent: true"
-      position="0.55 -0.5 0"
-      onclick="window.open('https://linktr.ee/webgraha?utm_source=linktree_profile_share&ltsid=5d8d422b-147f-414f-ae92-3813e1b13f64','_blank')">
-      <a-text value="Linktree" align="center" position="0 0.06 0.01" color="#111327" width="1.4"></a-text>
-      <a-text value="linktr.ee/webgraha" align="center" position="0 -0.06 0.01" color="#6C5CE7" width="1.1"></a-text>
-    </a-entity>
+    <!-- Clickable link icons, generated at runtime -->
+    <a-entity id="icon-group"></a-entity>
 
   </a-entity>
 </a-scene>
 
 <script>
-  document.querySelector('a-scene').addEventListener('renderstart', () => {
-    document.getElementById('loading').style.display = 'none';
-  });
-  // Make card entities clickable (A-Frame doesn't wire onclick attr natively for non-DOM events)
-  document.querySelectorAll('.ar-card').forEach(el => {
-    el.addEventListener('click', () => {
-      const handler = el.getAttribute('onclick');
-      if (handler) new Function(handler)();
+(function () {
+  const scene = document.querySelector('a-scene');
+  const loading = document.getElementById('loading');
+  const viewfinder = document.getElementById('viewfinder');
+
+  scene.addEventListener('renderstart', () => loading.classList.add('hidden'));
+
+  const targetEl = document.getElementById('target');
+  targetEl.addEventListener('targetFound', () => viewfinder.classList.add('hidden'));
+  targetEl.addEventListener('targetLost', () => viewfinder.classList.remove('hidden'));
+
+  const LINKS = [
+    { label: 'Website',  icon: '', brand: false, c1: '#1c2c5c', c2: '#31508f' },
+    { label: 'WhatsApp', icon: '', brand: true,  c1: '#25D366', c2: '#128C7E' },
+    { label: 'Email',    icon: '', brand: false, c1: '#6ee7b7', c2: '#2c4c3b' },
+    { label: 'Linktree', icon: '', brand: false, c1: '#43E660', c2: '#1f7a44' },
+  ];
+  const URLS = {
+    Website:  'https://www.webgraha.com',
+    WhatsApp: 'https://wa.me/917411720141',
+    Email:    'mailto:siddharth@webgraha.com',
+    Linktree: 'https://linktr.ee/webgraha?utm_source=linktree_profile_share&ltsid=5d8d422b-147f-414f-ae92-3813e1b13f64'
+  };
+
+  function roundRectPath(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function makeIconTexture(item) {
+    const c = document.createElement('canvas');
+    c.width = 256; c.height = 256;
+    const ctx = c.getContext('2d');
+
+    ctx.save();
+    roundRectPath(ctx, 10, 10, 236, 236, 56);
+    ctx.shadowColor = 'rgba(0,0,0,0.45)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetY = 10;
+    const grad = ctx.createLinearGradient(0, 0, 256, 256);
+    grad.addColorStop(0, item.c1);
+    grad.addColorStop(1, item.c2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.restore();
+
+    roundRectPath(ctx, 10, 10, 236, 118, 56);
+    ctx.fillStyle = 'rgba(255,255,255,0.10)';
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '110px "Font Awesome 6 ' + (item.brand ? 'Brands' : 'Free') + '"';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(0,0,0,0.35)';
+    ctx.shadowBlur = 10;
+    ctx.fillText(item.icon, 128, 136);
+
+    return c.toDataURL('image/png');
+  }
+
+  function makeBackdropTexture() {
+    const w = 512, h = 320;
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+
+    roundRectPath(ctx, 0, 0, w, h, 36);
+    ctx.clip();
+
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, 'rgba(28,44,92,0.85)');
+    grad.addColorStop(0.6, 'rgba(13,23,51,0.82)');
+    grad.addColorStop(1, 'rgba(10,17,40,0.85)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+
+    for (let i = 0; i < 90; i++) {
+      const r = Math.random() * 1.4 + 0.4;
+      ctx.globalAlpha = Math.random() * 0.7 + 0.25;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(Math.random() * w, Math.random() * h, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    for (let i = 0; i < 2; i++) {
+      const sx = Math.random() * w * 0.5 + w * 0.2;
+      const sy = Math.random() * h * 0.4 + 10;
+      const len = 70 + Math.random() * 50;
+      const ang = (Math.random() * 20 + 25) * Math.PI / 180;
+      const ex = sx - Math.cos(ang) * len;
+      const ey = sy + Math.sin(ang) * len;
+      const streak = ctx.createLinearGradient(sx, sy, ex, ey);
+      streak.addColorStop(0, 'rgba(255,255,255,0.95)');
+      streak.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = streak;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(ex, ey);
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = 'rgba(110,231,183,0.28)';
+    ctx.lineWidth = 2;
+    roundRectPath(ctx, 2, 2, w - 4, h - 4, 34);
+    ctx.stroke();
+
+    return c.toDataURL('image/png');
+  }
+
+  function buildBackdrop() {
+    const panel = document.getElementById('backdrop-panel');
+    const plane = document.createElement('a-entity');
+    plane.setAttribute('geometry', 'primitive: plane; width: 0.95; height: 0.6');
+    plane.setAttribute('material', 'shader: flat; src: ' + makeBackdropTexture() + '; transparent: true; alphaTest: 0.02');
+    panel.appendChild(plane);
+  }
+
+  function buildStars() {
+    const group = document.getElementById('star-group');
+    const COUNT = 26;
+    for (let i = 0; i < COUNT; i++) {
+      const star = document.createElement('a-sphere');
+      const r = 0.006 + Math.random() * 0.007;
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 0.45 + Math.random() * 0.5;
+      const x = Math.cos(angle) * dist;
+      const y = 0.1 + Math.random() * 0.55;
+      const z = -0.05 - Math.random() * 0.2;
+      star.setAttribute('radius', r.toFixed(3));
+      star.setAttribute('position', x.toFixed(3) + ' ' + y.toFixed(3) + ' ' + z.toFixed(3));
+      star.setAttribute('material', 'shader: flat; color: #ffffff');
+      star.setAttribute('animation', 'property: scale; dir: alternate; loop: true; dur: ' +
+        (1400 + Math.random() * 1800).toFixed(0) + '; delay: ' + (Math.random() * 2000).toFixed(0) +
+        '; to: 1.6 1.6 1.6; easing: easeInOutSine');
+      group.appendChild(star);
+    }
+  }
+
+  function spawnComet(group) {
+    const comet = document.createElement('a-entity');
+    const y = 0.15 + Math.random() * 0.55;
+    const startX = -0.75, endX = 0.75;
+    const z = -0.05 - Math.random() * 0.15;
+    comet.setAttribute('geometry', 'primitive: plane; width: 0.16; height: 0.006');
+    comet.setAttribute('material', 'shader: flat; color: #ffffff; opacity: 0; transparent: true');
+    comet.setAttribute('rotation', '0 0 ' + (-18 - Math.random() * 12).toFixed(1));
+    comet.setAttribute('position', startX + ' ' + y.toFixed(3) + ' ' + z.toFixed(3));
+    comet.setAttribute('animation__move',
+      'property: position; from: ' + startX + ' ' + y.toFixed(3) + ' ' + z.toFixed(3) +
+      '; to: ' + endX + ' ' + (y - 0.2).toFixed(3) + ' ' + z.toFixed(3) +
+      '; dur: 900; easing: easeInQuad');
+    comet.setAttribute('animation__fade',
+      'property: material.opacity; from: 0; to: 0.9; dir: alternate; dur: 380; loop: 1');
+    group.appendChild(comet);
+    setTimeout(() => comet.remove(), 1000);
+  }
+
+  function loopComets() {
+    const group = document.getElementById('comet-group');
+    spawnComet(group);
+    setTimeout(loopComets, 2600 + Math.random() * 3200);
+  }
+
+  function buildIcons() {
+    const group = document.getElementById('icon-group');
+    const xs = [-0.48, -0.16, 0.16, 0.48];
+    LINKS.forEach((item, i) => {
+      const wrap = document.createElement('a-entity');
+      wrap.setAttribute('position', xs[i] + ' -0.62 0.04');
+      wrap.setAttribute('look-at', '#camera');
+
+      const chip = document.createElement('a-entity');
+      chip.classList.add('ar-link');
+      chip.setAttribute('geometry', 'primitive: plane; width: 0.2; height: 0.2');
+      chip.setAttribute('material', 'shader: flat; src: ' + makeIconTexture(item) + '; transparent: true; alphaTest: 0.05');
+      chip.setAttribute('data-url', URLS[item.label]);
+      chip.setAttribute('animation__in', 'property: scale; from: 0.001 0.001 0.001; to: 1 1 1; dur: 500; delay: ' + (i * 90) + '; easing: easeOutBack');
+
+      chip.addEventListener('mouseenter', () => chip.setAttribute('animation__hover', 'property: scale; to: 1.12 1.12 1.12; dur: 150'));
+      chip.addEventListener('mouseleave', () => chip.setAttribute('animation__hover', 'property: scale; to: 1 1 1; dur: 150'));
+      chip.addEventListener('click', () => window.open(chip.getAttribute('data-url'), '_blank'));
+
+      const caption = document.createElement('a-text');
+      caption.setAttribute('value', item.label);
+      caption.setAttribute('align', 'center');
+      caption.setAttribute('position', '0 -0.14 0.001');
+      caption.setAttribute('width', '1.1');
+      caption.setAttribute('color', '#e2e8f0');
+
+      wrap.appendChild(chip);
+      wrap.appendChild(caption);
+      group.appendChild(wrap);
     });
-  });
+  }
+
+  function init() {
+    buildBackdrop();
+    buildStars();
+    buildIcons();
+    loopComets();
+  }
+
+  if (document.fonts && document.fonts.load) {
+    Promise.all([
+      document.fonts.load('900 64px "Font Awesome 6 Free"'),
+      document.fonts.load('400 64px "Font Awesome 6 Brands"')
+    ]).then(init).catch(init);
+  } else {
+    init();
+  }
+})();
 </script>
 
 </body>
