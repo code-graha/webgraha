@@ -196,7 +196,7 @@
       const span = this.span(evt.touches);
       if (this.lastSpan != null) {
         const ratio = span / this.lastSpan;
-        this.scaleFactor = THREE.MathUtils.clamp(this.scaleFactor * ratio, this.data.min, this.data.max);
+        this.scaleFactor = AFRAME.THREE.MathUtils.clamp(this.scaleFactor * ratio, this.data.min, this.data.max);
       }
       this.lastSpan = span;
     },
@@ -211,8 +211,8 @@
     schema: { near: { default: 0.85 }, far: { default: 2.5 }, sensitivity: { default: 1 } },
     init: function () {
       this.cameraEl = this.el.sceneEl.camera && this.el.sceneEl.camera.el;
-      this.selfPos = new THREE.Vector3();
-      this.camPos = new THREE.Vector3();
+      this.selfPos = new AFRAME.THREE.Vector3();
+      this.camPos = new AFRAME.THREE.Vector3();
     },
     tick: function () {
       if (!this.cameraEl) this.cameraEl = this.el.sceneEl.camera && this.el.sceneEl.camera.el;
@@ -220,7 +220,7 @@
       this.el.object3D.getWorldPosition(this.selfPos);
       this.cameraEl.object3D.getWorldPosition(this.camPos);
       const distance = this.selfPos.distanceTo(this.camPos);
-      const base = THREE.MathUtils.clamp(distance * this.data.sensitivity, this.data.near, this.data.far);
+      const base = AFRAME.THREE.MathUtils.clamp(distance * this.data.sensitivity, this.data.near, this.data.far);
       const pinch = this.el.sceneEl.components['pinch-zoom'] ? this.el.sceneEl.components['pinch-zoom'].scaleFactor : 1;
       const scale = base * pinch;
       this.el.object3D.scale.set(scale, scale, scale);
@@ -235,7 +235,7 @@
       const elapsed = performance.now() - this.startedAt;
       const phase = (elapsed % this.data.period) / this.data.period;
       const angleDeg = Math.sin(phase * Math.PI * 2) * this.data.amplitude;
-      this.el.object3D.rotation.y = THREE.MathUtils.degToRad(angleDeg);
+      this.el.object3D.rotation.y = AFRAME.THREE.MathUtils.degToRad(angleDeg);
     }
   });
 
@@ -253,9 +253,9 @@
       this.startedAt = performance.now();
       this.done = false;
       this.el.object3D.rotation.set(
-        THREE.MathUtils.degToRad(this.data.tiltX),
-        THREE.MathUtils.degToRad(this.data.startAngle),
-        THREE.MathUtils.degToRad(this.data.tiltZ)
+        AFRAME.THREE.MathUtils.degToRad(this.data.tiltX),
+        AFRAME.THREE.MathUtils.degToRad(this.data.startAngle),
+        AFRAME.THREE.MathUtils.degToRad(this.data.tiltZ)
       );
     },
     tick: function () {
@@ -264,7 +264,7 @@
       const progress = Math.min(elapsed / this.data.duration, 1);
       const eased = 1 - Math.pow(1 - progress, 2);
       const angleDeg = this.data.startAngle + this.data.sweep * eased;
-      this.el.object3D.rotation.y = THREE.MathUtils.degToRad(angleDeg);
+      this.el.object3D.rotation.y = AFRAME.THREE.MathUtils.degToRad(angleDeg);
       if (progress >= 1) {
         this.done = true;
         this.el.emit('arc-complete');
