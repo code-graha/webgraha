@@ -85,6 +85,12 @@
     text-shadow: 0 1px 6px rgba(0,0,0,0.65);
   }
 
+  /* Belt-and-suspenders: A-Frame's own enter-VR/AR affordance has no place on
+     this page (it would hijack our camera+raycaster setup) and xr-mode-ui's
+     `enabled: false` above should already remove it, but force it out of the
+     layout too in case anything re-shows it momentarily. */
+  .a-enter-vr, .a-enter-ar { display: none !important; }
+
   /* No `display` override here on purpose: browsers already force
      noscript to display:none once scripting is confirmed enabled, and
      this page is JS-only, so this rule must never fight that default. */
@@ -117,7 +123,7 @@
   pinch-zoom
   color-space="sRGB"
   renderer="colorManagement: true; physicallyCorrectLights: true"
-  vr-mode-ui="enabled: false"
+  xr-mode-ui="enabled: false"
   device-orientation-permission-ui="enabled: true"
 >
   <a-assets timeout="15000">
@@ -152,7 +158,7 @@
           animation="property: rotation; to: 0 360 0; dur: 30000; easing: linear; loop: true">
         </a-sphere>
 
-        <a-entity id="moon-pivot" pendulum-sway="amplitude: 15; period: 3400">
+        <a-entity id="moon-pivot" pendulum-sway="amplitude: 0.09; period: 3400">
           <a-sphere id="moon-body" radius="0.055" position="-0.44 0.015 0"
             material="shader: standard; color: #c3cad6; roughness: 0.85; metalness: 0.05"
             animation="property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true">
@@ -257,14 +263,22 @@
   });
 
   // Moon sways back and forth beside the Earth rather than fully orbiting.
+  // Animates position directly (not rotation): the moon's local offset is
+  // almost entirely along X, and a small Y-axis rotation of an X-offset point
+  // barely moves X (second-order cosine) while mostly moving Z — depth motion
+  // that's nearly invisible face-on. A direct position sway is visible from
+  // any camera angle and keeps the amplitude exact and predictable.
   AFRAME.registerComponent('pendulum-sway', {
-    schema: { amplitude: { default: 15 }, period: { default: 3400 } },
-    init: function () { this.startedAt = performance.now(); },
+    schema: { amplitude: { default: 0.09 }, period: { default: 3400 } },
+    init: function () {
+      this.startedAt = performance.now();
+      this.baseX = this.el.object3D.position.x;
+    },
     tick: function () {
       const elapsed = performance.now() - this.startedAt;
       const phase = (elapsed % this.data.period) / this.data.period;
-      const angleDeg = Math.sin(phase * Math.PI * 2) * this.data.amplitude;
-      this.el.object3D.rotation.y = AFRAME.THREE.MathUtils.degToRad(angleDeg);
+      const offset = Math.sin(phase * Math.PI * 2) * this.data.amplitude;
+      this.el.object3D.position.x = this.baseX + offset;
     }
   });
 
