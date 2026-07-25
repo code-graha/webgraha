@@ -51,6 +51,10 @@
 <script>
   // Registered here (before the <a-scene> below is parsed) so both components
   // are recognized the moment their entities initialize.
+  // Pinch-to-zoom: two-finger pinch multiplies this factor, which distance-scale
+  // below folds into its own auto-scale. Read/written from the bottom script too.
+  window.arZoomFactor = 1;
+
   AFRAME.registerComponent('distance-scale', {
     schema: { min: { default: 0.85 }, max: { default: 2.4 }, factor: { default: 1 } },
     init: function () {
@@ -63,7 +67,8 @@
       this.el.object3D.getWorldPosition(this.worldPos);
       this.camera.object3D.getWorldPosition(this.camPos);
       const dist = this.worldPos.distanceTo(this.camPos);
-      const scale = Math.min(Math.max(dist * this.data.factor, this.data.min), this.data.max);
+      const auto = Math.min(Math.max(dist * this.data.factor, this.data.min), this.data.max);
+      const scale = auto * window.arZoomFactor;
       this.el.object3D.scale.set(scale, scale, scale);
     }
   });
@@ -86,7 +91,7 @@
 </script>
 
 <style>
-  html, body { margin:0; height:100%; overflow:hidden; font-family:'Inter',-apple-system,sans-serif; background:#0a1128; }
+  html, body { margin:0; height:100%; overflow:hidden; font-family:'Inter',-apple-system,sans-serif; background:#000; }
   a-scene { width:100%; height:100%; }
 
   #loading {
@@ -150,6 +155,7 @@
     <img id="earth-tex" src="../assets/vendor/three-globe/earth-blue-marble.jpg" crossorigin="anonymous">
     <img id="logo-full-tex" src="../assets/logo-full.svg" crossorigin="anonymous">
     <img id="mark-tex" src="../assets/logo-mark.svg" crossorigin="anonymous">
+    <img id="linktree-tex" src="../assets/logo-linktree.svg" crossorigin="anonymous">
     <img id="space-bg-tex" src="../assets/social-banners/webgraha-space-bg-3x4.svg" crossorigin="anonymous">
   </a-assets>
 
@@ -157,9 +163,10 @@
     cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .ar-link; far: 30">
 
     <!-- Full-screen space backdrop, fixed to the camera (not the marker) so it always
-         fills the viewport; no-depth keeps it from ever occluding the AR content in front of it. -->
-    <a-plane id="space-backdrop" no-depth src="#space-bg-tex" position="0 0 -1.6" width="4.4" height="5.87"
-      material="shader: flat; transparent: true; opacity: 0.35; alphaTest: 0.02">
+         fills the viewport; no-depth keeps it from ever occluding the AR content in front of it.
+         Hidden until the card is tracked — only the raw camera feed shows while searching. -->
+    <a-plane id="space-backdrop" no-depth visible="false" src="#space-bg-tex" position="0 0 -1.6" width="4.4" height="5.87"
+      material="shader: flat; transparent: true; opacity: 0; alphaTest: 0.02">
     </a-plane>
   </a-camera>
 
@@ -206,18 +213,51 @@
   const scene = document.querySelector('a-scene');
   const loading = document.getElementById('loading');
   const viewfinder = document.getElementById('viewfinder');
+  const backdrop = document.getElementById('space-backdrop');
 
   scene.addEventListener('renderstart', () => loading.classList.add('hidden'));
 
   const targetEl = document.getElementById('target');
-  targetEl.addEventListener('targetFound', () => viewfinder.classList.add('hidden'));
-  targetEl.addEventListener('targetLost', () => viewfinder.classList.remove('hidden'));
+  // While still searching, show the raw camera feed only — no space backdrop.
+  // It fades in once the card is actually tracked.
+  targetEl.addEventListener('targetFound', () => {
+    viewfinder.classList.add('hidden');
+    backdrop.setAttribute('visible', 'true');
+    backdrop.setAttribute('animation__reveal', 'property: material.opacity; from: 0; to: 0.35; dur: 400; easing: easeOutQuad');
+  });
+  targetEl.addEventListener('targetLost', () => {
+    viewfinder.classList.remove('hidden');
+    backdrop.setAttribute('visible', 'false');
+  });
+
+  // Pinch-to-zoom: two-finger pinch scales window.arZoomFactor, which the
+  // distance-scale component (registered in <head>) multiplies into its own
+  // auto-scale every frame.
+  (function initPinchZoom() {
+    let lastDist = null;
+    function touchDist(touches) {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.hypot(dx, dy);
+    }
+    document.addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 2) return;
+      e.preventDefault();
+      const d = touchDist(e.touches);
+      if (lastDist != null) {
+        window.arZoomFactor = Math.min(2.5, Math.max(0.5, window.arZoomFactor * (d / lastDist)));
+      }
+      lastDist = d;
+    }, { passive: false });
+    document.addEventListener('touchend', (e) => { if (e.touches.length < 2) lastDist = null; });
+    document.addEventListener('touchcancel', () => { lastDist = null; });
+  })();
 
   const LINKS = [
     { label: 'Website',  image: 'mark-tex', c1: '#1c2c5c', c2: '#31508f' },
     { label: 'WhatsApp', icon: '', brand: true,  c1: '#25D366', c2: '#128C7E' },
     { label: 'Email',    icon: '', brand: false, c1: '#6ee7b7', c2: '#2c4c3b' },
-    { label: 'Linktree', icon: '', brand: false, c1: '#43E660', c2: '#1f7a44' },
+    { label: 'Linktree', image: 'linktree-tex', c1: '#43E660', c2: '#1f7a44' },
   ];
   const URLS = {
     Website:  'https://www.webgraha.com',
@@ -278,29 +318,59 @@
     return c.toDataURL('image/png');
   }
 
+  function makeCometTexture() {
+    const w = 160, h = 24;
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, w, 0);
+    grad.addColorStop(0, 'rgba(255,255,255,0)');
+    grad.addColorStop(0.65, 'rgba(255,255,255,0.4)');
+    grad.addColorStop(1, 'rgba(255,255,255,0.95)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, h / 2 - 1.5, w, 3);
+    const glow = ctx.createRadialGradient(w - 8, h / 2, 0, w - 8, h / 2, 12);
+    glow.addColorStop(0, 'rgba(255,255,255,1)');
+    glow.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(w - 8, h / 2, 12, 0, Math.PI * 2);
+    ctx.fill();
+    return c.toDataURL('image/png');
+  }
+
+  const cometTexture = makeCometTexture();
+
   function spawnComet(group) {
     const comet = document.createElement('a-entity');
     const y = 0.15 + Math.random() * 0.55;
-    const startX = -0.75, endX = 0.75;
-    const z = -0.05 - Math.random() * 0.15;
-    comet.setAttribute('geometry', 'primitive: plane; width: 0.16; height: 0.006');
-    comet.setAttribute('material', 'shader: flat; color: #ffffff; opacity: 0; transparent: true');
-    comet.setAttribute('rotation', '0 0 ' + (-18 - Math.random() * 12).toFixed(1));
+    const startX = -0.8, endX = 0.8;
+    const z = -0.05 - Math.random() * 0.2;
+    const len = 0.18 + Math.random() * 0.16;
+    const dur = 650 + Math.random() * 500;
+    const angle = -(10 + Math.random() * 16);
+    comet.setAttribute('geometry', 'primitive: plane; width: ' + len.toFixed(3) + '; height: 0.024');
+    comet.setAttribute('material', 'shader: flat; src: ' + cometTexture + '; transparent: true; opacity: 0; alphaTest: 0.02');
+    comet.setAttribute('rotation', '0 0 ' + angle.toFixed(1));
     comet.setAttribute('position', startX + ' ' + y.toFixed(3) + ' ' + z.toFixed(3));
+    comet.setAttribute('scale', '0.5 0.5 0.5');
     comet.setAttribute('animation__move',
       'property: position; from: ' + startX + ' ' + y.toFixed(3) + ' ' + z.toFixed(3) +
-      '; to: ' + endX + ' ' + (y - 0.2).toFixed(3) + ' ' + z.toFixed(3) +
-      '; dur: 900; easing: easeInQuad');
+      '; to: ' + endX + ' ' + (y - 0.24).toFixed(3) + ' ' + z.toFixed(3) +
+      '; dur: ' + dur.toFixed(0) + '; easing: easeOutQuad');
+    comet.setAttribute('animation__grow',
+      'property: scale; from: 0.5 0.5 0.5; to: 1 1 1; dur: ' + (dur * 0.3).toFixed(0) + '; easing: easeOutQuad');
     comet.setAttribute('animation__fade',
-      'property: material.opacity; from: 0; to: 0.9; dir: alternate; dur: 380; loop: 1');
+      'property: material.opacity; from: 0; to: 0.95; dir: alternate; dur: ' + (dur * 0.4).toFixed(0) + '; loop: 1');
     group.appendChild(comet);
-    setTimeout(() => comet.remove(), 1000);
+    setTimeout(() => comet.remove(), dur + 150);
   }
 
   function loopComets() {
     const group = document.getElementById('comet-group');
     spawnComet(group);
-    setTimeout(loopComets, 2600 + Math.random() * 3200);
+    if (Math.random() < 0.3) setTimeout(() => spawnComet(group), 250 + Math.random() * 300);
+    setTimeout(loopComets, 2200 + Math.random() * 3000);
   }
 
   function buildIcons() {
