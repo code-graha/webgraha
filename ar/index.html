@@ -78,9 +78,10 @@
     text-shadow: 0 1px 6px rgba(0,0,0,0.65);
   }
 
+  /* No `display` override here on purpose: browsers already force
+     noscript to display:none once scripting is confirmed enabled, and
+     this page is JS-only, so this rule must never fight that default. */
   noscript {
-    position: fixed; inset: 0; z-index: 1000;
-    display: flex; align-items: center; justify-content: center;
     padding: 32px; text-align: center; color: var(--wg-ink);
     background: var(--wg-navy-deep); font-family: 'Inter', sans-serif;
   }
@@ -111,6 +112,7 @@
   renderer="colorManagement: true; physicallyCorrectLights: true"
   vr-mode-ui="enabled: false"
   device-orientation-permission-ui="enabled: true"
+  loading-screen="enabled: false"
 >
   <a-assets timeout="15000">
     <img id="tex-earth" src="../assets/vendor/three-globe/earth-blue-marble.jpg" crossorigin="anonymous">
