@@ -432,7 +432,7 @@
 
       const chip = document.createElement('a-entity');
       chip.classList.add('ar-hotspot');
-      chip.setAttribute('geometry', 'primitive: plane; width: 0.2; height: 0.2');
+      chip.setAttribute('geometry', 'primitive: plane; width: 0.25; height: 0.25');
       chip.setAttribute('material', { shader: 'flat', src: paintChip(def), transparent: true, alphaTest: 0.05 });
       chip.setAttribute('animation__enter', 'property: scale; from: 0.001 0.001 0.001; to: 1 1 1; dur: 460; delay: ' + (i * 80) + '; easing: easeOutBack');
 
