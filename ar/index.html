@@ -2,9 +2,9 @@
   AR LINK CARD — MARKER-TRACKED, WEBGRAHA BRAND
   ================================================
   Point a phone camera at your printed QR poster / business card and a
-  rotating Earth with an orbiting Moon (WebGraha mark glowing on top),
-  a small starfield with shooting stars, and four clickable brand icons
-  (Website, WhatsApp, Email, Linktree) appear anchored to it in real space.
+  centered, rotating Earth with the Moon parked beside it (WebGraha logo
+  as a header above), shooting stars orbiting the globe, and four clickable
+  brand icons (Website, WhatsApp, Email, Linktree) appear in real space.
 
   SETUP FOR www.webgraha.com/ar/
   ================================
@@ -155,25 +155,27 @@
       <!-- Shooting stars, generated at runtime -->
       <a-entity id="comet-group"></a-entity>
 
-      <!-- Earth + orbiting Moon -->
-      <a-entity id="earth-system" position="0 0.3 0">
+      <!-- WebGraha logo panel, sitting well above the Earth+Moon as its own header -->
+      <a-image id="logo-mark" src="#logo-full-tex" position="0 0.54 0.02" width="0.44" height="0.239"
+        material="shader: flat; transparent: true; alphaTest: 0.05"
+        look-at="#camera"
+        animation="property: scale; dir: alternate; dur: 1800; loop: true; to: 1.06 1.06 1.06; easing: easeInOutSine">
+      </a-image>
+
+      <!-- Earth + Moon: Earth sits at the marker's own center (y: 0) so it reads as the
+           middle of the composition. Moon stays parked beside it (left side) with a gentle
+           sway rather than a full orbit, so it never swings around to the opposite side. -->
+      <a-entity id="earth-system" position="0 0 0">
         <a-sphere id="earth" radius="0.2" segments-height="48" segments-width="48"
           material="shader: standard; src:#earth-tex; roughness:0.75; metalness:0.08"
           animation="property: rotation; to: 0 360 0; dur: 26000; easing: linear; loop: true">
         </a-sphere>
 
-        <a-entity id="moon-pivot" animation="property: rotation; to: 0 360 0; dur: 7000; easing: linear; loop: true">
-          <a-sphere id="moon" radius="0.05" position="0.4 0.06 0" color="#b9c2cf" roughness="0.9" metalness="0.05"
+        <a-entity id="moon-pivot" animation="property: rotation; from: 0 -16 0; to: 0 16 0; dir: alternate; dur: 3200; easing: easeInOutSine; loop: true">
+          <a-sphere id="moon" radius="0.05" position="-0.4 0.02 0" color="#b9c2cf" roughness="0.9" metalness="0.05"
             animation="property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true">
           </a-sphere>
         </a-entity>
-
-        <!-- WebGraha logo glowing on top of the Earth, always facing camera -->
-        <a-image id="logo-mark" src="#logo-full-tex" position="0 0.29 0.08" width="0.38" height="0.207"
-          material="shader: flat; transparent: true; alphaTest: 0.05"
-          look-at="#camera"
-          animation="property: scale; dir: alternate; dur: 1800; loop: true; to: 1.08 1.08 1.08; easing: easeInOutSine">
-        </a-image>
       </a-entity>
 
       <!-- Clickable link icons, generated at runtime -->
@@ -307,7 +309,7 @@
   const cometTexture = makeCometTexture();
 
   // Earth's center in ar-content's local space (must match #earth-system's position).
-  const EARTH_CENTER = { x: 0, y: 0.3, z: 0 };
+  const EARTH_CENTER = { x: 0, y: 0, z: 0 };
 
   function spawnComet(group) {
     // A comet is a streak sitting at a fixed radius on a pivot centered on the
@@ -356,17 +358,11 @@
 
   function buildIcons() {
     const group = document.getElementById('icon-group');
-    // 2x2 grid (matches ar/preview-cards.html): Website/WhatsApp on top,
-    // Email/Linktree below, with generous gutters so cards never touch.
-    const cols = [-0.16, 0.16];
-    const rows = [-0.62, -1.0];
-    const positions = [
-      [cols[0], rows[0]], [cols[1], rows[0]],
-      [cols[0], rows[1]], [cols[1], rows[1]],
-    ];
+    // Single evenly-spaced row beneath the Earth, per the requested layout.
+    const xs = [-0.62, -0.205, 0.205, 0.62];
     LINKS.forEach((item, i) => {
       const wrap = document.createElement('a-entity');
-      wrap.setAttribute('position', positions[i][0] + ' ' + positions[i][1] + ' 0.04');
+      wrap.setAttribute('position', xs[i] + ' -0.45 0.04');
       wrap.setAttribute('look-at', '#camera');
 
       const chip = document.createElement('a-entity');
