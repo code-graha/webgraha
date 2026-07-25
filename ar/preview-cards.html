@@ -1,15 +1,17 @@
 <!--
   LOCAL PREVIEW — NOT part of the live AR page.
-  Open this file directly in a browser to review the link-card design
-  (colors, icons, spacing) before it's baked into index.html's AR scene.
-  Uses the exact same canvas-generation code and local brand assets, so
-  what you see here is pixel-for-pixel what the AR cards will look like.
+  Open this file directly in a browser to review the overall AR composition
+  (logo header, Earth + Moon, link-card row) before it's baked into
+  index.html's AR scene. Uses the exact same canvas-generation code and
+  local brand assets, so the cards are pixel-for-pixel what the AR scene
+  will show; the logo/Earth/Moon layout is a proportioned 2D stand-in for
+  the real 3D composition.
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>WebGraha AR — Card Preview</title>
+<title>WebGraha AR — Layout Preview</title>
 <link rel="stylesheet" href="../assets/vendor/fontawesome/css/all.min.css">
 <style>
   html, body {
@@ -24,53 +26,68 @@
 
   .stage {
     position: relative;
-    width: 320px; height: 420px;
+    width: 320px; height: 460px;
     border-radius: 20px;
     background: rgba(10, 17, 40, 0.5);
     border: 1px solid rgba(255,255,255,0.1);
     overflow: hidden;
   }
-  .comet-lane { position: absolute; top: 18px; left: 0; right: 0; height: 40px; overflow: hidden; }
+  .comet-lane { position: absolute; top: 16px; left: 0; right: 0; height: 40px; overflow: hidden; }
   .comet { position: absolute; top: 14px; left: -20px; width: 40px; height: 6px; animation: fly 2.6s linear infinite; }
   @keyframes fly { from { transform: translateX(0) rotate(-16deg); opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } to { transform: translateX(360px) rotate(-16deg); opacity: 0; } }
 
-  .earth-hint {
-    position: absolute; top: 64px; left: 50%; transform: translateX(-50%);
-    width: 92px; height: 92px; border-radius: 50%;
-    background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.3), transparent 45%),
-      conic-gradient(from 0deg, #1a365d, #2c4c3b 25%, #1a365d 45%, #234a6b 65%, #2c4c3b 85%, #1a365d 100%);
-    box-shadow: inset -14px -10px 26px rgba(0,0,0,.55), 0 0 30px rgba(44,76,59,.5);
-  }
-  .logo-on-earth {
-    position: absolute; top: 96px; left: 50%; transform: translateX(-50%);
-    width: 70px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.6));
+  .logo-header {
+    position: absolute; top: 24px; left: 50%; transform: translateX(-50%);
+    width: 168px; filter: drop-shadow(0 2px 8px rgba(0,0,0,.6));
   }
 
-  .grid {
-    position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%);
-    display: grid; grid-template-columns: repeat(2, 78px);
-    gap: 22px 26px;
+  /* Earth sits at the vertical middle of the stage, with a generous gap
+     above (to the logo) and below (to the card row). */
+  .earth-moon {
+    position: absolute; top: 155px; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 140px;
+  }
+  .earth-hint {
+    position: absolute; top: 0; left: 60px;
+    width: 140px; height: 140px; border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.3), transparent 45%),
+      conic-gradient(from 0deg, #1a365d, #2c4c3b 25%, #1a365d 45%, #234a6b 65%, #2c4c3b 85%, #1a365d 100%);
+    box-shadow: inset -18px -14px 32px rgba(0,0,0,.55), 0 0 34px rgba(44,76,59,.5);
+  }
+  .moon-hint {
+    position: absolute; top: 52px; left: 4px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #dfe4ea 0%, #9aa4b2 55%, #5b6474 100%);
+    box-shadow: 0 0 10px rgba(200,210,225,.5);
+  }
+
+  .row {
+    position: absolute; left: 50%; top: 335px; transform: translateX(-50%);
+    display: flex; gap: 14px;
   }
   .card { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-  .card img { width: 78px; height: 78px; display: block; }
-  .card span { font-size: 11px; color: #e2e8f0; }
+  .card img { width: 60px; height: 60px; display: block; }
+  .card span { font-size: 10px; color: #e2e8f0; }
 
   .note { font-size: 11.5px; color: #5c6a85; max-width: 420px; text-align: center; line-height: 1.6; }
 </style>
 </head>
 <body>
 
-<h1>AR link-card sample — 2×2 grid</h1>
-<p class="sub">Same canvas-generation code and real brand assets used in ar/index.html. This is the proposed replacement for the single overlapping row.</p>
+<h1>AR layout sample — logo header, Earth + Moon, card row</h1>
+<p class="sub">Matches the current ar/index.html composition: the WebGraha logo as its own header above the Earth, the Moon orbiting from beside it, and the four links in a single evenly-spaced row underneath.</p>
 
 <div class="stage">
   <div class="comet-lane">
     <div class="comet" id="comet1"></div>
     <div class="comet" id="comet2" style="animation-delay:1.3s; top:26px;"></div>
   </div>
-  <div class="earth-hint"></div>
-  <img class="logo-on-earth" src="../assets/logo-full.svg" alt="">
-  <div class="grid" id="grid"></div>
+  <img class="logo-header" src="../assets/logo-full.svg" alt="">
+  <div class="earth-moon">
+    <div class="earth-hint"></div>
+    <div class="moon-hint"></div>
+  </div>
+  <div class="row" id="row"></div>
 </div>
 
 <p class="note">Website uses the real WebGraha mark, WhatsApp the real WhatsApp glyph, and Linktree its actual brand mark (sourced from Simple Icons, since this Font Awesome package has no official Linktree icon).</p>
@@ -161,8 +178,8 @@
     return wrap;
   }
 
-  const grid = document.getElementById('grid');
-  LINKS.forEach((item) => grid.appendChild(renderCard(item)));
+  const row = document.getElementById('row');
+  LINKS.forEach((item) => row.appendChild(renderCard(item)));
 </script>
 
 </body>
