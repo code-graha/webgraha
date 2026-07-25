@@ -48,20 +48,59 @@
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
+<script>
+  // Registered here (before the <a-scene> below is parsed) so both components
+  // are recognized the moment their entities initialize.
+  AFRAME.registerComponent('distance-scale', {
+    schema: { min: { default: 0.85 }, max: { default: 2.4 }, factor: { default: 1 } },
+    init: function () {
+      this.camera = document.getElementById('camera');
+      this.worldPos = new AFRAME.THREE.Vector3();
+      this.camPos = new AFRAME.THREE.Vector3();
+    },
+    tick: function () {
+      if (!this.camera || !this.camera.object3D) return;
+      this.el.object3D.getWorldPosition(this.worldPos);
+      this.camera.object3D.getWorldPosition(this.camPos);
+      const dist = this.worldPos.distanceTo(this.camPos);
+      const scale = Math.min(Math.max(dist * this.data.factor, this.data.min), this.data.max);
+      this.el.object3D.scale.set(scale, scale, scale);
+    }
+  });
+
+  // Lets the full-screen space backdrop render behind everything else
+  // regardless of its actual distance from the camera (skybox-style).
+  AFRAME.registerComponent('no-depth', {
+    init: function () {
+      const apply = () => {
+        const mesh = this.el.getObject3D('mesh');
+        if (!mesh || !mesh.material) return;
+        mesh.renderOrder = -1;
+        mesh.material.depthTest = false;
+        mesh.material.depthWrite = false;
+      };
+      this.el.addEventListener('object3dset', apply);
+      apply();
+    }
+  });
+</script>
+
 <style>
   html, body { margin:0; height:100%; overflow:hidden; font-family:'Inter',-apple-system,sans-serif; background:#0a1128; }
   a-scene { width:100%; height:100%; }
 
   #loading {
     position:fixed; inset:0; z-index:999;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
-    background:radial-gradient(circle at 50% 32%, #1c2c5c 0%, #131f45 38%, #0d1733 70%, #0a1128 100%);
-    color:#e2e8f0; text-align:center; padding:0 32px;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+    gap:14px; padding:0 32px 48px;
+    background:transparent;
+    color:#fff; text-align:center;
+    pointer-events:none;
     transition:opacity .5s ease, visibility .5s ease;
   }
   #loading.hidden { opacity:0; visibility:hidden; pointer-events:none; }
-  #loading img { width:180px; height:auto; animation:pulse 1.6s ease-in-out infinite; }
-  #loading p { margin:0; font-size:13px; letter-spacing:0.04em; color:#93a1b8; }
+  #loading img { width:150px; height:auto; filter:drop-shadow(0 2px 10px rgba(0,0,0,0.7)); animation:pulse 1.6s ease-in-out infinite; }
+  #loading p { margin:0; font-size:13px; letter-spacing:0.04em; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,0.8); }
   @keyframes pulse { 0%,100%{opacity:.5; transform:scale(.92);} 50%{opacity:1; transform:scale(1);} }
 
   /* Viewfinder hint: shown while no marker is locked, hidden once tracking */
@@ -88,7 +127,7 @@
 <body>
 
 <div id="loading">
-  <img src="../assets/logo-full-light.svg" alt="WebGraha">
+  <img src="../assets/logo-full.svg" alt="WebGraha">
   <p>Point your camera at the WebGraha card…</p>
 </div>
 
@@ -109,49 +148,56 @@
 >
   <a-assets>
     <img id="earth-tex" src="../assets/vendor/three-globe/earth-blue-marble.jpg" crossorigin="anonymous">
-    <img id="logo-full-tex" src="../assets/logo-full-light.svg" crossorigin="anonymous">
+    <img id="logo-full-tex" src="../assets/logo-full.svg" crossorigin="anonymous">
+    <img id="mark-tex" src="../assets/logo-mark.svg" crossorigin="anonymous">
     <img id="space-bg-tex" src="../assets/social-banners/webgraha-space-bg-3x4.svg" crossorigin="anonymous">
   </a-assets>
 
-  <a-camera id="camera" position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"></a-camera>
+  <a-camera id="camera" position="0 0 0" look-controls="enabled: false"
+    cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .ar-link; far: 30">
+
+    <!-- Full-screen space backdrop, fixed to the camera (not the marker) so it always
+         fills the viewport; no-depth keeps it from ever occluding the AR content in front of it. -->
+    <a-plane id="space-backdrop" no-depth src="#space-bg-tex" position="0 0 -1.6" width="4.4" height="5.87"
+      material="shader: flat; transparent: true; opacity: 0.35; alphaTest: 0.02">
+    </a-plane>
+  </a-camera>
 
   <!-- index 0 = the compiled target (your QR card) -->
   <a-entity id="target" mindar-image-target="targetIndex: 0">
 
-    <!-- Shooting stars, generated at runtime -->
-    <a-entity id="comet-group"></a-entity>
+    <!-- Whole composition scales with viewing distance so it stays readable whether
+         you're right up on the card or a comfortable arm's length away. -->
+    <a-entity id="ar-content" distance-scale="factor: 1; min: 0.85; max: 2.4">
 
-    <!-- Floating "hologram" backdrop panel behind the Earth (webgraha-space-bg-3x4.svg), semi-transparent so the live camera still reads through -->
-    <a-entity id="backdrop-panel" position="0 0.26 -0.18" rotation="-6 8 2">
-      <a-plane src="#space-bg-tex" width="0.56" height="0.746"
-        material="shader: flat; transparent: true; opacity: 0.45; alphaTest: 0.02">
-      </a-plane>
-    </a-entity>
+      <!-- Shooting stars, generated at runtime -->
+      <a-entity id="comet-group"></a-entity>
 
-    <!-- Earth + orbiting Moon -->
-    <a-entity id="earth-system" position="0 0.28 0">
-      <a-sphere id="earth" radius="0.16" segments-height="48" segments-width="48"
-        material="shader: standard; src:#earth-tex; roughness:0.75; metalness:0.08"
-        animation="property: rotation; to: 0 360 0; dur: 26000; easing: linear; loop: true">
-      </a-sphere>
-
-      <a-entity id="moon-pivot" animation="property: rotation; to: 0 360 0; dur: 7000; easing: linear; loop: true">
-        <a-sphere id="moon" radius="0.042" position="0.34 0.05 0" color="#b9c2cf" roughness="0.9" metalness="0.05"
-          animation="property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true">
+      <!-- Earth + orbiting Moon -->
+      <a-entity id="earth-system" position="0 0.3 0">
+        <a-sphere id="earth" radius="0.2" segments-height="48" segments-width="48"
+          material="shader: standard; src:#earth-tex; roughness:0.75; metalness:0.08"
+          animation="property: rotation; to: 0 360 0; dur: 26000; easing: linear; loop: true">
         </a-sphere>
+
+        <a-entity id="moon-pivot" animation="property: rotation; to: 0 360 0; dur: 7000; easing: linear; loop: true">
+          <a-sphere id="moon" radius="0.05" position="0.4 0.06 0" color="#b9c2cf" roughness="0.9" metalness="0.05"
+            animation="property: rotation; to: 0 360 0; dur: 4000; easing: linear; loop: true">
+          </a-sphere>
+        </a-entity>
+
+        <!-- WebGraha logo glowing on top of the Earth, always facing camera -->
+        <a-image id="logo-mark" src="#logo-full-tex" position="0 0.29 0.08" width="0.38" height="0.207"
+          material="shader: flat; transparent: true; alphaTest: 0.05"
+          look-at="#camera"
+          animation="property: scale; dir: alternate; dur: 1800; loop: true; to: 1.08 1.08 1.08; easing: easeInOutSine">
+        </a-image>
       </a-entity>
 
-      <!-- WebGraha logo glowing on top of the Earth, always facing camera -->
-      <a-image id="logo-mark" src="#logo-full-tex" position="0 0.24 0.06" width="0.32" height="0.174"
-        material="shader: flat; transparent: true; alphaTest: 0.05"
-        look-at="#camera"
-        animation="property: scale; dir: alternate; dur: 1800; loop: true; to: 1.08 1.08 1.08; easing: easeInOutSine">
-      </a-image>
+      <!-- Clickable link icons, generated at runtime -->
+      <a-entity id="icon-group"></a-entity>
+
     </a-entity>
-
-    <!-- Clickable link icons, generated at runtime -->
-    <a-entity id="icon-group"></a-entity>
-
   </a-entity>
 </a-scene>
 
@@ -168,10 +214,10 @@
   targetEl.addEventListener('targetLost', () => viewfinder.classList.remove('hidden'));
 
   const LINKS = [
-    { label: 'Website',  icon: '', brand: false, c1: '#1c2c5c', c2: '#31508f' },
+    { label: 'Website',  image: 'mark-tex', c1: '#1c2c5c', c2: '#31508f' },
     { label: 'WhatsApp', icon: '', brand: true,  c1: '#25D366', c2: '#128C7E' },
     { label: 'Email',    icon: '', brand: false, c1: '#6ee7b7', c2: '#2c4c3b' },
-    { label: 'Linktree', icon: '', brand: false, c1: '#43E660', c2: '#1f7a44' },
+    { label: 'Linktree', icon: '', brand: false, c1: '#43E660', c2: '#1f7a44' },
   ];
   const URLS = {
     Website:  'https://www.webgraha.com',
@@ -211,13 +257,23 @@
     ctx.fillStyle = 'rgba(255,255,255,0.10)';
     ctx.fill();
 
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '110px "Font Awesome 6 ' + (item.brand ? 'Brands' : 'Free') + '"';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.shadowColor = 'rgba(0,0,0,0.35)';
-    ctx.shadowBlur = 10;
-    ctx.fillText(item.icon, 128, 136);
+    if (item.image) {
+      const img = document.getElementById(item.image);
+      const size = 108;
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 10;
+      ctx.drawImage(img, 128 - size / 2, 136 - size / 2, size, size);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '110px "Font Awesome 6 ' + (item.brand ? 'Brands' : 'Free') + '"';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 10;
+      ctx.fillText(item.icon, 128, 136);
+    }
 
     return c.toDataURL('image/png');
   }
@@ -249,15 +305,15 @@
 
   function buildIcons() {
     const group = document.getElementById('icon-group');
-    const xs = [-0.57, -0.19, 0.19, 0.57];
+    const xs = [-0.62, -0.205, 0.205, 0.62];
     LINKS.forEach((item, i) => {
       const wrap = document.createElement('a-entity');
-      wrap.setAttribute('position', xs[i] + ' -0.68 0.04');
+      wrap.setAttribute('position', xs[i] + ' -0.72 0.04');
       wrap.setAttribute('look-at', '#camera');
 
       const chip = document.createElement('a-entity');
       chip.classList.add('ar-link');
-      chip.setAttribute('geometry', 'primitive: plane; width: 0.17; height: 0.17');
+      chip.setAttribute('geometry', 'primitive: plane; width: 0.19; height: 0.19');
       chip.setAttribute('material', 'shader: flat; src: ' + makeIconTexture(item) + '; transparent: true; alphaTest: 0.05');
       chip.setAttribute('data-url', URLS[item.label]);
       chip.setAttribute('animation__in', 'property: scale; from: 0.001 0.001 0.001; to: 1 1 1; dur: 500; delay: ' + (i * 90) + '; easing: easeOutBack');
@@ -284,14 +340,24 @@
     loopComets();
   }
 
-  if (document.fonts && document.fonts.load) {
-    Promise.all([
+  function fontsReady() {
+    if (!(document.fonts && document.fonts.load)) return Promise.resolve();
+    return Promise.all([
       document.fonts.load('900 64px "Font Awesome 6 Free"'),
       document.fonts.load('400 64px "Font Awesome 6 Brands"')
-    ]).then(init).catch(init);
-  } else {
-    init();
+    ]).catch(() => {});
   }
+
+  function assetsReady() {
+    // Scene 'loaded' fires once every <a-assets> entry (incl. mark-tex, used
+    // synchronously by canvas.drawImage in makeIconTexture) has finished loading.
+    return new Promise((resolve) => {
+      if (scene.hasLoaded) resolve();
+      else scene.addEventListener('loaded', resolve, { once: true });
+    });
+  }
+
+  Promise.all([fontsReady(), assetsReady()]).then(init);
 })();
 </script>
 
