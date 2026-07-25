@@ -1,0 +1,130 @@
+<!--
+  AR LINK CARDS — MARKER-TRACKED VERSION
+  ========================================
+  This version makes 4 link-cards lock onto your QR code in real space,
+  using the QR code image itself as the AR tracking marker.
+
+  SETUP FOR www.webgraha.com/ar/
+  ================================
+  This file is already named index.html and belongs inside a folder called
+  "ar" at the root of your hosting — so the live URL becomes:
+      https://www.webgraha.com/ar/
+
+  1. Export your poster QR code as a PNG named exactly: qr-target.png
+     Higher contrast / higher resolution tracks better — 512x512px minimum.
+  2. Go to the MindAR image target compiler:
+     https://hiukim.github.io/mind-ar-js-doc/tools/compile
+     Upload qr-target.png → download the file it generates: "targets.mind"
+  3. Put BOTH qr-target.png and targets.mind in this same "ar" folder,
+     right next to this index.html file.
+  4. In cPanel → File Manager, upload the whole "ar" folder into
+     public_html/ (so the final path is public_html/ar/index.html).
+     Or drag-and-drop the same 3 files via FTP into public_html/ar/.
+  5. Visit https://www.webgraha.com/ar/ on your phone to confirm it loads
+     over HTTPS and asks for camera permission.
+  6. Generate your final poster QR code so it encodes this exact URL:
+     https://www.webgraha.com/ar/
+     (the printed QR both IS the tracking image in step 1, AND links here)
+  7. Print the poster, point a phone camera at the printed QR — the 4 cards
+     should appear hovering above it.
+
+  Card links are already filled in with your real WebGraha details below.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AR Link Cards — Live</title>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+<style>
+  html, body { margin:0; height:100%; overflow:hidden; font-family: -apple-system, sans-serif; }
+  .loading {
+    position:fixed; inset:0; background:#111327; color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px; letter-spacing:0.04em; z-index:999;
+  }
+  a-scene { width:100%; height:100%; }
+</style>
+</head>
+<body>
+
+<div class="loading" id="loading">Point your camera at the QR code…</div>
+
+<!--
+  TARGET_FILE: path to your compiled .mind file
+  Change "./targets.mind" if you named it differently
+-->
+<a-scene
+  mindar-image="imageTargetSrc: ./targets.mind; autoStart: true; uiScanning: no;"
+  color-space="sRGB"
+  renderer="colorManagement: true, physicallyCorrectLights"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: true"
+>
+  <a-assets></a-assets>
+
+  <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"></a-camera>
+
+  <!-- index 0 = the compiled target (your QR image) -->
+  <a-entity mindar-image-target="targetIndex: 0">
+
+    <!-- CARD DATA — edit label / sub / url / position for each card -->
+
+    <a-entity class="ar-card"
+      geometry="primitive: plane; width: 0.5; height: 0.32"
+      material="color: #FFFFFF; opacity: 0.9; transparent: true"
+      position="-0.55 0.5 0"
+      look-at="[gps-camera], #camera, a-camera"
+      onclick="window.open('https://www.webgraha.com','_blank')">
+      <a-text value="Website" align="center" position="0 0.06 0.01" color="#111327" width="1.4"></a-text>
+      <a-text value="www.webgraha.com" align="center" position="0 -0.06 0.01" color="#6C5CE7" width="1.1"></a-text>
+    </a-entity>
+
+    <a-entity class="ar-card"
+      geometry="primitive: plane; width: 0.5; height: 0.32"
+      material="color: #FFFFFF; opacity: 0.9; transparent: true"
+      position="0.55 0.5 0"
+      look-at="[gps-camera], #camera, a-camera"
+      onclick="window.open('https://wa.me/917411720141','_blank')">
+      <a-text value="WhatsApp" align="center" position="0 0.06 0.01" color="#111327" width="1.4"></a-text>
+      <a-text value="+91 74117 20141" align="center" position="0 -0.06 0.01" color="#6C5CE7" width="1.1"></a-text>
+    </a-entity>
+
+    <a-entity class="ar-card"
+      geometry="primitive: plane; width: 0.5; height: 0.32"
+      material="color: #FFFFFF; opacity: 0.9; transparent: true"
+      position="-0.55 -0.5 0"
+      onclick="window.open('mailto:siddharth@webgraha.com','_blank')">
+      <a-text value="Email" align="center" position="0 0.06 0.01" color="#111327" width="1.4"></a-text>
+      <a-text value="siddharth@webgraha.com" align="center" position="0 -0.06 0.01" color="#6C5CE7" width="1.1"></a-text>
+    </a-entity>
+
+    <a-entity class="ar-card"
+      geometry="primitive: plane; width: 0.5; height: 0.32"
+      material="color: #FFFFFF; opacity: 0.9; transparent: true"
+      position="0.55 -0.5 0"
+      onclick="window.open('https://linktr.ee/webgraha?utm_source=linktree_profile_share&ltsid=5d8d422b-147f-414f-ae92-3813e1b13f64','_blank')">
+      <a-text value="Linktree" align="center" position="0 0.06 0.01" color="#111327" width="1.4"></a-text>
+      <a-text value="linktr.ee/webgraha" align="center" position="0 -0.06 0.01" color="#6C5CE7" width="1.1"></a-text>
+    </a-entity>
+
+  </a-entity>
+</a-scene>
+
+<script>
+  document.querySelector('a-scene').addEventListener('renderstart', () => {
+    document.getElementById('loading').style.display = 'none';
+  });
+  // Make card entities clickable (A-Frame doesn't wire onclick attr natively for non-DOM events)
+  document.querySelectorAll('.ar-card').forEach(el => {
+    el.addEventListener('click', () => {
+      const handler = el.getAttribute('onclick');
+      if (handler) new Function(handler)();
+    });
+  });
+</script>
+
+</body>
+</html>
