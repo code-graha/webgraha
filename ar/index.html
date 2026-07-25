@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/vendor/fontawesome/css/all.min.css">
 
-<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js" crossorigin="anonymous"></script>
 
 <style>
   :root {
@@ -163,6 +163,27 @@
 (function () {
   'use strict';
 
+  /* ---------- Error capture: surface real failures on-screen, since most
+     testers here won't have devtools attached (phone, in-app browsers). ---------- */
+
+  const bootPanel = document.getElementById('boot-panel');
+  const bootCopy = document.getElementById('boot-copy');
+
+  function setBoot(state, message) {
+    bootPanel.classList.toggle('is-error', state === 'error');
+    bootPanel.classList.toggle('is-hidden', state === 'hidden');
+    if (message) bootCopy.textContent = message;
+  }
+
+  window.addEventListener('error', function (event) {
+    const where = (event.filename ? event.filename.split('/').pop() : 'inline') + ':' + event.lineno;
+    setBoot('error', 'Script error: ' + event.message + ' (' + where + ')');
+  });
+  window.addEventListener('unhandledrejection', function (event) {
+    const reason = event.reason && event.reason.message ? event.reason.message : String(event.reason);
+    setBoot('error', 'Unhandled error: ' + reason);
+  });
+
   /* ---------- Custom components (registered before the scene needs them) ---------- */
 
   // Two-finger pinch scales `scaleFactor`, which composition-scale below folds
@@ -275,15 +296,7 @@
   /* ---------- Diagnostics: never leave a silent black screen ---------- */
 
   const scene = document.querySelector('a-scene');
-  const bootPanel = document.getElementById('boot-panel');
-  const bootCopy = document.getElementById('boot-copy');
   const scanHint = document.getElementById('scan-hint');
-
-  function setBoot(state, message) {
-    bootPanel.classList.toggle('is-error', state === 'error');
-    bootPanel.classList.toggle('is-hidden', state === 'hidden');
-    if (message) bootCopy.textContent = message;
-  }
 
   let cameraSessionLive = false;
 
@@ -398,7 +411,7 @@
       const chip = document.createElement('a-entity');
       chip.classList.add('ar-hotspot');
       chip.setAttribute('geometry', 'primitive: plane; width: 0.2; height: 0.2');
-      chip.setAttribute('material', 'shader: flat; src: ' + paintChip(def) + '; transparent: true; alphaTest: 0.05');
+      chip.setAttribute('material', { shader: 'flat', src: paintChip(def), transparent: true, alphaTest: 0.05 });
       chip.setAttribute('animation__enter', 'property: scale; from: 0.001 0.001 0.001; to: 1 1 1; dur: 460; delay: ' + (i * 80) + '; easing: easeOutBack');
 
       chip.addEventListener('mouseenter', function () {
@@ -471,7 +484,7 @@
 
     const streak = document.createElement('a-entity');
     streak.setAttribute('geometry', 'primitive: plane; width: ' + length.toFixed(3) + '; height: 0.02');
-    streak.setAttribute('material', 'shader: flat; src: ' + cometStreakTexture + '; transparent: true; opacity: 0; alphaTest: 0.02');
+    streak.setAttribute('material', { shader: 'flat', src: cometStreakTexture, transparent: true, opacity: 0, alphaTest: 0.02 });
     streak.setAttribute('position', radius.toFixed(3) + ' 0 0');
     streak.setAttribute('rotation', '0 90 0');
     streak.setAttribute('scale', '0.4 0.4 0.4');
