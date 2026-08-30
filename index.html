@@ -16,7 +16,7 @@
     <meta property="og:title" content="WebGraha — Web Design, App Development &amp; Branding Studio">
     <meta property="og:description" content="Premium web design, app development, branding, and SEO for businesses that want a considered, high-end online presence.">
     <meta property="og:url" content="https://webgraha.com/">
-    <meta property="og:image" content="https://webgraha.com/assets/og-image.png">
+    <meta property="og:image" content="https://webgraha.com/assets/og/og-home.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="en_US">
@@ -25,7 +25,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="WebGraha — Web Design, App Development &amp; Branding Studio">
     <meta name="twitter:description" content="Premium web design, app development, branding, and SEO for businesses that want a considered, high-end online presence.">
-    <meta name="twitter:image" content="https://webgraha.com/assets/og-image.png">
+    <meta name="twitter:image" content="https://webgraha.com/assets/og/og-home.png">
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -39,7 +39,7 @@
         "name": "WebGraha",
         "url": "https://webgraha.com/",
         "logo": "https://webgraha.com/assets/logo-full.svg",
-        "image": "https://webgraha.com/assets/og-image.png",
+        "image": "https://webgraha.com/assets/og/og-home.png",
         "description": "WebGraha is a boutique digital studio building considered websites, apps, and brand systems for businesses that want their online presence to feel as deliberate as the rest of their business.",
         "email": "siddharth@webgraha.com",
         "telephone": "+91-7411720141",
@@ -56,6 +56,8 @@
             "telephone": "+91-7411720141",
             "availableLanguage": ["English"]
         },
+        "areaServed": "Worldwide",
+        "knowsAbout": ["Web Design", "App Development", "Branding", "SEO & Growth", "UI/UX Design"],
         "makesOffer": [
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design", "description": "Considered, premium interfaces built around your brand." } },
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "App Development", "description": "Fast, reliable apps from idea through to launch." } },
@@ -263,12 +265,12 @@
                 </button>
             </div>
             <!--
-                Paste your deployed Google Apps Script /exec URL into
-                data-endpoint below (see google-apps-script/SETUP.md).
-                Until set, the form will show an inline error instead of
-                silently failing.
+                Endpoint URL comes from assets/js/site-config.js
+                (WEBGRAHA_CONFIG.FORM_ENDPOINT) — see
+                google-apps-script/SETUP.md. Set a data-endpoint attribute
+                here only to override that shared config for this form.
             -->
-            <form id="enquiry-form" class="flex flex-col gap-3" data-endpoint="https://script.google.com/macros/s/AKfycbzycL7PzUnD5aIElLJYmleybj6QPja5NWZaLVUukxJrFg_mmiSSQbeyhiSaLjHAW_Sc/exec">
+            <form id="enquiry-form" class="flex flex-col gap-3">
                 <input type="text" name="name" placeholder="Name" required class="bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-green transition-colors" />
                 <input type="email" name="email" placeholder="Email" required class="bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-green transition-colors" />
                 <textarea name="message" placeholder="A few words about your project" rows="2" class="bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-green transition-colors resize-none"></textarea>
@@ -295,6 +297,7 @@
     </div>
 
     <script src="assets/js/protect.js" defer></script>
+    <script src="assets/js/site-config.js" defer></script>
     <script src="assets/js/starfield.js" defer></script>
     <script src="assets/js/enquiry-form.js" defer></script>
     <script src="assets/js/social-widget.js" defer></script>

@@ -1,86 +1,142 @@
 # WebGraha — robots.txt
 # The site is fully open to indexing. AI assistants and answer engines
 # are explicitly welcome to crawl and cite this content.
+#
+# Every named crawler below gets its own Disallow lines — a named
+# User-agent group is matched on its own by crawlers, so rules under
+# "User-agent: *" alone would NOT apply to Googlebot, GPTBot, etc. once
+# they have their own explicit block.
 
 User-agent: *
 Allow: /
 Disallow: /google-apps-script/
+Disallow: /building.html
 
 # --- Mainstream search engines ---
 User-agent: Googlebot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Googlebot-Image
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Bingbot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Slurp
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: DuckDuckBot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Applebot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 # --- AI / answer-engine crawlers ---
 User-agent: GPTBot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Perplexity-User
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: GrokBot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Bytespider
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: CCBot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Amazonbot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Meta-ExternalAgent
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: YouBot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: Diffbot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: cohere-ai
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 User-agent: MistralBot
 Allow: /
+Disallow: /google-apps-script/
+Disallow: /building.html
 
 Sitemap: https://webgraha.com/sitemap.xml

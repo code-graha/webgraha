@@ -1,0 +1,11 @@
+{
+    "name": "webgraha-site",
+    "private": true,
+    "description": "Dev-only tooling for the WebGraha static site (not shipped to the browser).",
+    "scripts": {
+        "generate-og-images": "node tools/generate-og-images.js"
+    },
+    "devDependencies": {
+        "playwright": "^1.62.1"
+    }
+}

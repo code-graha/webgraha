@@ -3,8 +3,9 @@
 // Posts to the same Apps Script endpoint as the homepage enquiry widget
 // (see enquiry-form.js), just as an always-visible card instead of a
 // collapsible widget. No "formType" field is sent, so Code.gs routes it
-// to the default enquiry handler. The endpoint URL is read from the
-// form's data-endpoint attribute.
+// to the default enquiry handler. The endpoint URL comes from
+// assets/js/site-config.js (WEBGRAHA_CONFIG.FORM_ENDPOINT) — a form's own
+// data-endpoint attribute, if set, overrides the shared config.
 (function () {
     const form      = document.getElementById('contact-form');
     if (!form) return;
@@ -14,7 +15,7 @@
     const errorEl   = document.getElementById('contact-error');
     const submitBtn = document.getElementById('contact-submit-btn');
 
-    const ENDPOINT = (form.getAttribute('data-endpoint') || '').trim();
+    const ENDPOINT = (form.getAttribute('data-endpoint') || (window.WEBGRAHA_CONFIG && window.WEBGRAHA_CONFIG.FORM_ENDPOINT) || '').trim();
     const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     function showError(msg) {
