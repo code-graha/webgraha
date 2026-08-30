@@ -15,7 +15,7 @@
     <meta property="og:title" content="Share a Testimonial — WebGraha">
     <meta property="og:description" content="Worked with WebGraha? Share a quick testimonial about your project — it takes two minutes and helps other businesses know what to expect.">
     <meta property="og:url" content="https://webgraha.com/testimonials">
-    <meta property="og:image" content="https://webgraha.com/assets/og-image.png">
+    <meta property="og:image" content="https://webgraha.com/assets/og-image/testimonials.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="en_US">
@@ -24,7 +24,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Share a Testimonial — WebGraha">
     <meta name="twitter:description" content="Worked with WebGraha? Share a quick testimonial about your project — it takes two minutes and helps other businesses know what to expect.">
-    <meta name="twitter:image" content="https://webgraha.com/assets/og-image.png">
+    <meta name="twitter:image" content="https://webgraha.com/assets/og-image/testimonials.png">
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -154,20 +154,33 @@
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                    <label for="t-role" class="text-xs text-gray-400">Company / Role</label>
-                    <input type="text" id="t-role" name="role" placeholder="e.g. Founder, Aurora Retail" maxlength="150"
+                    <label for="t-company" class="text-xs text-gray-400">Company <span class="text-brand-accent">*</span></label>
+                    <input type="text" id="t-company" name="company" placeholder="e.g. Aurora Retail" required maxlength="120"
                         class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                    <label for="t-email" class="text-xs text-gray-400">Email</label>
-                    <input type="email" id="t-email" name="email" placeholder="you@company.com" maxlength="200"
+                    <label for="t-role" class="text-xs text-gray-400">Role <span class="text-brand-accent">*</span></label>
+                    <input type="text" id="t-role" name="role" placeholder="e.g. Founder" required maxlength="150"
+                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="t-logo" class="text-xs text-gray-400">Logo URL <span class="text-gray-600">(optional)</span></label>
+                    <input type="url" id="t-logo" name="logo" placeholder="https://yourcompany.com/logo.png" maxlength="500"
+                        class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
+                    <span class="text-[11px] text-gray-500">A link to your company logo, if you'd like it shown alongside your quote.</span>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="t-email" class="text-xs text-gray-400">Email <span class="text-brand-accent">*</span></label>
+                    <input type="email" id="t-email" name="email" placeholder="you@company.com" required maxlength="200"
                         class="bg-black/20 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-green transition-colors" />
                     <span class="text-[11px] text-gray-500">Only used to verify you're a real client — never published.</span>
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                    <span class="text-xs text-gray-400">Your rating</span>
+                    <span class="text-xs text-gray-400">Your rating <span class="text-brand-accent">*</span></span>
                     <div id="rating-stars" class="flex items-center gap-1.5" role="radiogroup" aria-label="Rating out of 5 stars">
                         <button type="button" class="rating-star" data-value="1" aria-label="1 star"><i class="fa-solid fa-star"></i></button>
                         <button type="button" class="rating-star" data-value="2" aria-label="2 stars"><i class="fa-solid fa-star"></i></button>
@@ -175,7 +188,7 @@
                         <button type="button" class="rating-star" data-value="4" aria-label="4 stars"><i class="fa-solid fa-star"></i></button>
                         <button type="button" class="rating-star" data-value="5" aria-label="5 stars"><i class="fa-solid fa-star"></i></button>
                     </div>
-                    <input type="hidden" name="rating" id="rating-value" value="">
+                    <input type="hidden" name="rating" id="rating-value" value="" required>
                 </div>
 
                 <div class="flex flex-col gap-1.5">

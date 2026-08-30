@@ -1,69 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="https://www.google.com/schemas/sitemap-image/1.1">
     <url>
         <loc>https://webgraha.com/</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/home.png</image:loc>
+            <image:title>WebGraha — Web Design, App Development &amp; Branding Studio</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/about</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/about.png</image:loc>
+            <image:title>About WebGraha — Our Story &amp; Process</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/services</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/services.png</image:loc>
+            <image:title>WebGraha Services — Web Design, App Development, Branding &amp; SEO</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/portfolio</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/portfolio.png</image:loc>
+            <image:title>WebGraha Portfolio — Selected Work</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/faq</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/faq.png</image:loc>
+            <image:title>WebGraha FAQ — Frequently Asked Questions</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/contact</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/contact.png</image:loc>
+            <image:title>Contact WebGraha — Start a Project</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/testimonials</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/testimonials.png</image:loc>
+            <image:title>Share a Testimonial — WebGraha</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/blog</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/blog-index.png</image:loc>
+            <image:title>WebGraha Blog</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/blog/how-much-does-a-website-cost</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/blog-how-much-does-a-website-cost.png</image:loc>
+            <image:title>How Much Should a Small Business Website Cost?</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/blog/how-long-does-branding-take</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/blog-how-long-does-branding-take.png</image:loc>
+            <image:title>How Long Does Branding Take? A Realistic Timeline</image:title>
+        </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/blog/choosing-a-web-design-agency</loc>
-        <lastmod>2026-07-08</lastmod>
+        <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
+        <image:image>
+            <image:loc>https://webgraha.com/assets/og-image/blog-choosing-a-web-design-agency.png</image:loc>
+            <image:title>How to Choose a Web Design Agency: 7 Questions to Ask</image:title>
+        </image:image>
     </url>
 </urlset>

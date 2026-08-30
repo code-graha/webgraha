@@ -53,19 +53,21 @@
         const payload = {
             formType: 'testimonial',
             name:     form.name.value.trim(),
+            company:  form.company.value.trim(),
             role:     form.role.value.trim(),
+            logo:     form.logo.value.trim(),
             email:    form.email.value.trim(),
             rating:   ratingInput.value,
             quote:    form.quote.value.trim(),
             publish:  form.publish.checked
         };
 
-        if (!payload.name || !payload.quote) {
-            showError('Please add your name and a short testimonial.');
+        if (!payload.name || !payload.company || !payload.role || !payload.email || !payload.rating || !payload.quote) {
+            showError('Please fill in every field, including your rating, before submitting.');
             return;
         }
-        if (payload.email && !EMAIL_RE.test(payload.email)) {
-            showError('That email address doesn’t look right — please double-check it or leave it blank.');
+        if (!EMAIL_RE.test(payload.email)) {
+            showError('That email address doesn’t look right — please double-check it.');
             return;
         }
 

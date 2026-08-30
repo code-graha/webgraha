@@ -124,6 +124,7 @@
         container.innerHTML = '';
         testimonials.forEach((t, i) => {
             const delay = (i * 0.1).toFixed(2);
+            const roleLine = [t.role, t.company].filter(Boolean).join(', ');
             const avatarHtml = t.avatar
                 ? '<img src="' + escapeHtml(t.avatar) + '" alt="' + escapeHtml(t.name) + '" class="w-9 h-9 flex-none rounded-full object-cover border border-white/10" loading="lazy" decoding="async">'
                 : '<span class="w-9 h-9 flex-none rounded-full bg-brand-green/40 border border-white/10 flex items-center justify-center text-xs font-serif text-white">' + escapeHtml(t.initials || '') + '</span>';
@@ -137,7 +138,7 @@
                     avatarHtml +
                     '<span class="flex flex-col min-w-0">' +
                         '<span class="text-sm text-white font-medium truncate">' + escapeHtml(t.name) + '</span>' +
-                        '<span class="text-xs text-gray-500 truncate">' + escapeHtml(t.role) + '</span>' +
+                        '<span class="text-xs text-gray-500 truncate">' + escapeHtml(roleLine) + '</span>' +
                     '</span>' +
                 '</figcaption>';
             container.appendChild(fig);

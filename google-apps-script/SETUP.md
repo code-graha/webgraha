@@ -3,7 +3,7 @@
 `Code.gs` in this folder is a single Google Apps Script that backs **two** forms on the site, both posting to the same deployed URL:
 
 1. The "Start a Project" enquiry form on `/` — appends a row (timestamp, name, email, message) to the **Enquiries** sheet tab.
-2. The testimonial form on `/testimonials` — appends a row (timestamp, name, role, email, rating, testimonial, publish consent) to the **Testimonials** sheet tab.
+2. The testimonial form on `/testimonials` — appends a row (timestamp, name, company, role, logo URL, email, rating, testimonial, publish consent) to the **Testimonials** sheet tab. Logo URL is optional.
 
 Each submission also emails `siddharth@webgraha.com` a notification styled to match the WebGraha brand (dark navy card, green accent, Playfair/Georgia heading). The two forms are told apart by a `formType` field in the JSON payload (`"enquiry"` or `"testimonial"`) — `Code.gs` routes each to its own sheet + email template, and creates the relevant sheet tab automatically on first submission.
 
