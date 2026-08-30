@@ -1,2 +1,27 @@
 SEO-Plan.md
 SEO-Launch-Guide.md
+
+# Dev-only tooling (assets/og/*.png generator) — not shipped to the browser
+node_modules/
+
+# Local Claude Code tooling — not part of the site itself
+.claude/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local env/secrets, if ever added
+.env
+.env.local

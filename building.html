@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" class="text-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In Orbit — WebGraha</title>
+    <meta name="description" content="WebGraha is building something new. This project isn't live on the main site yet — take a look at what's forming.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0a1128">
+
+    <!-- Open Graph: no robots/canonical/sitemap entry (this page is intentionally
+         outside the main site), but still worth a clean preview when the link
+         itself is shared directly. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="WebGraha">
+    <meta property="og:title" content="In Orbit — WebGraha">
+    <meta property="og:description" content="WebGraha is building something new. This project isn't live on the main site yet — take a look at what's forming.">
+    <meta property="og:image" content="https://webgraha.com/assets/og/og-building.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="In Orbit — WebGraha">
+    <meta name="twitter:description" content="WebGraha is building something new. This project isn't live on the main site yet — take a look at what's forming.">
+    <meta name="twitter:image" content="https://webgraha.com/assets/og/og-building.png">
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/tailwind.min.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/error.css">
+</head>
+<body class="font-sans antialiased min-h-screen w-full relative selection:bg-brand-green selection:text-white">
+
+    <!-- Loading screen: covers the page until fonts/CSS/scripts are ready -->
+    <div id="wg-loader" aria-hidden="true">
+        <img src="assets/logo-mark.svg" alt="" class="wg-loader-mark" width="48" height="48">
+        <div class="wg-loader-bar"><span></span></div>
+    </div>
+    <script>
+        (function () {
+            var loader = document.getElementById('wg-loader');
+            if (!loader) return;
+            var shownAt = Date.now();
+            var hidden = false;
+            function hide() {
+                if (hidden) return;
+                hidden = true;
+                var elapsed = Date.now() - shownAt;
+                var wait = Math.max(0, 300 - elapsed);
+                setTimeout(function () {
+                    loader.classList.add('wg-loader-hidden');
+                    setTimeout(function () { loader.remove(); }, 550);
+                }, wait);
+            }
+            window.addEventListener('load', hide);
+            setTimeout(hide, 5000);
+        })();
+    </script>
+
+    <div id="starfield" data-star-count="130" style="background-image:radial-gradient(rgba(200,215,230,0.16) 1px, transparent 1.4px);background-size:38px 38px;"></div>
+
+    <main class="relative z-10 min-h-screen w-full flex flex-col items-center justify-center text-center px-6">
+        <div class="drift mb-7 wg-anim-rise">
+            <img src="assets/logo-full.svg" alt="" class="h-14 md:h-16 w-auto opacity-90" loading="lazy" decoding="async">
+        </div>
+
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-brand-accent mb-4 wg-anim-rise" style="animation-delay:0.05s;">WebGraha Labs — In Development</p>
+        <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl text-white font-medium tracking-tight leading-tight mb-6 wg-anim-rise" style="animation-delay:0.1s;">
+            Something new is<br>taking shape in orbit.
+        </h1>
+        <p class="text-base md:text-lg text-gray-400 font-light max-w-md mx-auto leading-relaxed mb-9 wg-anim-rise" style="animation-delay:0.16s;">
+            This one's a WebGraha project in progress — not part of the main site yet. In the meantime, take a look at what we've already shipped.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 wg-anim-rise mb-9" style="animation-delay:0.22s;">
+            <a href="https://webgraha.com/portfolio" class="bg-brand-green/80 hover:bg-brand-green text-white text-sm font-medium px-6 py-3 rounded-full transition-colors shadow-lg flex items-center gap-2">
+                <i class="fa-solid fa-diagram-project text-xs"></i> Explore Our Projects
+            </a>
+            <a href="https://webgraha.com/" class="glass-panel text-gray-200 hover:text-white text-sm font-medium px-6 py-3 rounded-full transition-colors flex items-center gap-2">
+                <i class="fa-solid fa-house text-xs"></i> WebGraha Home
+            </a>
+        </div>
+
+        <div id="social-links" class="flex items-center justify-center gap-4 text-gray-400 wg-anim-rise" data-hover-class="hover:text-brand-accent" style="animation-delay:0.26s;"></div>
+    </main>
+
+    <script src="assets/js/protect.js" defer></script>
+    <script src="assets/js/starfield.js" defer></script>
+    <script src="assets/js/shooting-stars.js" defer></script>
+    <script src="assets/js/data-render.js" defer></script>
+</body>
+</html>

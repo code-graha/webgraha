@@ -3,7 +3,7 @@
 `Code.gs` in this folder is a single Google Apps Script that backs **two** forms on the site, both posting to the same deployed URL:
 
 1. The "Start a Project" enquiry form on `/` — appends a row (timestamp, name, email, message) to the **Enquiries** sheet tab.
-2. The testimonial form on `/testimonials` — appends a row (timestamp, name, role, email, rating, testimonial, publish consent) to the **Testimonials** sheet tab.
+2. The testimonial form on `/testimonials` — appends a row (timestamp, name, company, role, email, logo URL, rating, testimonial, publish consent) to the **Testimonials** sheet tab.
 
 Each submission also emails `siddharth@webgraha.com` a notification styled to match the WebGraha brand (dark navy card, green accent, Playfair/Georgia heading). The two forms are told apart by a `formType` field in the JSON payload (`"enquiry"` or `"testimonial"`) — `Code.gs` routes each to its own sheet + email template, and creates the relevant sheet tab automatically on first submission.
 
@@ -45,19 +45,18 @@ No paid services required — this runs entirely on Google's free Apps Script + 
 
 ## 4. Wire it into the site
 
-Both forms read their endpoint from a `data-endpoint` attribute on the `<form>` element — paste the **same** `/exec` URL into both.
+The endpoint URL is centralized in **`assets/js/site-config.js`** — all three forms (`index.html`'s enquiry widget, `contact.html`, `testimonials.html`) read it from there, so you only need to update it in one place.
 
-1. Open `index.html`. Find the enquiry form element (search for `enquiry-form`):
-   ```html
-   <form id="enquiry-form" data-endpoint="" ...>
+1. Open `assets/js/site-config.js`:
+   ```js
+   window.WEBGRAHA_CONFIG = {
+       FORM_ENDPOINT: 'https://script.google.com/macros/s/AKfycb.../exec'
+   };
    ```
-   Paste your `/exec` URL into the `data-endpoint` attribute value.
-2. Open `testimonials.html`. Find the testimonial form element (search for `testimonial-form`):
-   ```html
-   <form id="testimonial-form" data-endpoint="" ...>
-   ```
-   Paste the same `/exec` URL here too.
-3. Save and reload each page. Submit a test enquiry on `/` and a test testimonial on `/testimonials` — you should see a new row appear in the corresponding Sheet tab within a few seconds, and a notification email arrive at `siddharth@webgraha.com` for each.
+2. Replace the `FORM_ENDPOINT` value with your deployed `/exec` URL.
+3. Save and reload each page. Submit a test enquiry on `/`, a test message on `/contact`, and a test testimonial on `/testimonials` — you should see a new row appear in the corresponding Sheet tab within a few seconds, and a notification email arrive at `siddharth@webgraha.com` for each.
+
+If you ever need a single form to point at a *different* endpoint than the rest of the site, add a `data-endpoint="..."` attribute directly to that `<form>` element — it overrides the shared config for that form only.
 
 ## 5. Re-deploying after edits
 
@@ -74,3 +73,4 @@ This keeps the same `/exec` URL, so you don't need to touch `/` again after the 
 - If you'd rather notifications go to a different inbox (e.g. a shared team inbox), just change `ADMIN_EMAIL` and redeploy a new version (step 5).
 - To stop receiving notifications temporarily without losing submissions, comment out the `sendAdminEmail(...)` call in `handleEnquiry` and/or `sendTestimonialAdminEmail(...)` in `handleTestimonial` — the Sheet logging will keep working independently.
 - Testimonials are logged with a "Publish Consent" column (Yes/No) — always check that column before copying a quote into `webgraha-data.json`'s `testimonials` array, even if the star rating and text look publishable.
+- The "Logo URL" column is optional (visitors aren't required to fill it in) — if present, use it as the `avatar` value for that entry in `webgraha-data.json`; otherwise the site falls back to initials.

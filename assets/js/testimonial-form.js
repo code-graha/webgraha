@@ -2,8 +2,10 @@
 //
 // Posts to the same Apps Script endpoint as the homepage enquiry form
 // (see enquiry-form.js), distinguished by a "formType": "testimonial"
-// field in the payload so Code.gs can route it to its own Sheet tab.
-// The endpoint URL is read from the form's data-endpoint attribute.
+// field in the payload so Code.gs can route it to its own Sheet tab. The
+// endpoint URL comes from assets/js/site-config.js
+// (WEBGRAHA_CONFIG.FORM_ENDPOINT) — a form's own data-endpoint attribute,
+// if set, overrides the shared config.
 (function () {
     const form      = document.getElementById('testimonial-form');
     if (!form) return;
@@ -16,7 +18,7 @@
     const ratingGroup = document.getElementById('rating-stars');
     const ratingInput = document.getElementById('rating-value');
 
-    const ENDPOINT = (form.getAttribute('data-endpoint') || '').trim();
+    const ENDPOINT = (form.getAttribute('data-endpoint') || (window.WEBGRAHA_CONFIG && window.WEBGRAHA_CONFIG.FORM_ENDPOINT) || '').trim();
     const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     function paintStars(value) {
@@ -53,19 +55,25 @@
         const payload = {
             formType: 'testimonial',
             name:     form.name.value.trim(),
+            company:  form.company.value.trim(),
             role:     form.role.value.trim(),
             email:    form.email.value.trim(),
+            logoUrl:  form.logoUrl.value.trim(),
             rating:   ratingInput.value,
             quote:    form.quote.value.trim(),
             publish:  form.publish.checked
         };
 
-        if (!payload.name || !payload.quote) {
-            showError('Please add your name and a short testimonial.');
+        if (!payload.name || !payload.company || !payload.role || !payload.email || !payload.quote) {
+            showError('Please fill in your name, company, role, email, and a short testimonial.');
             return;
         }
-        if (payload.email && !EMAIL_RE.test(payload.email)) {
-            showError('That email address doesn’t look right — please double-check it or leave it blank.');
+        if (!EMAIL_RE.test(payload.email)) {
+            showError('That email address doesn’t look right — please double-check it.');
+            return;
+        }
+        if (!ratingInput.value) {
+            showError('Please choose a star rating.');
             return;
         }
 

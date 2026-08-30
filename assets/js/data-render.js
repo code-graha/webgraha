@@ -125,19 +125,20 @@
         testimonials.forEach((t, i) => {
             const delay = (i * 0.1).toFixed(2);
             const avatarHtml = t.avatar
-                ? '<img src="' + escapeHtml(t.avatar) + '" alt="' + escapeHtml(t.name) + '" class="w-9 h-9 flex-none rounded-full object-cover border border-white/10" loading="lazy" decoding="async">'
-                : '<span class="w-9 h-9 flex-none rounded-full bg-brand-green/40 border border-white/10 flex items-center justify-center text-xs font-serif text-white">' + escapeHtml(t.initials || '') + '</span>';
+                ? '<img src="' + escapeHtml(t.avatar) + '" alt="' + escapeHtml(t.name) + '" class="w-11 h-11 flex-none rounded-full object-cover border border-white/10" loading="lazy" decoding="async">'
+                : '<span class="w-11 h-11 flex-none rounded-full bg-brand-green/40 border border-white/10 flex items-center justify-center text-xs font-serif text-white">' + escapeHtml(t.initials || '') + '</span>';
+            const roleLine = [t.role, t.company].filter(Boolean).join(', ');
             const fig = document.createElement('figure');
-            fig.className = 'glass-panel tilt-card rounded-2xl p-6 flex flex-col gap-4 reveal';
+            fig.className = 'glass-panel tilt-card rounded-2xl p-7 flex flex-col gap-5 reveal';
             fig.style.transitionDelay = delay + 's';
             fig.innerHTML =
-                '<i class="fa-solid fa-quote-left text-brand-accent/70"></i>' +
-                '<blockquote class="text-gray-300 text-sm leading-relaxed">"' + escapeHtml(t.quote) + '"</blockquote>' +
-                '<figcaption class="flex items-center gap-3 mt-auto pt-2 border-t border-white/10">' +
+                '<i class="fa-solid fa-quote-left text-brand-accent/70 text-2xl"></i>' +
+                '<blockquote class="text-gray-300 text-sm leading-relaxed">"' + escapeHtml(t.quote).replace(/\n/g, '<br>') + '"</blockquote>' +
+                '<figcaption class="flex items-center gap-3 mt-auto pt-4 border-t border-white/10">' +
                     avatarHtml +
                     '<span class="flex flex-col min-w-0">' +
-                        '<span class="text-sm text-white font-medium truncate">' + escapeHtml(t.name) + '</span>' +
-                        '<span class="text-xs text-gray-500 truncate">' + escapeHtml(t.role) + '</span>' +
+                        '<span class="text-sm text-white font-semibold truncate">' + escapeHtml(t.name) + '</span>' +
+                        '<span class="text-xs text-gray-500 truncate">' + escapeHtml(roleLine) + '</span>' +
                     '</span>' +
                 '</figcaption>';
             container.appendChild(fig);

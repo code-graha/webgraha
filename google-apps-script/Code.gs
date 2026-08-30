@@ -55,23 +55,28 @@ function handleEnquiry(data) {
 }
 
 function handleTestimonial(data) {
-  var name  = sanitize(data.name);
-  var role  = sanitize(data.role);
-  var email = sanitize(data.email);
-  var quote = sanitize(data.quote);
+  var name    = sanitize(data.name);
+  var company = sanitize(data.company);
+  var role    = sanitize(data.role);
+  var email   = sanitize(data.email);
+  var logoUrl = sanitize(data.logoUrl);
+  var quote   = sanitize(data.quote);
   var publish = !!data.publish;
   var rating  = parseRating(data.rating);
 
-  if (!name || !quote) {
-    return jsonResponse({ ok: false, error: 'Name and testimonial are required.' });
+  if (!name || !company || !role || !email || !quote) {
+    return jsonResponse({ ok: false, error: 'Name, company, role, email, and testimonial are all required.' });
   }
-  if (email && !isValidEmail(email)) {
+  if (!isValidEmail(email)) {
     return jsonResponse({ ok: false, error: 'That email address looks invalid.' });
+  }
+  if (!rating) {
+    return jsonResponse({ ok: false, error: 'A star rating is required.' });
   }
 
   var timestamp = new Date();
-  appendToTestimonialSheet(timestamp, name, role, email, rating, quote, publish);
-  sendTestimonialAdminEmail(timestamp, name, role, email, rating, quote, publish);
+  appendToTestimonialSheet(timestamp, name, company, role, email, logoUrl, rating, quote, publish);
+  sendTestimonialAdminEmail(timestamp, name, company, role, email, logoUrl, rating, quote, publish);
 
   return jsonResponse({ ok: true });
 }
@@ -124,14 +129,14 @@ function getTestimonialSheet() {
   var sheet = ss.getSheetByName(TESTIMONIAL_SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(TESTIMONIAL_SHEET_NAME);
-    sheet.appendRow(['Timestamp', 'Name', 'Company / Role', 'Email', 'Rating', 'Testimonial', 'Publish Consent']);
+    sheet.appendRow(['Timestamp', 'Name', 'Company', 'Role', 'Email', 'Logo URL', 'Rating', 'Testimonial', 'Publish Consent']);
     sheet.setFrozenRows(1);
   }
   return sheet;
 }
 
-function appendToTestimonialSheet(timestamp, name, role, email, rating, quote, publish) {
-  getTestimonialSheet().appendRow([timestamp, name, role, email, rating, quote, publish ? 'Yes' : 'No']);
+function appendToTestimonialSheet(timestamp, name, company, role, email, logoUrl, rating, quote, publish) {
+  getTestimonialSheet().appendRow([timestamp, name, company, role, email, logoUrl, rating, quote, publish ? 'Yes' : 'No']);
 }
 
 function sendAdminEmail(timestamp, name, email, message) {
@@ -248,26 +253,27 @@ function buildEmailHtml(timestamp, name, email, message) {
   );
 }
 
-function sendTestimonialAdminEmail(timestamp, name, role, email, rating, quote, publish) {
+function sendTestimonialAdminEmail(timestamp, name, company, role, email, logoUrl, rating, quote, publish) {
   var subject   = 'New testimonial — ' + name;
-  var htmlBody  = buildTestimonialEmailHtml(timestamp, name, role, email, rating, quote, publish);
+  var htmlBody  = buildTestimonialEmailHtml(timestamp, name, company, role, email, logoUrl, rating, quote, publish);
   var plainBody =
     'New testimonial via ' + SITE_NAME + '\n\n' +
     'Name: '    + name    + '\n' +
-    'Role: '    + (role || '(none)') + '\n' +
-    'Email: '   + (email || '(none)') + '\n' +
+    'Company: ' + company + '\n' +
+    'Role: '    + role    + '\n' +
+    'Email: '   + email   + '\n' +
+    'Logo URL: ' + (logoUrl || '(none)') + '\n' +
     'Rating: '  + (rating || '(none)') + '\n' +
     'Publish consent: ' + (publish ? 'Yes' : 'No') + '\n\n' +
     'Testimonial:\n' + quote + '\n\n' +
     'Received: ' + timestamp.toString();
 
-  var mailOptions = { htmlBody: htmlBody, name: SITE_NAME + ' Testimonials' };
-  if (email) { mailOptions.replyTo = email; }
+  var mailOptions = { htmlBody: htmlBody, name: SITE_NAME + ' Testimonials', replyTo: email };
 
   GmailApp.sendEmail(ADMIN_EMAIL, subject, plainBody, mailOptions);
 }
 
-function buildTestimonialEmailHtml(timestamp, name, role, email, rating, quote, publish) {
+function buildTestimonialEmailHtml(timestamp, name, company, role, email, logoUrl, rating, quote, publish) {
   var when = timestamp.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
   var domain = SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, '');
   var stars = rating ? '&#9733;'.repeat(rating) + '&#9734;'.repeat(5 - rating) : '&mdash;';
@@ -315,13 +321,23 @@ function buildTestimonialEmailHtml(timestamp, name, role, email, rating, quote, 
           '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#e2e8f0;text-align:right;">' + escapeHtml(name) + '</td>' +
         '</tr>' +
         '<tr>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#64748b;">Company</td>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#e2e8f0;text-align:right;">' + escapeHtml(company) + '</td>' +
+        '</tr>' +
+        '<tr>' +
           '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#64748b;">Role</td>' +
-          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#e2e8f0;text-align:right;">' + (role ? escapeHtml(role) : '&mdash;') + '</td>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#e2e8f0;text-align:right;">' + escapeHtml(role) + '</td>' +
         '</tr>' +
         '<tr>' +
           '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#64748b;">Email</td>' +
           '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#e2e8f0;text-align:right;">' +
-            (email ? '<a href="mailto:' + escapeHtml(email) + '" style="color:#6ee7b7;text-decoration:none;">' + escapeHtml(email) + '</a>' : '&mdash;') +
+            '<a href="mailto:' + escapeHtml(email) + '" style="color:#6ee7b7;text-decoration:none;">' + escapeHtml(email) + '</a>' +
+          '</td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#64748b;">Logo URL</td>' +
+          '<td style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#e2e8f0;text-align:right;word-break:break-all;">' +
+            (logoUrl ? '<a href="' + escapeHtml(logoUrl) + '" style="color:#6ee7b7;text-decoration:none;">' + escapeHtml(logoUrl) + '</a>' : '&mdash;') +
           '</td>' +
         '</tr>' +
         '<tr>' +

@@ -1,8 +1,9 @@
 // WebGraha — "Start a Project" enquiry widget + form submission (index.html)
 //
-// The Apps Script endpoint URL is read from the form's data-endpoint
-// attribute (see index.html). Until that attribute is filled in (see
-// google-apps-script/SETUP.md), the form shows an inline error instead
+// The Apps Script endpoint URL comes from assets/js/site-config.js
+// (WEBGRAHA_CONFIG.FORM_ENDPOINT) — see google-apps-script/SETUP.md. A
+// form's own data-endpoint attribute, if set, overrides the shared config.
+// Until an endpoint is available, the form shows an inline error instead
 // of silently failing.
 (function () {
     const collapsed    = document.getElementById('enquiry-collapsed');
@@ -15,7 +16,7 @@
     const submitBtn    = document.getElementById('enquiry-submit-btn');
     if (!form) return;
 
-    const ENQUIRY_ENDPOINT = (form.getAttribute('data-endpoint') || '').trim();
+    const ENQUIRY_ENDPOINT = (form.getAttribute('data-endpoint') || (window.WEBGRAHA_CONFIG && window.WEBGRAHA_CONFIG.FORM_ENDPOINT) || '').trim();
     const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     collapsed.addEventListener('click', () => {

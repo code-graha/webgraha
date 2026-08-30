@@ -66,16 +66,47 @@
         "buttonColor": "#ffffff",
         "fontFamily": "'Montserrat',sans-serif"
     }
+},
+        {
+    "id": "vaniveda",
+    "name": "VaniVeda Language Hub",
+    "category": "Education",
+    "url": "vaniveda.com",
+    "icon": "fa-solid fa-graduation-cap",
+    "description": "An online French-language school built around DELF, TCF and TEF exam coaching, turning a complex certification path into a clear, conversion-focused enrolment journey.",
+    "preview": {
+        "bgFrom": "#16181d",
+        "bgTo": "#1f2933",
+        "mutedColor": "#9aa0a8",
+        "brandName": "VANIVEDA",
+        "navItems": ["Courses", "Levels", "About", "Contact"],
+        "heading": "The Voice That Drives Mastery",
+        "headingItalic": false,
+        "subheading": "DELF, TCF & TEF exam coaching for Canada PR and global study.",
+        "buttonText": "Enroll Now",
+        "buttonBg": "#d62839",
+        "buttonColor": "#ffffff",
+        "fontFamily": "'Oswald',sans-serif"
+    }
 }
     ],
 
     "testimonials": [
         {
-            "quote": "WebGraha did a great job designing and developing our website. The team understood our requirements, communicated well, and delivered a clean, professional website on time. I would definitely recommend WebGraha to anyone looking for a reliable website development partner.",
+            "quote": "Great work on the website really appreciate the effort and attention to detail. You've brought out a clean, classy design that reflects the brand well, and you were super helpful throughout the process, always quick to understand what we wanted and deliver it right. Thank you for a job well done!",
             "name": "Shray Aggarwal",
             "role": "Managing Director",
+            "company": "MTK Screws",
             "initials": "MTK",
             "avatar": "https://mtkscrews.com/assets/mtk-logo.png"
+        },
+        {
+            "quote": "One word-Amazing!\nI was not expecting my website to be this much fantastic with all the details and animations added. I got my work done in a week. I would highly consider WebGraha for the upcoming projects and others also.",
+            "name": "Shagun Kakkar",
+            "role": "Founder",
+            "company": "VaniVeda",
+            "initials": "VV",
+            "avatar": "https://vaniveda.com/assets/favicon.svg"
         }
     ]
 }
