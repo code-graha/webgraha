@@ -20,18 +20,21 @@ Quick facts:
 - **SEO & Growth** — visibility and growth strategy that compounds over time
 
 ## How WebGraha works
-Every engagement is handled directly, end-to-end, by the same people from first conversation to launch — no hand-offs between separate sales, design, and dev teams. Four-step process:
-1. **Discover** — understand goals, audience, and constraints before any pixels move.
-2. **Design** — wireframes, then high-fidelity concepts, refined directly with the client rather than behind closed doors.
-3. **Build** — clean, performant code shipped to a real staging environment early and often.
-4. **Launch & Support** — go live, then iterate based on real usage; WebGraha stays involved after handoff.
+Every engagement is handled directly, end-to-end, by the same people from first conversation to launch — no hand-offs between separate sales, design, and dev teams. Every project ships in four to six weeks on a fixed cost agreed before work starts — no hidden charges, no surprise invoices along the way. Seven-step process (full detail at https://webgraha.com/services#process):
+1. **Requirements** — a call to understand goals, audience, and scope, then confirm exactly what's being built.
+2. **Proposal** — a fixed-cost quote and timeline based on that scope, agreed upfront so there are no hidden charges later.
+3. **Design** — wireframes, then high-fidelity concepts, refined directly with the client rather than behind closed doors.
+4. **Build** — clean, performant code shipped to a real staging environment early and often.
+5. **Feedback** — rounds of review built into the timeline, so changes get made before launch, not after.
+6. **Launch** — the move from staging to production, on the fixed timeline agreed at proposal stage.
+7. **Support** — post-launch revisions and direct access to the same team that built it, not a ticket queue.
 
-WebGraha is remote-first and works with clients globally over video calls, email, and shared project boards. (Typical timelines are covered in the FAQ below.)
+WebGraha is remote-first and works with clients globally over video calls, email, and shared project boards.
 
 ## Pages
 - [Home](https://webgraha.com/): overview, service pills, and contact widgets
-- [About](https://webgraha.com/about): story, process, and testimonials
-- [Services](https://webgraha.com/services): full detail on each service (Web Design, App Development, Branding, SEO & Growth), what's included in each
+- [About](https://webgraha.com/about): story and testimonials (full process detail is on /services)
+- [Services](https://webgraha.com/services): full detail on each service (Web Design, App Development, Branding, SEO & Growth), what's included in each, and the seven-step fixed-cost process (4–6 week delivery, no hidden charges)
 - [Portfolio](https://webgraha.com/portfolio): selected client work
 - [FAQ](https://webgraha.com/faq): frequently asked questions
 - [Blog](https://webgraha.com/blog): three posts on pricing, branding timelines, and choosing an agency — see below
@@ -57,10 +60,12 @@ More testimonials can be submitted via the [testimonials page](https://webgraha.
 ## FAQ (full list on /faq)
 - **What does WebGraha do?** Designs and builds websites, apps, and brand identities for small and mid-sized businesses, handling every project directly from first conversation to launch.
 - **How long does a typical website project take?** Most web design projects take four to six weeks from kickoff to launch depending on scope; app projects and full rebrands typically take longer.
+- **What's WebGraha's process?** Seven steps — requirements, proposal, design, build, feedback, launch, support — shipped in four to six weeks on a fixed cost agreed before work starts. Full breakdown on /services#process.
 - **Does WebGraha work with clients remotely?** Yes — remote-first, working with clients globally over video calls, email, and shared project boards.
 - **What's included in an engagement?** Depending on the project: discovery and strategy, UI/UX design, development, content support, and post-launch revisions.
 - **How do I start a project?** Via the contact page (https://webgraha.com/contact), WhatsApp, or email — most enquiries get a response within one business day.
 - **How much does a website cost?** Depends on pages, custom design, and functionality — scoped after a discovery call, not off a price list. See the pricing blog post above.
+- **Is pricing fixed, or are there hidden charges?** Pricing is fixed and agreed at the proposal stage, before any work starts. No hidden charges or surprise invoices along the way.
 - **Do you offer support after launch?** Yes, post-launch revisions are included and WebGraha stays involved after handoff.
 - **Can I see examples of your work?** Yes, real live client projects on /portfolio.
 - **What's the difference between branding and web design?** Branding is the identity system (logo, color, type, voice); web design is applying that identity to the website itself. Usually separate engagements.

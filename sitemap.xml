@@ -13,17 +13,17 @@
     </url>
     <url>
         <loc>https://webgraha.com/about</loc>
-        <lastmod>2026-08-30</lastmod>
+        <lastmod>2026-09-06</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
         <image:image>
             <image:loc>https://webgraha.com/assets/og/og-about.png</image:loc>
-            <image:title>About WebGraha — Our Story &amp; Process</image:title>
+            <image:title>About WebGraha — Our Story</image:title>
         </image:image>
     </url>
     <url>
         <loc>https://webgraha.com/services</loc>
-        <lastmod>2026-08-30</lastmod>
+        <lastmod>2026-09-06</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
         <image:image>
@@ -43,7 +43,7 @@
     </url>
     <url>
         <loc>https://webgraha.com/faq</loc>
-        <lastmod>2026-08-30</lastmod>
+        <lastmod>2026-09-06</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
         <image:image>

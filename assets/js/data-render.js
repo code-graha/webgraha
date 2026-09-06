@@ -93,6 +93,18 @@
             if (fullUrl !== '#') { a.target = '_blank'; a.rel = 'noopener'; }
             a.className = 'card-hover tilt-card glass-panel rounded-2xl p-5 flex flex-col gap-3 border border-white/10 reveal';
             a.style.transitionDelay = delay + 's';
+            const statusChip = proj.status === 'live'
+                ? '<span class="status-chip status-chip-live status-chip-bar"><span class="status-dot"></span>Live</span>'
+                : proj.status === 'in-progress'
+                    ? '<span class="status-chip status-chip-progress status-chip-bar"><span class="status-dot"></span>In Progress</span>'
+                    : '';
+            const keyPointsHtml = (proj.keyPoints || []).map((point) =>
+                '<div class="flex items-center gap-1.5 text-xs text-emerald-300">' +
+                    '<i class="fa-solid fa-bolt text-[10px]"></i>' +
+                    escapeHtml(point) +
+                '</div>'
+            ).join('');
+            const linkText = fullUrl !== '#' ? 'Visit ' + displayUrl : 'View case study';
             a.innerHTML =
                 '<div class="browser-frame">' +
                     '<div class="bf-bar">' +
@@ -100,6 +112,7 @@
                         '<span class="bf-dot bg-yellow-400/70"></span>' +
                         '<span class="bf-dot bg-green-400/70"></span>' +
                         '<span class="bf-url">' + escapeHtml(displayUrl) + '</span>' +
+                        statusChip +
                     '</div>' +
                     '<iframe loading="lazy" title="' + escapeHtml(proj.name) + ' preview"></iframe>' +
                 '</div>' +
@@ -109,7 +122,10 @@
                 '</div>' +
                 '<h3 class="font-serif text-lg text-white">' + escapeHtml(proj.name) + '</h3>' +
                 '<p class="text-gray-400 text-sm leading-relaxed">' + escapeHtml(proj.description) + '</p>' +
-                '<span class="text-xs text-brand-accent mt-1">' + (fullUrl !== '#' ? 'Visit ' + displayUrl : 'View case study') + ' &rarr;</span>';
+                '<div class="flex items-center justify-between gap-2 mt-1">' +
+                    '<span class="text-xs text-brand-accent">' + linkText + ' &rarr;</span>' +
+                    keyPointsHtml +
+                '</div>';
             container.appendChild(a);
             const iframe = a.querySelector('iframe');
             if (fullUrl !== '#') {

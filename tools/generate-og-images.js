@@ -18,8 +18,8 @@ const OUT_DIR = path.join(ROOT, 'assets/og');
 
 const PAGES = [
     { file: 'og-home.png', eyebrow: 'WebGraha', title: 'Web Design, App Development &amp; Branding Studio', subtitle: 'Crafting digital experiences with precision, elegance, and purpose.' },
-    { file: 'og-about.png', eyebrow: 'About WebGraha', title: 'Our Story &amp; Process', subtitle: 'A direct, no-hand-off approach to web design and app development.' },
-    { file: 'og-services.png', eyebrow: 'Services', title: 'Web Design, App Development, Branding &amp; SEO', subtitle: 'Each handled directly, end-to-end, by the same team from first call to launch.' },
+    { file: 'og-about.png', eyebrow: 'About WebGraha', title: 'Our Story', subtitle: 'A direct, no-hand-off approach to web design and app development.' },
+    { file: 'og-services.png', eyebrow: 'Services', title: 'Web Design, App Development, Branding &amp; SEO', subtitle: 'A fixed, seven-step process — 4–6 week delivery, fixed cost, no hidden charges.' },
     { file: 'og-portfolio.png', eyebrow: 'Portfolio', title: 'Selected Work', subtitle: 'Real client projects across web design and app development, from first conversation to launch.' },
     { file: 'og-faq.png', eyebrow: 'FAQ', title: 'Frequently Asked Questions', subtitle: "Timelines, process, remote work, and what's included in an engagement." },
     { file: 'og-contact.png', eyebrow: "Let's talk", title: 'Start a Project', subtitle: 'Most enquiries get a response within one business day.' },
