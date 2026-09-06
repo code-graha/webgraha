@@ -146,7 +146,10 @@ a, button, input, textarea, select, label {
     align-items: center;
     justify-content: center;
     gap: 18px;
-    background: radial-gradient(circle at 50% 32%, #1c2c5c 0%, #131f45 38%, #0d1733 70%, #0a1128 100%);
+    background:
+        radial-gradient(circle at 26% 16%, rgba(90, 61, 153, 0.32) 0%, rgba(90, 61, 153, 0) 40%),
+        radial-gradient(circle at 74% 78%, rgba(28, 90, 134, 0.28) 0%, rgba(28, 90, 134, 0) 42%),
+        radial-gradient(circle at 50% 32%, #181c3a 0%, #0b0e22 45%, #020208 100%);
     transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 #wg-loader.wg-loader-hidden {

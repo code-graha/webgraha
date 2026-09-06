@@ -9,8 +9,9 @@ Boutique web design and digital solutions studio. This repository contains the f
 ```
 Final Draft/
 ├── index.html              # Homepage (3D globe, service pills, enquiry widget)
-├── about.html              # Story, process, testimonials
-├── services.html           # Web Design / App Development / Branding / SEO & Growth detail
+├── about.html              # Story and testimonials; links to /services#process for the full process
+├── services.html           # Web Design / App Development / Branding / SEO & Growth detail,
+│                           #   plus the seven-step fixed-cost process (#process)
 ├── portfolio.html          # Selected client work
 ├── faq.html                # Frequently asked questions
 ├── contact.html            # Contact form + direct email/WhatsApp/social
@@ -81,7 +82,7 @@ Final Draft/
     └── SETUP.md            # Step-by-step deployment guide
 ```
 
-**Site structure note:** Projects and FAQ used to be sections inside `about.html`; they're now their own pages (`portfolio.html`, `faq.html`) so each can rank independently. `about.html` covers story, process, and testimonials. The homepage's service pills and About's services blurb both link to `/services` for full detail.
+**Site structure note:** Projects and FAQ used to be sections inside `about.html`; they're now their own pages (`portfolio.html`, `faq.html`) so each can rank independently. `about.html` covers story and testimonials; the detailed seven-step process (Requirements → Proposal → Design → Build → Feedback → Launch → Support) lives on `services.html` under `#process`, and `about.html` just links there rather than duplicating it. The homepage's service pills and About's services blurb both link to `/services` for full detail.
 
 **Adding a new blog post:** copy one of the existing post files under `blog/` as a template (not `blog/index.html` — that's the listing page). Everything under `blog/`, including `index.html`, is one level deeper than the rest of the site, so — unlike every root-level page, which uses relative paths like `assets/css/...` — they reference assets and `webgraha-data.json` with a leading slash (`/assets/css/...`). Get this wrong and the page will silently load unstyled or without dynamic content. After adding a post: link it from `blog/index.html`'s listing, add it to that page's `Blog` JSON-LD `blogPost` array, and add it to `sitemap.xml`.
 
@@ -193,7 +194,7 @@ Each indexable page has its own 1200×630 Open Graph / Twitter share image under
 **To add or update one** (new page, or a title/description change): edit the relevant entry in the `PAGES` array in `tools/generate-og-images.js`, then regenerate:
 
 ```bash
-npm install                       # first time only — installs Playwright
+npm install                       # first time only — installs Playwright (and the Tailwind CLI)
 npx playwright install chromium   # first time only — downloads a headless Chromium
 npm run generate-og-images
 ```
@@ -228,6 +229,7 @@ Tailwind is compiled ahead of time into `assets/css/tailwind.min.css` — no Pla
 If you add a **new** Tailwind utility class to any `.html` file or `assets/js/**/*.js` file, rebuild the stylesheet so it picks it up:
 
 ```bash
+npm install   # first time only — installs the Tailwind CLI (a devDependency in package.json)
 npx tailwindcss -i assets/css/tailwind-src.css -o assets/css/tailwind.min.css --minify
 ```
 

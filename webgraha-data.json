@@ -51,6 +51,7 @@
     "category": "Manufacturing",
     "url": "mtkscrews.com",
     "icon": "fa-solid fa-screwdriver-wrench",
+    "status": "live",
     "description": "A B2B manufacturer site for a 40-year-old fastener exporter, turning a dense product catalogue into a clear, trust-building sales channel.",
     "preview": {
         "bgFrom": "#1a1f24",
@@ -73,6 +74,8 @@
     "category": "Education",
     "url": "vaniveda.com",
     "icon": "fa-solid fa-graduation-cap",
+    "status": "live",
+    "keyPoints": ["Built and shipped in one week"],
     "description": "An online French-language school built around DELF, TCF and TEF exam coaching, turning a complex certification path into a clear, conversion-focused enrolment journey.",
     "preview": {
         "bgFrom": "#16181d",
